@@ -1,0 +1,449 @@
+{
+  "name": "Умный дом Telegram bot",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "OAuth y0__xCz9dpKGIv0OyDi3uOzFR-JFhcGUUpU-lK-xYzT8FIkJVEQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"devices\": [\n        {\n            \"id\": \"{{ $json.data.device_id }}\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": {{ $json.data.action }}\n                    }\n                }\n            ]\n        }\n    ]\n}",
+        "options": {
+          "timeout": 100
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        944,
+        272
+      ],
+      "id": "824e5779-8b42-4713-bcac-bdd44d0f75b9",
+      "name": "Выполнение действия",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {
+          "chatIds": ""
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        80
+      ],
+      "id": "fe5d5e3d-d09d-4887-bc45-8d632f0bbeb5",
+      "name": "Telegram Trigger",
+      "webhookId": "0f55084e-c453-4149-8627-94a97313c8b8",
+      "credentials": {
+        "telegramApi": {
+          "id": "qqtLZJZ7n8gk36NC",
+          "name": "smart_home_alexlena_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "ллл",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔼 Показать кнопки 🔼",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        -112
+      ],
+      "id": "278749f3-04c1-470c-a08e-0c5dc2c306d8",
+      "name": "start",
+      "webhookId": "9f534039-81ba-4071-8ae9-5ccc323cdd0c",
+      "credentials": {
+        "telegramApi": {
+          "id": "qqtLZJZ7n8gk36NC",
+          "name": "smart_home_alexlena_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "Все действия",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Спальня   🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Спальня_on"
+                    }
+                  },
+                  {
+                    "text": "Спальня   🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Спальня_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Зал             🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Зал_on"
+                    }
+                  },
+                  {
+                    "text": "Зал             🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Зал_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Коридор   🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Коридор_on"
+                    }
+                  },
+                  {
+                    "text": "Коридор   🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Коридор_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Ванная        🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Ванная_on"
+                    }
+                  },
+                  {
+                    "text": "Ванная        🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Ванная_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Кухня         🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Кухня_on"
+                    }
+                  },
+                  {
+                    "text": "Кухня         🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Кухня_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {},
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Шторы      🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Шторы_on"
+                    }
+                  },
+                  {
+                    "text": "Шторы      🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Шторы_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Пылесос   🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Пылесос_on"
+                    }
+                  },
+                  {
+                    "text": "Пылесос   🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Пылесос_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Выключить свет везде       🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Свет_off"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        80
+      ],
+      "id": "c2c35b8b-a14b-4464-a33d-8e2ba0c6179b",
+      "name": "Вывод кнопок",
+      "webhookId": "6b2d1573-159e-4030-8ee6-40ac53afaf30",
+      "credentials": {
+        "telegramApi": {
+          "id": "qqtLZJZ7n8gk36NC",
+          "name": "smart_home_alexlena_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1a83bb80-1b44-4aff-be80-a966e097b3a6"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "58ef493f-c698-47ec-90df-f9fe09ee73c4",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "🔼 Показать кнопки 🔼",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        496,
+        64
+      ],
+      "id": "7fc18896-1139-4f6b-821d-4b1bac0bcb14",
+      "name": "Маршрутизатор"
+    },
+    {
+      "parameters": {
+        "content": "## Телеграмм бот для управления устройствами умного дома\nВыводит в телеграмм список кнопок для включения и выключения отдельных устройств и кнопку выключения всего верхнего света",
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        16,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "e9341313-1740-40bf-a7a0-4e454289653b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# Кто может управлять\ntrue_ids = [249503190, 326830581]\n\nquery = _input.first().json\n\nfrom_id = 0\nif query.get(\"message\"):\n  from_id = query[\"message\"][\"from\"][\"id\"]\nelse:\n  from_id = query[\"callback_query\"][\"from\"][\"id\"]\n\nif from_id in true_ids:\n  return _input.first().json\nreturn [{\"json\": {}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        80
+      ],
+      "id": "2c637c8c-047d-4b10-bca9-6417da4c0e5e",
+      "name": "Авторизация"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# Выясняем кто что сделал и готовим данные для выполнения действия\n\n# Получаем данные из сообщения\nmessage = _input.first().json.callback_query\n\n# Устройства\ndevices_id = {\n  \"Ванная\": \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",\n  \"Коридор\": \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",\n  \"Кухня\": \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",\n  \"Зал\": \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",\n  \"Спальня\": \"f6826740-39db-484e-9e3e-2b2a7ed2f5ee\",\n  \"Лента\": \"\",\n  \"Пылесос\": \"2d5b0ab8-7880-4d79-a368-6120be845bfc\",\n  \"Шторы\": \"0197d9e0-ca35-4ea2-a31a-51516c63cdfe\"\n}\n\n# Только верхний свет\nlight_up = [\n  \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",  # Ванная\n  \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",  # Коридор\n  \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",  # Кухня\n  \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",  # Зал\n  \"f6826740-39db-484e-9e3e-2b2a7ed2f5ee\"   # Спальня\n]\n\nkey = message.get(\"data\")  # Пришло сообщение от кнопки\ndevice_action = key.split(\"_\")  # Устройство и действие\n\ndata = {}  # Ответ\nif len(device_action) == 2:\n  # Скорее всего нажата кнопка\n  if device_action[0] in devices_id:\n    # Считаем что нажата кнопка\n    device_id = devices_id[device_action[0]]  # Название устройства\n    \n    action = None  # Действие\n    if device_action[1] == \"off\":\n      # Выключение\n      action = False\n    elif device_action[1] == \"on\":\n      # Включение\n      action = True\n      \n  else:\n    # Устройства нет в списке. Возможно это общая команда\n    if device_action[0] == \"Свет\":\n      # Общая команда для выключения света\n      data = []\n      for device_id in light_up:\n        cmd = {\n          \"action\": False,\n          \"device_id\": device_id,\n        }\n        data.append({\"json\": {\"data\": cmd}})\n      return data\n\n# Проверяем и формируем ответ\nif action is not None:\n  data = {\n    \"action\": action,\n    \"device_id\": device_id,\n  }\n\nreturn [{\"json\": {\"data\": data}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        272
+      ],
+      "id": "fd51b8dd-06f5-427d-aa35-d8ca85bce9ea",
+      "name": "Определение действия",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Авторизация",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Маршрутизатор": {
+      "main": [
+        [
+          {
+            "node": "start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Вывод кнопок",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Определение действия",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Авторизация": {
+      "main": [
+        [
+          {
+            "node": "Маршрутизатор",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение действия": {
+      "main": [
+        [
+          {
+            "node": "Выполнение действия",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "be94bb63-493a-4417-8c62-3464c73c3d02",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bb7b53df3d0f2a0206bc0b3166415c891ab7f4fd6265183dec8739ad21abb12c"
+  },
+  "id": "wfL9CTLc1eGkEwmp",
+  "tags": []
+}
