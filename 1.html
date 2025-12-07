@@ -124,11 +124,7 @@
         .submit-btn:hover {
             background-color: #0056b3;
         }
-        .datetime-label {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+
 
         /* --- Стили Темной темы --- */
         @media (prefers-color-scheme: dark) {
@@ -165,6 +161,13 @@
                 background-color: #007bff; /* Blue background when checked */
                 border-color: #007bff;
                 color: #fff;
+            }
+        }
+        @media (max-width: 768px) {
+            .datetime-label {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
             }
         }
     </style>
