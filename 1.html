@@ -41,6 +41,7 @@
                         border-radius: 4px;
                         box-sizing: border-box;
                         min-height: 150px;
+                        font-size: 18px; /* Увеличенный размер шрифта */
                     }
                     input[type="datetime-local"] {
                         width: 200px; /* Сокращенная ширина */
@@ -50,20 +51,65 @@
                         background-color: #fff; /* Цвет фона как у контейнера */
                         color: #333; /* Цвет текста */
                         color-scheme: light;
-                    }        .controls {
+                    }
+        /* Custom Checkbox Styles */
+        label {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            padding-left: 25px; /* Space for custom checkbox */
+            cursor: pointer;
+            margin-right: 15px; /* Keep original margin */
+        }
+
+        label input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 16px; /* Match custom checkbox size */
+            height: 16px;
+            cursor: pointer;
+            z-index: 1; /* Ensure it's clickable */
+            left: 0; /* Position correctly */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        label span::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 3px;
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        label input[type="checkbox"]:checked + span::before {
+            background-color: #007bff; /* Blue background when checked */
+            border-color: #007bff;
+            content: '✔'; /* Checkmark */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            line-height: 1;
+        }
+        .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
         }
-        input[type="checkbox"], input[type="datetime-local"] {
+        input[type="datetime-local"] {
             margin-right: 5px;
             vertical-align: middle;
         }
-        label {
-            margin-right: 15px;
-            display: inline-block;
-        }
+
         .submit-btn {
             width: 100%;
             padding: 10px;
@@ -72,7 +118,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px; /* Увеличенный размер шрифта */
             margin-top: 20px;
         }
         .submit-btn:hover {
@@ -106,6 +152,15 @@
                 border-color: #555;
                 color-scheme: dark;
             }
+            label span::before {
+                border: 2px solid #007bff; /* Blue border */
+                background-color: #333; /* Dark background */
+            }
+            label input[type="checkbox"]:checked + span::before {
+                background-color: #007bff; /* Blue background when checked */
+                border-color: #007bff;
+                color: #fff;
+            }
         }
     </style>
 </head>
@@ -125,7 +180,7 @@
                 <div class="controls">
                     <div>
                         <label>
-                            <input type="checkbox" name="article_1_digest" value="true"> Добавить в дайджест
+                            <input type="checkbox" name="article_1_digest" value="true"> <span>Добавить в дайджест</span>
                         </label>
                         <label>
                             Время публикации:
@@ -133,7 +188,7 @@
                         </label>
                     </div>
                     <label>
-                        <input type="checkbox" name="article_1_delete" value="true"> Удалить
+                        <input type="checkbox" name="article_1_delete" value="true"> <span>Удалить</span>
                     </label>
                 </div>
             </div>
@@ -147,21 +202,20 @@
                 <div class="controls">
                     <div>
                         <label>
-                            <input type="checkbox" name="article_2_digest" value="true"> Добавить в дайджест
+                            <input type="checkbox" name="article_2_digest" value="true" checked disabled> <span>Добавить в дайджест</span>
                         </label>
 
                         <label>
                             Время публикации:
-                            <input type="datetime-local" name="article_2_time">
+                            <input type="datetime-local" name="article_2_time" value="2025-12-05T15:00" disabled>
                         </label>
                     </div>
                     <label>
-                        <input type="checkbox" name="article_2_delete" value="true"> Удалить
-                    </label>
+                                                    <input type="checkbox" name="article_2_delete" value="true"> <span>Удалить</span>                    </label>
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">Отправить все на обработку в n8n</button>
+            <button type="submit" class="submit-btn">Отправить</button>
         </form>
     </div>
 </body>
