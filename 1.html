@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подготовка публикации</title>
+    <style>
+        /* --- Базовые стили (Светлая тема) --- */
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .article-section {
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .article-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        h1, h2 {
+            color: #000;
+        }
+                    textarea {
+                        width: 100%;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                        min-height: 150px;
+                    }
+                    input[type="datetime-local"] {
+                        width: 200px; /* Сокращенная ширина */
+                        padding: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        background-color: #fff; /* Цвет фона как у контейнера */
+                        color: #333; /* Цвет текста */
+                        color-scheme: light;
+                    }        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        input[type="checkbox"], input[type="datetime-local"] {
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        label {
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Стили Темной темы --- */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #e0e0e0;
+            }
+            .container {
+                background-color: #1e1e1e;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            }
+            h1, h2 {
+                color: #fff;
+            }
+            .article-section {
+                border-bottom: 2px solid #333;
+            }
+            textarea {
+                background-color: #333;
+                color: #e0e0e0;
+                border-color: #555;
+            }
+            input[type="datetime-local"] {
+                background-color: #1e1e1e; /* Цвет фона как у контейнера */
+                color: #e0e0e0; /* Цвет текста */
+                border-color: #555;
+                color-scheme: dark;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Подготовка публикации</h1>
+        
+        <!-- Форма отправляет данные POST-запросом на другой вебхук n8n -->
+        <form action="/webhook/process-moderation" method="POST">
+
+            <!-- --- Статья 1 --- -->
+            <div class="article-section">
+                <h2>07.12.2025</h2>
+                <textarea name="article_1_text" placeholder="Текст статьи...">
+Это первый пример текста, который загружается из вашей базы данных n8n. Здесь модератор может его прочитать и отредактировать при необходимости.
+                </textarea>
+                <div class="controls">
+                    <div>
+                        <label>
+                            <input type="checkbox" name="article_1_digest" value="true"> Добавить в дайджест
+                        </label>
+                        <label>
+                            Время публикации:
+                            <input type="datetime-local" name="article_1_time">
+                        </label>
+                    </div>
+                    <label>
+                        <input type="checkbox" name="article_1_delete" value="true"> Удалить
+                    </label>
+                </div>
+            </div>
+
+            <!-- --- Статья 2 --- -->
+            <div class="article-section">
+                <h2>07.12.2025</h2>
+                <textarea name="article_2_text" placeholder="Текст статьи...">
+Второй текст для модерации. Если этот текст требует серьезной правки или удаления, используйте соответствующие галочки ниже.
+                </textarea>
+                <div class="controls">
+                    <div>
+                        <label>
+                            <input type="checkbox" name="article_2_digest" value="true"> Добавить в дайджест
+                        </label>
+
+                        <label>
+                            Время публикации:
+                            <input type="datetime-local" name="article_2_time">
+                        </label>
+                    </div>
+                    <label>
+                        <input type="checkbox" name="article_2_delete" value="true"> Удалить
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Отправить все на обработку в n8n</button>
+        </form>
+    </div>
+</body>
+</html>
