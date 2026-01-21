@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-21T10:54:10.382Z",
-    "createdAt": "2026-01-21T10:32:05.805Z",
-    "versionId": "31f0a529-86e0-4969-9157-0e7160f760c7",
+    "updatedAt": "2026-01-21T11:05:00.976Z",
+    "createdAt": "2026-01-21T11:04:42.562Z",
+    "versionId": "fcc1a28b-98ee-4d00-8543-e6c08dc56058",
     "workflowId": "eQfuQsvEMy3roTfc",
     "nodes": [
       {
@@ -375,7 +375,7 @@
         "parameters": {
           "content": "## Main workflow loop",
           "height": 416,
-          "width": 1305,
+          "width": 1401,
           "color": 7
         },
         "id": "2ede8c9c-d41b-4116-83d8-757f9b840704",
@@ -479,15 +479,15 @@
           "operation": "get",
           "owner": {
             "__rl": true,
-            "mode": "",
-            "value": "={{ $('Config').first().item.repo_owner }}"
+            "value": "={{ $('Config').first().json.repo_owner }}",
+            "mode": ""
           },
           "repository": {
             "__rl": true,
-            "mode": "",
-            "value": "={{ $('Config').first().item.repo_name }}"
+            "value": "={{ $('Config').first().json.repo_name }}",
+            "mode": ""
           },
-          "filePath": "={{ $('Config').first().item.repo_path }}{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[0] }}/{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
+          "filePath": "={{ $('Config').first().json.repo_path }}{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[0] }}/{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
           "asBinaryProperty": false,
           "additionalParameters": {}
         },
@@ -814,11 +814,11 @@
       }
     },
     "authors": "avdivo Алексей",
-    "name": "Version 31f0a529",
+    "name": "Version fcc1a28b",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "31f0a529-86e0-4969-9157-0e7160f760c7",
+  "activeVersionId": "fcc1a28b-98ee-4d00-8543-e6c08dc56058",
   "connections": {
     "n8n": {
       "main": [
@@ -1461,7 +1461,7 @@
       "parameters": {
         "content": "## Main workflow loop",
         "height": 416,
-        "width": 1305,
+        "width": 1401,
         "color": 7
       },
       "id": "2ede8c9c-d41b-4116-83d8-757f9b840704",
@@ -1565,15 +1565,15 @@
         "operation": "get",
         "owner": {
           "__rl": true,
-          "mode": "",
-          "value": "={{ $('Config').first().item.repo_owner }}"
+          "value": "={{ $('Config').first().json.repo_owner }}",
+          "mode": ""
         },
         "repository": {
           "__rl": true,
-          "mode": "",
-          "value": "={{ $('Config').first().item.repo_name }}"
+          "value": "={{ $('Config').first().json.repo_name }}",
+          "mode": ""
         },
-        "filePath": "={{ $('Config').first().item.repo_path }}{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[0] }}/{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
+        "filePath": "={{ $('Config').first().json.repo_path }}{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[0] }}/{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
         "asBinaryProperty": false,
         "additionalParameters": {}
       },
@@ -1656,6 +1656,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-21T10:52:54.600Z",
-  "versionId": "31f0a529-86e0-4969-9157-0e7160f760c7"
+  "updatedAt": "2026-01-21T11:04:42.560Z",
+  "versionId": "fcc1a28b-98ee-4d00-8543-e6c08dc56058"
 }
