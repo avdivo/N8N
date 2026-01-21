@@ -1,0 +1,320 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Цикл": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проба управления1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Проба управления1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Цикл",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-23T20:31:56.760Z",
+  "id": "0inHMgZIzWREmFkm",
+  "isArchived": false,
+  "meta": null,
+  "name": "Новогодний умный дом",
+  "nodes": [
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "data = {\n    \"plan\": {\n1: {\"room\": \"Коридор\", \"action\": True}, 3: {\"room\": \"Зал\", \"action\": True}, 4: {\"room\": \"Спальня\", \"action\": True}, 6: {\"room\": \"Коридор\", \"action\": False}, 9: {\"room\": \"Кухня\", \"action\": True}, 10: {\"room\": \"Зал\", \"action\": False}, 12: {\"room\": \"Спальня\", \"action\": False}, 13: {\"room\": \"Ванная\", \"action\": True}, 16: {\"room\": \"Кухня\", \"action\": False}, 18: {\"room\": \"Ванная\", \"action\": False}, 19: {\"room\": \"Зал\", \"action\": True}, 21: {\"room\": \"Спальня\", \"action\": True}, 23: {\"room\": \"Коридор\", \"action\": True}, 24: {\"room\": \"Зал\", \"action\": False}, 28: {\"room\": \"Кухня\", \"action\": True}, 29: {\"room\": \"Спальня\", \"action\": False}, 31: {\"room\": \"Коридор\", \"action\": False}, 33: {\"room\": \"Кухня\", \"action\": False}, 35: {\"room\": \"Ванная\", \"action\": False}, 36: {\"room\": \"Коридор\", \"action\": False}, 38: {\"room\": \"Кухня\", \"action\": False}, 39: {\"room\": \"Зал\", \"action\": False}, 40: {\"room\": \"Спальня\", \"action\": False}, 41: {\"room\": \"Кухня\", \"action\": True}, 42: {\"room\": \"Зал\", \"action\": True}, 43: {\"room\": \"Спальня\", \"action\": False}, 44: {\"room\": \"Ванная\", \"action\": True}, 45: {\"room\": \"Коридор\", \"action\": True}, 46: {\"room\": \"Зал\", \"action\": False}, 47: {\"room\": \"Кухня\", \"action\": False}, 48: {\"room\": \"Спальня\", \"action\": True}, 49: {\"room\": \"Ванная\", \"action\": False}, 50: {\"room\": \"Коридор\", \"action\": True}, 51: {\"room\": \"Зал\", \"action\": True}, 52: {\"room\": \"Кухня\", \"action\": True}, 53: {\"room\": \"Спальня\", \"action\": False}, 54: {\"room\": \"Ванная\", \"action\": True}, 55: {\"room\": \"Коридор\", \"action\": False}, 56: {\"room\": \"Зал\", \"action\": False}, 57: {\"room\": \"Кухня\", \"action\": True}, 58: {\"room\": \"Спальня\", \"action\": True}, 59: {\"room\": \"Ванная\", \"action\": False}, 60: {\"room\": \"Коридор\", \"action\": True}, 61: {\"room\": \"Зал\", \"action\": True}, 62: {\"room\": \"Кухня\", \"action\": False}, 63: {\"room\": \"Спальня\", \"action\": True}, 64: {\"room\": \"Ванная\", \"action\": True}, 65: {\"room\": \"Коридор\", \"action\": False}, 66: {\"room\": \"Зал\", \"action\": False}, 67: {\"room\": \"Кухня\", \"action\": True}, 68: {\"room\": \"Спальня\", \"action\": False}, 69: {\"room\": \"Ванная\", \"action\": True}, 70: {\"room\": \"Коридор\", \"action\": True}, 71: {\"room\": \"Зал\", \"action\": True}, 72: {\"room\": \"Кухня\", \"action\": False}, 73: {\"room\": \"Спальня\", \"action\": True}, 74: {\"room\": \"Ванная\", \"action\": False}, 75: {\"room\": \"Коридор\", \"action\": True}, 76: {\"room\": \"Зал\", \"action\": False}, 77: {\"room\": \"Кухня\", \"action\": True}, 78: {\"room\": \"Спальня\", \"action\": False}, 79: {\"room\": \"Ванная\", \"action\": True}, 80: {\"room\": \"Коридор\", \"action\": False}, 81: {\"room\": \"Зал\", \"action\": True}, 82: {\"room\": \"Кухня\", \"action\": False}, 83: {\"room\": \"Спальня\", \"action\": True}, 84: {\"room\": \"Ванная\", \"action\": False}, 85: {\"room\": \"Коридор\", \"action\": True}, 86: {\"room\": \"Зал\", \"action\": True}, 87: {\"room\": \"Кухня\", \"action\": True}, 88: {\"room\": \"Спальня\", \"action\": False}, 89: {\"room\": \"Ванная\", \"action\": True}, 90: {\"room\": \"Коридор\", \"action\": False}, 91: {\"room\": \"Зал\", \"action\": False}, 92: {\"room\": \"Кухня\", \"action\": True}, 93: {\"room\": \"Спальня\", \"action\": True}, 94: {\"room\": \"Ванная\", \"action\": False}, 95: {\"room\": \"Коридор\", \"action\": True}, 96: {\"room\": \"Зал\", \"action\": True}, 97: {\"room\": \"Кухня\", \"action\": False}, 98: {\"room\": \"Спальня\", \"action\": True}, 99: {\"room\": \"Ванная\", \"action\": True}, 100: {\"room\": \"Коридор\", \"action\": False}, \n      101: {\"room\": \"Ванная\", \"action\": False},\n      102: {\"room\": \"Коридор\", \"action\": False},\n      103: {\"room\": \"Кухня\", \"action\": False},\n      104: {\"room\": \"Зал\", \"action\": False},\n      105: {\"room\": \"Спальня\", \"action\": False}\n    },\n    \"devices_id\": {\n        \"Ванная\": \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",\n        \"Коридор\": \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",\n        \"Кухня\": \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",\n        \"Зал\": \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",\n        \"Спальня\": \"f6826740-39db-484e-9e3e-2b2a7ed2f5ee\"\n    }\n}\n\nplan = data[\"plan\"]\ndevices = data[\"devices_id\"]\nmax_step = max(plan.keys())\nresult = []\n\nfor step in range(1, max_step + 1):\n    if step in plan:\n        item = plan[step]\n        room = item[\"room\"]\n        result.append({\n            \"json\": {\n                \"step\": step,\n                \"room\": room,\n                \"device_id\": devices[room],\n                \"action\": item[\"action\"],\n            }\n        })\n    else:\n        result.append({\"json\": {}})\n\nreturn result"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        480
+      ],
+      "id": "9fa06850-5a94-4ad7-9c03-010ec16021c0",
+      "name": "Цикл"
+    },
+    {
+      "parameters": {
+        "content": "## Яндекс\n\n### API Умный дом\nhttps://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/platform-protocol\n\n### Создание приложения\nhttps://oauth.yandex.ru/client/new/api\n\n### Статья про отладку токена (Debug Token): \nhttps://yandex.ru/dev/id/doc/ru/tokens/debug-token\n\n1. Зайти в аккаунт\n2. Перейти к созданию приложения\n3. Название - любое\n4. Доступ к данным\n    - iot: view - список устройств\n    - iot: control -  управление устройствами\n5. В поле Redirect URI введите значение\nhttps://oauth.yandex.ru/verification_code \n6. Создать приложение\n7. На новой странице копируем Client ID\n8. Переход по ссылке вида:\nhttps://oauth.yandex.ru/authorize?response_type=token&client_id=<идентификатор приложения>\n9. Копируем полученный токен, его используем для создания строки авторизации.\n",
+        "height": 768,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -976,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "83956794-4537-44fb-a275-d365d42313ec",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "url": "https://api.iot.yandex.net/v1.0/user/info",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "OAuth y0__xCz9dpKGIv0OyDi3uOzFR-JFhcGUUpU-lK-xYzT8FIkJVEQ"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -240,
+        240
+      ],
+      "id": "b46e90f6-4d8b-40bc-9c5a-a6feb89739e3",
+      "name": "Информация об умном доме"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "OAuth y0__xCz9dpKGIv0OyDi3uOzFR-JFhcGUUpU-lK-xYzT8FIkJVEQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n    \"devices\": [\n        {\n            \"id\": \"2cddfae9-bf62-4463-806b-076ed41c4272\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": true\n                    }\n                }\n            ]\n        }\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        32,
+        240
+      ],
+      "id": "93311ee2-2391-48a0-9cf5-5e1e4a922bbb",
+      "name": "Проба управления"
+    },
+    {
+      "parameters": {
+        "content": "## Управление \nДля выключения и включения менять true/false\n``` json\n\"state\": {\n    \"instance\": \"on\",\n    \"value\": true\n }\n```",
+        "height": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "bc8cba0f-3c91-4196-a7b8-48b818d89f96",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        272,
+        480
+      ],
+      "id": "debc516c-a878-41b4-a694-84ba50581c95",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "OAuth y0__xCz9dpKGIv0OyDi3uOzFR-JFhcGUUpU-lK-xYzT8FIkJVEQ"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"devices\": [\n        {\n            \"id\": \"{{ $json.device_id }}\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": {{ $json.action }}\n                    }\n                }\n            ]\n        }\n    ]\n}",
+        "options": {
+          "response": {},
+          "timeout": 100
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        656,
+        496
+      ],
+      "id": "dc77ff35-da10-40a5-b15c-700a3d020cb7",
+      "name": "Проба управления1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 0.2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        592
+      ],
+      "id": "06691724-a350-4ee9-bb68-2a8ebe654d36",
+      "name": "Wait",
+      "webhookId": "65ba4dfa-d90f-4cf7-9b90-d6e3f868b5d4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7fb4c93d-4b1d-48b1-a8f3-1b856c24edcf",
+              "leftValue": "={{ $json.step }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        576
+      ],
+      "id": "ba04defb-08db-4a84-bef9-1755f7071805",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 1 1 *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -176,
+        480
+      ],
+      "id": "2851ed2d-76a5-42b6-87e8-17bcd444fd45",
+      "name": "Schedule Trigger",
+      "executeOnce": false
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-23T20:31:56.760Z",
+      "createdAt": "2025-12-23T20:31:56.760Z",
+      "role": "workflow:owner",
+      "workflowId": "0inHMgZIzWREmFkm",
+      "projectId": "GcF8pQl3OQ6WizlQ"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-31T18:18:06.926Z",
+  "versionId": "078e6e93-ddd6-4888-998d-486ffda94136"
+}
