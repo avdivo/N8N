@@ -1638,7 +1638,10 @@
   "repo_path": "",
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -1656,6 +1659,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-21T11:04:42.560Z",
+  "updatedAt": "2026-01-21T11:15:17.458Z",
   "versionId": "fcc1a28b-98ee-4d00-8543-e6c08dc56058"
 }
