@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-01-10T12:09:54.050Z",
-    "createdAt": "2026-01-10T12:09:49.983Z",
-    "versionId": "fb6febdd-bc68-46a4-8f32-55552e5f2829",
+    "updatedAt": "2026-01-22T15:50:20.563Z",
+    "createdAt": "2026-01-22T15:50:07.855Z",
+    "versionId": "743ac8c8-a2f3-488c-a7ff-36e79b8ac921",
     "workflowId": "dw6dfsrfsej9e4v5",
     "nodes": [
       {
@@ -81,8 +81,8 @@
       },
       {
         "parameters": {
-          "language": "python",
-          "pythonCode": "# Получаем параметры\ninput = _items[0][\"json\"]\n\n# Базовый адрес n8n\nbase_url = input[\"app_base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif input[\"app_mode\"] == \"test\":\n  mode += \"-test\"\n\n# Логин пользователя\nlogin = input[\"user_login\"]\n\n# Вычисляем url вебхука из базового адреса, режима запуска (тест/прод), логина пользователя\nwebhook_url = f\"{base_url}{mode}/{login}/get_list\"\n\n\nhtml = \"\"\"\n\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <!-- Мета-тег для учета масштабирования на мобильных устройствах -->\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Страница Авторизации</title>\n    \n    <style>\n        /* Базовые стили для светлой темы (по умолчанию) */\n        body {\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }\n        .container {\n            width: 300px;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n        input[type=\"text\"], input[type=\"password\"] {\n            width: 100%;\n            padding: 10px;\n            margin-bottom: 15px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box; /* Важно для корректной ширины */\n        }\n        input[type=\"submit\"] {\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n        }\n        input[type=\"submit\"]:hover {\n            background-color: #0056b3;\n        }\n\n        /* Медиа-запрос для темной темы */\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: #121212;\n                color: #e0e0e0;\n            }\n            .container {\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }\n            input[type=\"text\"], input[type=\"password\"] {\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Вход</h1>\n        <!-- Убедитесь, что action указывает на ваш второй вебхук POST в n8n -->\n        <form action=\\\"\"\"\" + webhook_url + \"\"\"\\\" method=\"post\">\n            <label for=\"username\">Имя пользователя:</label>\n            <input type=\"text\" id=\"username\" name=\"username\" required>\n            \n            <label for=\"password\">Пароль:</label>\n            <input type=\"password\" id=\"password\" name=\"password\" required>\n            \n            <input type=\"submit\" value=\"Войти\">\n        </form>\n    </div>\n    <script>\n        document.addEventListener('DOMContentLoaded', function() {\n            // Получаем параметры из URL-адреса\n            const urlParams = new URLSearchParams(window.location.search);\n            // Пытаемся получить значение параметра 'error'\n            const errorMessage = urlParams.get('error');\n\n            // Если параметр 'error' существует и содержит текст\n            if (errorMessage) {\n                // Создаем новый элемент <p> для сообщения об ошибке\n                const errorElement = document.createElement('p');\n                \n                // Сообщение может быть закодировано (например, пробелы как %20), поэтому декодируем его\n                errorElement.textContent = decodeURIComponent(errorMessage);\n                \n                // Стилизуем текст, чтобы он был красным\n                errorElement.style.color = 'red';\n                errorElement.style.marginBottom = '15px'; // Добавляем отступ снизу\n\n                // Находим заголовок <h1> и вставляем сообщение об ошибке сразу после него\n                const h1 = document.querySelector('h1');\n                if (h1) {\n                    h1.insertAdjacentElement('afterend', errorElement);\n                }\n            }\n        });\n    </script>\n</body>\n</html>\n\n\"\"\"\n\n# Вернём как output\nreturn {\n    \"body\": html\n}\n"
+          "language": "pythonNative",
+          "pythonCode": "# Получаем параметры\ninput_data = _items[0][\"json\"]\n\n# Базовый адрес n8n\nbase_url = input_data[\"app_base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif input_data[\"app_mode\"] == \"test\":\n    mode += \"-test\"\n\n# Логин пользователя\nlogin = input_data[\"user_login\"]\n\n# Формируем URL вебхука\nwebhook_url = f\"{base_url}{mode}/{login}/get_list\"\n\n# Генерируем HTML с подставленным webhook_url\nhtml = f\"\"\"\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <!-- Мета-тег для учета масштабирования на мобильных устройствах -->\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Страница Авторизации</title>\n    \n    <style>\n        /* Базовые стили для светлой темы (по умолчанию) */\n        body {{\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }}\n        .container {{\n            width: 300px;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }}\n        input[type=\"text\"], input[type=\"password\"] {{\n            width: 100%;\n            padding: 10px;\n            margin-bottom: 15px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box;\n        }}\n        input[type=\"submit\"] {{\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n        }}\n        input[type=\"submit\"]:hover {{\n            background-color: #0056b3;\n        }}\n\n        /* Медиа-запрос для темной темы */\n        @media (prefers-color-scheme: dark) {{\n            body {{\n                background-color: #121212;\n                color: #e0e0e0;\n            }}\n            .container {{\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }}\n            input[type=\"text\"], input[type=\"password\"] {{\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }}\n        }}\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Вход</h1>\n        <form action=\"{webhook_url}\" method=\"post\">\n            <label for=\"username\">Имя пользователя:</label>\n            <input type=\"text\" id=\"username\" name=\"username\" required>\n            \n            <label for=\"password\">Пароль:</label>\n            <input type=\"password\" id=\"password\" name=\"password\" required>\n            \n            <input type=\"submit\" value=\"Войти\">\n        </form>\n    </div>\n    <script>\n        document.addEventListener('DOMContentLoaded', function() {{\n            const urlParams = new URLSearchParams(window.location.search);\n            const errorMessage = urlParams.get('error');\n            if (errorMessage) {{\n                const errorElement = document.createElement('p');\n                errorElement.textContent = decodeURIComponent(errorMessage);\n                errorElement.style.color = 'red';\n                errorElement.style.marginBottom = '15px';\n                const h1 = document.querySelector('h1');\n                if (h1) {{\n                    h1.insertAdjacentElement('afterend', errorElement);\n                }}\n            }}\n        }});\n    </script>\n</body>\n</html>\n\"\"\"\n\n# Возвращаем результат\nreturn {\n    \"body\": html\n}"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -720,8 +720,7 @@
       },
       {
         "parameters": {
-          "language": "python",
-          "pythonCode": "import random\n\n\n# Функция экранирует некоторые символы (такая же функция используется в обработке заголовка и текстов)\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n  \nif not len(_items):\n  raise Exception(\"Нет новостей для дайджеста.\")\n  \nmarkers = [\"📰\",\"⚡\",\"🚨\",\"⭐\",\"📌\",\"🔔\",\"🔥\",\"🚀\",\"🎯\",\"🌍\",\"💡\",\"🛡️\",\"🤖\",\"🧪\",\"🎭\",\"🏆\",\"📣\",\"🌀\",\"💥\",\"✅\",\"❗\",\"🔎\",\"📅\",\"✈️\",\"💬\",\"📊\",\"🧭\"]\n\nmarker = random.choice(markers)\n\ntitle = \"Новости одной строкой\"\ndigest = \"\"\nids = []  # записи, которые нужно помтить выполненными\nfor item in _items:\n  fields = item[\"json\"]\n  text = sql_escape(fields['news_summary_text']) # Экранирование\n  digest += f\"{marker} {text}\\n\\n\"\n  ids.append(fields['news_summary_id'])\n  \nreturn [{\"json\": {\"publication_title\": title, \"publication_text\": digest, \"publication_date\": _items[0][\"json\"][\"news_summary_date_digest\"], \"ids_complite\": ids}}]"
+          "language": "python"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -1596,8 +1595,8 @@
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          2864,
-          4064
+          3008,
+          4080
         ],
         "typeVersion": 1,
         "id": "2b203353-652c-43f9-89b8-20ea2b0832c2",
@@ -1793,8 +1792,7 @@
       },
       {
         "parameters": {
-          "language": "python",
-          "pythonCode": "# Контроль формирования данных для публикации статьи\n\ninput = _items[0][\"json\"]\n# Не допускаются пустыми\ntry:\n  publication_text = input[\"text\"]\nexcept: \n  # При возникновении ошибки подготовить комментарий\n  raise Exception(f\"Нет текста. Статя пропущена: \\n{input[\"publication_original\"]}\")\n\n\nreturn [\n  {\n    \"json\": {\n      \"publication_title\": input.get(\"title\", \"\"),\n      \"publication_text\": publication_text,\n      \"publication_image\": input.get(\"publication_image\", \"\"),\n      \"publication_date\": input[\"publication_date\"],\n      \"publication_original\": input[\"publication_original\"],\n      \"news_summary_id\": input[\"news_summary_id\"]\n    }\n  }\n]"
+          "language": "python"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -2055,7 +2053,7 @@
         "parameters": {
           "content": "## Подготовка публикаций\nПодготовка дайджеста и новостных статей, запланированных для публикации\nи сохранение их в таблице publication.",
           "height": 1600,
-          "width": 3872
+          "width": 4080
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
@@ -2119,8 +2117,8 @@
       },
       {
         "parameters": {
-          "language": "python",
-          "pythonCode": "# Подготовка текста статей к печати\ntexts = []\nfor item in _items:\n  input = item[\"json\"]\n  text = f\"<b>{input.get(\"publication_title\", \"\")}</b>\\n\\n{input.get(\"publication_text\", \"\")}\"\n  texts.append({\"json\": {\"article\": text, \"publication_id\": input[\"publication_id\"]}})\n  \nreturn texts"
+          "language": "pythonNative",
+          "pythonCode": "# Подготовка текста статей к печати\ntexts = []\nfor item in _items:\n  input = item[\"json\"]\n  # ИСПРАВЛЕННАЯ СТРОКА НИЖЕ\n  text = f\"<b>{input.get('publication_title', '')}</b>\\n\\n{input.get('publication_text', '')}\"\n  texts.append({\"json\": {\"article\": text, \"publication_id\": input[\"publication_id\"]}})\n  \nreturn texts\n"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -2399,8 +2397,7 @@
       },
       {
         "parameters": {
-          "language": "python",
-          "pythonCode": "# Функция экранирует некоторые символы (такая же функция используется в обработке текста)\n\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n\ntitle = sql_escape(_items[0][\"json\"][\"text\"])\n\nreturn [{\"json\": {\"title\": title}}]"
+          "language": "python"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -2654,8 +2651,7 @@
       },
       {
         "parameters": {
-          "language": "python",
-          "pythonCode": "# Получаем имя поля по которому будет готовиться анонс новости\nnews_rss_short = _(\"Перебрать RSS ленты\").first().json[\"news_rss_short\"]\n\nresults = []  # Собирает массив статей\nfor item in items:\n  json = item.json\n  title = json.get(\"title\", \"\")\n  text = json.get(news_rss_short, \"\")[0:500]\n  result = f\"{title} \\n {text}\"\n  results.append({\"json\": {\"output\": result}})\n\nreturn results\n"
+          "language": "python"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -4477,11 +4473,11 @@
       }
     },
     "authors": "avdivo Алексей",
-    "name": "Version fb6febdd",
+    "name": "Version 743ac8c8",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "fb6febdd-bc68-46a4-8f32-55552e5f2829",
+  "activeVersionId": "743ac8c8-a2f3-488c-a7ff-36e79b8ac921",
   "connections": {
     "Webhook": {
       "main": [
@@ -5770,8 +5766,8 @@
     },
     {
       "parameters": {
-        "language": "python",
-        "pythonCode": "# Получаем параметры\ninput = _items[0][\"json\"]\n\n# Базовый адрес n8n\nbase_url = input[\"app_base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif input[\"app_mode\"] == \"test\":\n  mode += \"-test\"\n\n# Логин пользователя\nlogin = input[\"user_login\"]\n\n# Вычисляем url вебхука из базового адреса, режима запуска (тест/прод), логина пользователя\nwebhook_url = f\"{base_url}{mode}/{login}/get_list\"\n\n\nhtml = \"\"\"\n\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <!-- Мета-тег для учета масштабирования на мобильных устройствах -->\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Страница Авторизации</title>\n    \n    <style>\n        /* Базовые стили для светлой темы (по умолчанию) */\n        body {\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }\n        .container {\n            width: 300px;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n        input[type=\"text\"], input[type=\"password\"] {\n            width: 100%;\n            padding: 10px;\n            margin-bottom: 15px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box; /* Важно для корректной ширины */\n        }\n        input[type=\"submit\"] {\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n        }\n        input[type=\"submit\"]:hover {\n            background-color: #0056b3;\n        }\n\n        /* Медиа-запрос для темной темы */\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: #121212;\n                color: #e0e0e0;\n            }\n            .container {\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }\n            input[type=\"text\"], input[type=\"password\"] {\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Вход</h1>\n        <!-- Убедитесь, что action указывает на ваш второй вебхук POST в n8n -->\n        <form action=\\\"\"\"\" + webhook_url + \"\"\"\\\" method=\"post\">\n            <label for=\"username\">Имя пользователя:</label>\n            <input type=\"text\" id=\"username\" name=\"username\" required>\n            \n            <label for=\"password\">Пароль:</label>\n            <input type=\"password\" id=\"password\" name=\"password\" required>\n            \n            <input type=\"submit\" value=\"Войти\">\n        </form>\n    </div>\n    <script>\n        document.addEventListener('DOMContentLoaded', function() {\n            // Получаем параметры из URL-адреса\n            const urlParams = new URLSearchParams(window.location.search);\n            // Пытаемся получить значение параметра 'error'\n            const errorMessage = urlParams.get('error');\n\n            // Если параметр 'error' существует и содержит текст\n            if (errorMessage) {\n                // Создаем новый элемент <p> для сообщения об ошибке\n                const errorElement = document.createElement('p');\n                \n                // Сообщение может быть закодировано (например, пробелы как %20), поэтому декодируем его\n                errorElement.textContent = decodeURIComponent(errorMessage);\n                \n                // Стилизуем текст, чтобы он был красным\n                errorElement.style.color = 'red';\n                errorElement.style.marginBottom = '15px'; // Добавляем отступ снизу\n\n                // Находим заголовок <h1> и вставляем сообщение об ошибке сразу после него\n                const h1 = document.querySelector('h1');\n                if (h1) {\n                    h1.insertAdjacentElement('afterend', errorElement);\n                }\n            }\n        });\n    </script>\n</body>\n</html>\n\n\"\"\"\n\n# Вернём как output\nreturn {\n    \"body\": html\n}\n"
+        "language": "pythonNative",
+        "pythonCode": "# Получаем параметры\ninput_data = _items[0][\"json\"]\n\n# Базовый адрес n8n\nbase_url = input_data[\"app_base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif input_data[\"app_mode\"] == \"test\":\n    mode += \"-test\"\n\n# Логин пользователя\nlogin = input_data[\"user_login\"]\n\n# Формируем URL вебхука\nwebhook_url = f\"{base_url}{mode}/{login}/get_list\"\n\n# Генерируем HTML с подставленным webhook_url\nhtml = f\"\"\"\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <!-- Мета-тег для учета масштабирования на мобильных устройствах -->\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Страница Авторизации</title>\n    \n    <style>\n        /* Базовые стили для светлой темы (по умолчанию) */\n        body {{\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }}\n        .container {{\n            width: 300px;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }}\n        input[type=\"text\"], input[type=\"password\"] {{\n            width: 100%;\n            padding: 10px;\n            margin-bottom: 15px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box;\n        }}\n        input[type=\"submit\"] {{\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n        }}\n        input[type=\"submit\"]:hover {{\n            background-color: #0056b3;\n        }}\n\n        /* Медиа-запрос для темной темы */\n        @media (prefers-color-scheme: dark) {{\n            body {{\n                background-color: #121212;\n                color: #e0e0e0;\n            }}\n            .container {{\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }}\n            input[type=\"text\"], input[type=\"password\"] {{\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }}\n        }}\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Вход</h1>\n        <form action=\"{webhook_url}\" method=\"post\">\n            <label for=\"username\">Имя пользователя:</label>\n            <input type=\"text\" id=\"username\" name=\"username\" required>\n            \n            <label for=\"password\">Пароль:</label>\n            <input type=\"password\" id=\"password\" name=\"password\" required>\n            \n            <input type=\"submit\" value=\"Войти\">\n        </form>\n    </div>\n    <script>\n        document.addEventListener('DOMContentLoaded', function() {{\n            const urlParams = new URLSearchParams(window.location.search);\n            const errorMessage = urlParams.get('error');\n            if (errorMessage) {{\n                const errorElement = document.createElement('p');\n                errorElement.textContent = decodeURIComponent(errorMessage);\n                errorElement.style.color = 'red';\n                errorElement.style.marginBottom = '15px';\n                const h1 = document.querySelector('h1');\n                if (h1) {{\n                    h1.insertAdjacentElement('afterend', errorElement);\n                }}\n            }}\n        }});\n    </script>\n</body>\n</html>\n\"\"\"\n\n# Возвращаем результат\nreturn {\n    \"body\": html\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -6409,8 +6405,7 @@
     },
     {
       "parameters": {
-        "language": "python",
-        "pythonCode": "import random\n\n\n# Функция экранирует некоторые символы (такая же функция используется в обработке заголовка и текстов)\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n  \nif not len(_items):\n  raise Exception(\"Нет новостей для дайджеста.\")\n  \nmarkers = [\"📰\",\"⚡\",\"🚨\",\"⭐\",\"📌\",\"🔔\",\"🔥\",\"🚀\",\"🎯\",\"🌍\",\"💡\",\"🛡️\",\"🤖\",\"🧪\",\"🎭\",\"🏆\",\"📣\",\"🌀\",\"💥\",\"✅\",\"❗\",\"🔎\",\"📅\",\"✈️\",\"💬\",\"📊\",\"🧭\"]\n\nmarker = random.choice(markers)\n\ntitle = \"Новости одной строкой\"\ndigest = \"\"\nids = []  # записи, которые нужно помтить выполненными\nfor item in _items:\n  fields = item[\"json\"]\n  text = sql_escape(fields['news_summary_text']) # Экранирование\n  digest += f\"{marker} {text}\\n\\n\"\n  ids.append(fields['news_summary_id'])\n  \nreturn [{\"json\": {\"publication_title\": title, \"publication_text\": digest, \"publication_date\": _items[0][\"json\"][\"news_summary_date_digest\"], \"ids_complite\": ids}}]"
+        "language": "python"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -7285,8 +7280,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2864,
-        4064
+        3008,
+        4080
       ],
       "typeVersion": 1,
       "id": "2b203353-652c-43f9-89b8-20ea2b0832c2",
@@ -7482,8 +7477,7 @@
     },
     {
       "parameters": {
-        "language": "python",
-        "pythonCode": "# Контроль формирования данных для публикации статьи\n\ninput = _items[0][\"json\"]\n# Не допускаются пустыми\ntry:\n  publication_text = input[\"text\"]\nexcept: \n  # При возникновении ошибки подготовить комментарий\n  raise Exception(f\"Нет текста. Статя пропущена: \\n{input[\"publication_original\"]}\")\n\n\nreturn [\n  {\n    \"json\": {\n      \"publication_title\": input.get(\"title\", \"\"),\n      \"publication_text\": publication_text,\n      \"publication_image\": input.get(\"publication_image\", \"\"),\n      \"publication_date\": input[\"publication_date\"],\n      \"publication_original\": input[\"publication_original\"],\n      \"news_summary_id\": input[\"news_summary_id\"]\n    }\n  }\n]"
+        "language": "python"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -7744,7 +7738,7 @@
       "parameters": {
         "content": "## Подготовка публикаций\nПодготовка дайджеста и новостных статей, запланированных для публикации\nи сохранение их в таблице publication.",
         "height": 1600,
-        "width": 3872
+        "width": 4080
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -7808,8 +7802,8 @@
     },
     {
       "parameters": {
-        "language": "python",
-        "pythonCode": "# Подготовка текста статей к печати\ntexts = []\nfor item in _items:\n  input = item[\"json\"]\n  text = f\"<b>{input.get(\"publication_title\", \"\")}</b>\\n\\n{input.get(\"publication_text\", \"\")}\"\n  texts.append({\"json\": {\"article\": text, \"publication_id\": input[\"publication_id\"]}})\n  \nreturn texts"
+        "language": "pythonNative",
+        "pythonCode": "# Подготовка текста статей к печати\ntexts = []\nfor item in _items:\n  input = item[\"json\"]\n  # ИСПРАВЛЕННАЯ СТРОКА НИЖЕ\n  text = f\"<b>{input.get('publication_title', '')}</b>\\n\\n{input.get('publication_text', '')}\"\n  texts.append({\"json\": {\"article\": text, \"publication_id\": input[\"publication_id\"]}})\n  \nreturn texts\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -8088,8 +8082,7 @@
     },
     {
       "parameters": {
-        "language": "python",
-        "pythonCode": "# Функция экранирует некоторые символы (такая же функция используется в обработке текста)\n\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n\ntitle = sql_escape(_items[0][\"json\"][\"text\"])\n\nreturn [{\"json\": {\"title\": title}}]"
+        "language": "python"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -8343,8 +8336,7 @@
     },
     {
       "parameters": {
-        "language": "python",
-        "pythonCode": "# Получаем имя поля по которому будет готовиться анонс новости\nnews_rss_short = _(\"Перебрать RSS ленты\").first().json[\"news_rss_short\"]\n\nresults = []  # Собирает массив статей\nfor item in items:\n  json = item.json\n  title = json.get(\"title\", \"\")\n  text = json.get(news_rss_short, \"\")[0:500]\n  result = f\"{title} \\n {text}\"\n  results.append({\"json\": {\"output\": result}})\n\nreturn results\n"
+        "language": "python"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -9003,7 +8995,7 @@
     },
     "node:Каждые 4 часа": {
       "recurrenceRules": [
-        16
+        8
       ]
     },
     "node:Каждые 2 часа": {
@@ -9020,6 +9012,6 @@
   },
   "tags": [],
   "triggerCount": 7,
-  "updatedAt": "2026-01-10T12:09:49.979Z",
-  "versionId": "fb6febdd-bc68-46a4-8f32-55552e5f2829"
+  "updatedAt": "2026-01-22T15:50:07.841Z",
+  "versionId": "743ac8c8-a2f3-488c-a7ff-36e79b8ac921"
 }
