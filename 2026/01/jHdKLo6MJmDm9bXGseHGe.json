@@ -49,7 +49,7 @@
         "url": "http://crawl4ai:11235/crawl",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"urls\": [\n    \"https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/\"\n  ],\n  \"crawler_params\": {\n    \"simulate_user\": true\n  },\n  \"extraction_params\": {\n    \"strategy\": \"scrape\",\n    \"extraction_type\": \"markdown\"\n  }\n}\n",
+        "jsonBody": "{\n  \"urls\": [\"https://avdivo.ru\"],\n  \"crawler_config\": {\n    \"type\": \"CrawlerRunConfig\",\n    \"params\": {\n      \"extraction_strategy\": {\n        \"type\": \"LLMExtractionStrategy\",\n        \"params\": {\n          \"llm_config\": {\n            \"type\": \"LLMConfig\",\n            \"params\": {\n              \"provider\": \"openrouter/mistralai/mistral-small-24b-instruct-2501\",\n              \"api_token\": \"\"\n            }\n          },\n          \"extraction_type\": \"instruction\",\n          \"instruction\": \"Верни только то что рассказано о программисте и не общим текстом, а построчно, со смайликами в начале в качестве маркеров\",\n          \"output_format\": \"markdown\",\n          \"temperature\": 0\n        }\n      }\n    }\n  }\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -59,7 +59,8 @@
         0
       ],
       "id": "70d9c5a8-6096-48ca-8b3f-f935ddf97cef",
-      "name": "HTTP Request"
+      "name": "HTTP Request",
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
     },
     {
       "parameters": {
@@ -68,7 +69,7 @@
             {
               "id": "bd98dc5a-8434-436a-8860-82f06d495d70",
               "name": "md",
-              "value": "={{ $json.markdown_fit }}",
+              "value": "={{ $json.results[0].markdown.fit_markdown }}",
               "type": "string"
             }
           ]
@@ -105,6 +106,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-22T21:02:07.767Z",
-  "versionId": "73124d57-6f3e-4956-84f3-839d199272e4"
+  "updatedAt": "2026-01-23T21:24:19.036Z",
+  "versionId": "0130bd9f-8f01-4728-a313-257bf9401956"
 }
