@@ -1,0 +1,171 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "NASA": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "NASA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-24T11:12:11.838Z",
+  "id": "-Tu99Ziz2I5UJiS375b7Z",
+  "isArchived": true,
+  "meta": null,
+  "name": "Dynamic credentials using expressions",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "0ddac6f9-bdc8-404f-b0d0-5d9f1fc00e3f",
+        "formTitle": "Test dynamic credentials",
+        "formDescription": "This form is for testing an n8n workflow that demonstrates setting credentials with expressions.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Enter your NASA API key",
+              "requiredField": true
+            }
+          ]
+        },
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "0dcc741a-2539-4fbd-86f4-b0e4229468db",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        448,
+        384
+      ],
+      "webhookId": "0ddac6f9-bdc8-404f-b0d0-5d9f1fc00e3f",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "id": "5c402e19-7071-47f8-b8e3-466fd285f1b7",
+      "name": "NASA",
+      "type": "n8n-nodes-base.nasa",
+      "position": [
+        784,
+        384
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "respondWith": "redirect",
+        "redirectURL": "={{ $json.url }}",
+        "options": {}
+      },
+      "id": "990d4a5a-7c48-45f7-9793-f043096655ff",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        1104,
+        384
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "This workflow shows how to set credentials dynamically using expressions.\n\n\nFirst, set up your NASA credential: \n\n1. Create a new NASA credential.\n1. Hover over **API Key**.\n1. Toggle **Expression** on.\n1. In the **API Key** field, enter `{{ $json[\"Enter your NASA API key\"] }}`.\n\n\nThen, test the workflow:\n\n1. Get an [API key from NASA](https://api.nasa.gov/)\n2. Select **Test workflow**\n3. Enter your key using the form.\n4. The workflow runs and sends you to the NASA picture of the day.\n\n\nFor more information on expressions, refer to [n8n documentation | Expressions](https://docs.n8n.io/code/expressions/).",
+        "height": 564,
+        "width": 322,
+        "color": 4
+      },
+      "id": "0402aef6-2190-4110-96dd-816ed8bab50a",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "User submits an API key using the form",
+        "height": 319
+      },
+      "id": "d0b47c60-930a-4496-8cf9-64ed2b41d395",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "The workflow passes the key to the NASA node. You can reference the value using the expression `$json[\"Enter your NASA API key\"]`. This is also available to the node credential. ",
+        "height": 319,
+        "color": 5
+      },
+      "id": "82a842c5-4854-4ac2-8ba8-8dbf7979d4db",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        704,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "The Respond to Webhook node controls the form response (in this example, redirecting the user to an image)",
+        "height": 319
+      },
+      "id": "7da522b6-db5f-46ea-a458-361c6ef80b77",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1024,
+        240
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-24T11:12:11.838Z",
+      "createdAt": "2026-01-24T11:12:11.838Z",
+      "role": "workflow:owner",
+      "workflowId": "-Tu99Ziz2I5UJiS375b7Z",
+      "projectId": "GcF8pQl3OQ6WizlQ"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-24T11:14:40.507Z",
+  "versionId": "35f8d924-8580-4d25-8ee7-532361ff6d07"
+}
