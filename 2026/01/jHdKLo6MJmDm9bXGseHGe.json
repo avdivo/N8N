@@ -45,13 +45,18 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "http://crawl4ai:11235/crawl",
+        "url": "http://vault_n8n/api/v1/secrets/",
         "authentication": "genericCredentialType",
-        "genericAuthType": "httpCustomAuth",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "{\n  \"urls\": [\"https://avdivo.ru\"],\n  \"crawler_config\": {\n    \"type\": \"CrawlerRunConfig\",\n    \"params\": {\n      \"extraction_strategy\": {\n        \"type\": \"LLMExtractionStrategy\",\n        \"params\": {\n          \"llm_config\": {\n            \"type\": \"LLMConfig\",\n            \"params\": {\n              \"provider\": \"openrouter/mistralai/mistral-small-24b-instruct-2501\",\n              \"api_token\": \"\"\n            }\n          },\n          \"extraction_type\": \"instruction\",\n          \"instruction\": \"Верни только то что рассказано о программисте и не общим текстом, а построчно, со смайликами в начале в качестве маркеров\",\n          \"output_format\": \"markdown\",\n          \"temperature\": 0\n        }\n      }\n    }\n  }\n}\n",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "*"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -62,6 +67,12 @@
       ],
       "id": "70d9c5a8-6096-48ca-8b3f-f935ddf97cef",
       "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AdIAdAlxdbnPfMvM",
+          "name": "Header Auth account"
+        }
+      },
       "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
     },
     {
@@ -108,6 +119,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-24T10:59:08.394Z",
-  "versionId": "9831c2c2-776b-4560-9c01-a4b82006ba2f"
+  "updatedAt": "2026-01-31T21:12:51.776Z",
+  "versionId": "7e0b9d29-cdbd-489a-8d06-393b14a464be"
 }
