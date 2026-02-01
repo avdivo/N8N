@@ -11,7 +11,7 @@
   },
   "createdAt": "2026-01-22T20:32:47.269Z",
   "id": "jHdKLo6MJmDm9bXGseHGe",
-  "isArchived": false,
+  "isArchived": true,
   "meta": null,
   "name": "Примеры работы VaultN8N",
   "nodes": [
@@ -317,6 +317,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-02-01T20:19:42.537Z",
-  "versionId": "24a77b1b-54bf-48e0-949b-81972ab62ef1"
+  "updatedAt": "2026-02-01T20:26:36.288Z",
+  "versionId": "2f855ee0-bcb9-4efe-a9fa-a59e716ceccc"
 }
