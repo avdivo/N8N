@@ -1647,6 +1647,67 @@
         "toolDescription": "Используется для поиска в интернет. Принимает строку поискового запроса в переменной query, производит поиск в интернет и возвращает результаты.",
         "method": "POST",
         "url": "=https://google.serper.dev/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', `Поисковый запрос`, 'string') }}"
+            },
+            {
+              "name": "gl",
+              "value": "ru"
+            },
+            {
+              "name": "gh",
+              "value": "ru"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        864,
+        528
+      ],
+      "id": "1f09c0f5-1ca6-44b0-adbf-c08b3f4fba9e",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0Pu2lxCFUls9aZsF",
+          "name": "Поиск serper"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        304
+      ],
+      "id": "d2c3ad6e-b353-461c-8173-9d4df572db6f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Используется для поиска в интернет. Принимает строку поискового запроса в переменной query, производит поиск в интернет и возвращает результаты.",
+        "method": "POST",
+        "url": "=https://google.serper.dev/search",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -1682,22 +1743,11 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.3,
       "position": [
-        832,
-        512
+        480,
+        576
       ],
-      "id": "1f09c0f5-1ca6-44b0-adbf-c08b3f4fba9e",
-      "name": "HTTP Request1"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        1712,
-        304
-      ],
-      "id": "d2c3ad6e-b353-461c-8173-9d4df572db6f",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "5003bcde-5d12-4816-b460-4f565aa75702",
+      "name": "HTTP Request2"
     }
   ],
   "pinData": {
@@ -1707,7 +1757,7 @@
           "Тема": "Цирк",
           "Ключевые слова или хэштеги (необязательно)": "",
           "Ссылка (необязательно)": "",
-          "submittedAt": "2026-01-19T13:26:13.070+03:00",
+          "submittedAt": "2026-02-02T22:29:00.822+03:00",
           "formMode": "test"
         },
         "pairedItem": {
@@ -1738,6 +1788,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2026-01-19T11:00:45.339Z",
-  "versionId": "a515ddfb-a77f-4f04-94ea-4fb0abd7d85f"
+  "updatedAt": "2026-02-02T19:38:55.876Z",
+  "versionId": "c78a902f-a385-48b8-a2d6-c57a743f0c4a"
 }
