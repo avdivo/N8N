@@ -1,0 +1,251 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Code in Python": {
+      "main": [
+        [
+          {
+            "node": "Показать 1 секрет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Показать 1 секрет": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Code in Python",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-04T12:18:16.929Z",
+  "id": "0hAMUXGkLMcvl4oiV7mpi",
+  "isArchived": false,
+  "meta": null,
+  "name": "Реальный пример VaultN8N",
+  "nodes": [
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "return [\n  { \"json\": { \"login\": 'Алексей' } },\n  { \"json\": { \"login\": 'Андрей' } },\n  { \"json\": { \"login\": 'Слава' } },\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "2b390cfe-7b6c-4cc0-bf48-bce9427abad5",
+      "name": "Code in Python"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "={{ $json.login }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        384,
+        0
+      ],
+      "id": "69b9a77e-f424-4ef4-8488-106a4c39ceb5",
+      "name": "Показать 1 секрет",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://vault-n8n:8000/api/v1/secrets/bulk",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "[\n  { \n    \"key\": \"Алексей\", \n    \"value\": \"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\" \n  },\n  { \n    \"key\": \"Андрей\", \n    \"value\": \"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\" \n  },\n  { \n    \"key\": \"Слава\", \n    \"value\": \"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\" \n  }\n]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        48,
+        -240
+      ],
+      "id": "5126b29c-055a-40fe-8bc9-17c188550c6e",
+      "name": "Добавление токенов Openrouter",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$json.value}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"mistralai/mistral-small-24b-instruct-2501\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Поприветствуй пользователя {{$json.key}}\"\n    }\n  ],\n  \"temperature\": 1\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        592,
+        0
+      ],
+      "id": "30db26c2-ec06-438a-9fe2-d6929b6f8804",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        32,
+        0
+      ],
+      "id": "16c7f560-8347-4704-afb0-89a225b9a481",
+      "name": "When chat message received",
+      "webhookId": "6df92fb4-8a1d-4bd9-95bb-8c872f11d949"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.content.join('\\n\\n') }}",
+        "options": {
+          "memoryConnection": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1.1,
+      "position": [
+        1008,
+        0
+      ],
+      "id": "c3fa825e-2c1a-4bcf-ac03-245cb456f4d3",
+      "name": "Chat",
+      "webhookId": "8afd7547-1e5e-45d0-a0cb-4781e1977f37"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "choices[0].message.content"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        800,
+        0
+      ],
+      "id": "45f2cee5-ab9d-487b-a398-ff4dc01845f6",
+      "name": "Aggregate"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T12:18:16.929Z",
+      "createdAt": "2026-02-04T12:18:16.929Z",
+      "role": "workflow:owner",
+      "workflowId": "0hAMUXGkLMcvl4oiV7mpi",
+      "projectId": "MOQYETgRhtmQM3jW"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-04T13:26:13.169Z",
+  "versionId": "b8f364f9-e2c2-4b08-a1d8-cd900665e12d"
+}
