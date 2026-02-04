@@ -1,0 +1,317 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {},
+  "createdAt": "2026-02-04T12:03:52.794Z",
+  "id": "o-Wq5KokuiZOiz2DOQv_b",
+  "isArchived": false,
+  "meta": null,
+  "name": "Примеры работы VaultN8N",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "*"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7be75d0c-bdd1-40ca-8161-94cb1c59bc8c",
+      "name": "Показать все секреты",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "*"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        0,
+        416
+      ],
+      "id": "05d0eadc-0cd1-4165-9aa6-d31894117175",
+      "name": "Удалить все секреты",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://vault-n8n:8000/api/v1/secrets/single",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "Lena_news_LLM_model"
+            },
+            {
+              "name": "value",
+              "value": "Lena_news_LLM_model"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        0,
+        192
+      ],
+      "id": "88f3ae5d-75e8-46ba-af72-97d7b4148663",
+      "name": "Добавить/заменить 1 секрет",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://vault-n8n:8000/api/v1/secrets/bulk",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "[\n  { \n    \"key\": \"api_key_prod\", \n    \"value\": \"prod_api_token_xyz\" \n  },\n  { \n    \"key\": \"db_user\", \n    \"value\": \"admin_user\" \n  },\n  { \n    \"key\": \"avdivo_news_LLM_model\", \n    \"value\": \"avdivo_news_LLM_model\" \n  },\n  { \n    \"key\": \"avdivo_news_llm_model\", \n    \"value\": \"avdivo_news_llm_model\" \n  }\n]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        256,
+        192
+      ],
+      "id": "d9d0cc09-3429-488c-8b47-45447c160a0d",
+      "name": "Добавить/заменить список секретов",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Lena_news_LLM_model"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        256,
+        0
+      ],
+      "id": "9105d59c-0696-43cd-bff5-1164a015746c",
+      "name": "Показать 1 секрет",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Lena_news_LLM_model, avdivo_news_llm_model"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        496,
+        0
+      ],
+      "id": "7535eb0c-e3af-462c-b8b0-b230a538931f",
+      "name": "Показать несколько секретов",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "*LLM*"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        720,
+        0
+      ],
+      "id": "5203e025-4bf3-4810-ad59-daf92e31a64c",
+      "name": "Фильтр секретов",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "*llm*, db_user, one"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        256,
+        416
+      ],
+      "id": "3c953bb3-13f4-4bf8-b7e9-7e70448df930",
+      "name": "Удалить один/несколько/по фильтру",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TBHIc8oVkfMNq7kt",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "content": "## Настройка авторизации\n\nАвторизация настраивается один раз и используется для всех запросов.\n\n1. В узле `HTTP Request` выберите:\n  - **Authentication:** `Generic Credential Type`\n  - **Generic Auth Type:** `Header Auth`\n  - **Header Auth:** `Header Auth account`  \n2. Нажмите `Create New Credential`.\n3. В открывшемся окне:\n  - **Name:** `Authorization`\n  - **Value:** Вставьте `Bearer ваш_токен` (например, `Bearer my_secret_token_from_env_file`). **Важно:** Не забудьте написать слово `Bearer` и пробел перед самим токеном.",
+        "height": 384,
+        "width": 432
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "4a2e8af1-cc14-49c6-8104-b81a638ee005",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T12:03:52.794Z",
+      "createdAt": "2026-02-04T12:03:52.794Z",
+      "role": "workflow:owner",
+      "workflowId": "o-Wq5KokuiZOiz2DOQv_b",
+      "projectId": "MOQYETgRhtmQM3jW"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-04T13:26:35.071Z",
+  "versionId": "09abcc81-3c2f-4ea4-ac8e-578d36d7c366"
+}
