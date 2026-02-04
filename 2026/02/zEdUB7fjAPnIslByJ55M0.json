@@ -1,0 +1,4267 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Переход к авторизации",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Вывод списка статей",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML3": {
+      "main": [
+        [
+          {
+            "node": "Отправка формы3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка пароля": {
+      "main": [
+        [
+          {
+            "node": "Генерация токена",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Агрегатор",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Генерация токена": {
+      "main": [
+        [
+          {
+            "node": "Сохранение токена",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сохранение токена": {
+      "main": [
+        [
+          {
+            "node": "Получение списка статей из БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получение списка статей из БД": {
+      "main": [
+        [
+          {
+            "node": "Агрегатор 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка списка статей в HTML": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Параметры и токен",
+            "type": "main",
+            "index": 2
+          },
+          {
+            "node": "Определение клиента 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получение токена": {
+      "main": [
+        [
+          {
+            "node": "Параметры и токен",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка токена": {
+      "main": [
+        [
+          {
+            "node": "Парсинг ответа формы",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Парсинг ответа формы": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update rows in a table": {
+      "main": [
+        [
+          {
+            "node": "HTML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Новости для дайджеста": {
+      "main": [
+        [
+          {
+            "node": "Создание дайджеста",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Создание дайджеста": {
+      "main": [
+        [
+          {
+            "node": "Отправка дайджеста в публикацию",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Отправка дайджеста в публикацию": {
+      "main": [
+        [
+          {
+            "node": "Фильтрация ошибок сохранения в БД1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Перебор статей по одной1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Текст статьи",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Изображение",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Дополнительно",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Название статьи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Выбор статей для публикации": {
+      "main": [
+        [
+          {
+            "node": "Получение HTML статей",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Добавление статей в массив",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Получение HTML статей": {
+      "main": [
+        [
+          {
+            "node": "Добавление статей в массив",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Название статьи": {
+      "main": [
+        [
+          {
+            "node": "Пустой заголовок",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Перебрать RSS ленты": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Чтение очередной RSS ленты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Чтение очередной RSS ленты": {
+      "main": [
+        [
+          {
+            "node": "Список ссылок на статьи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Сокращение текстов",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Объединение текста и ссылки",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "RSS и Параметры": {
+      "main": [
+        [
+          {
+            "node": "Перебрать RSS ленты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "link": {
+      "main": [
+        [
+          {
+            "node": "Объединение текста и ссылки",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Запись анонсов в БД",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сообщение об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Объединение текста и ссылки": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сокращение текстов": {
+      "main": [
+        [
+          {
+            "node": "Объединение текста и ссылки",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Добавление статей в массив": {
+      "main": [
+        [
+          {
+            "node": "Фильтрация ошибок загрузки статей",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Фильтрация ошибок загрузки статей": {
+      "main": [
+        [
+          {
+            "node": "Перебор статей по одной1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Отчет об ошибках загрузки статей",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Изображение": {
+      "main": [
+        [
+          {
+            "node": "Сборка статьи",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Дополнительно": {
+      "main": [
+        [
+          {
+            "node": "Сборка статьи",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Перевод названия",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Перевод текста",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Текст статьи": {
+      "main": [
+        [
+          {
+            "node": "Установка размера статьи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Перевод текста": {
+      "main": [
+        [
+          {
+            "node": "Агрегатор ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pass": {
+      "main": [
+        [
+          {
+            "node": "Перевод текста",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ограничение размера статьи": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Установка размера статьи": {
+      "main": [
+        [
+          {
+            "node": "Ограничение размера статьи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Обновляем лимит размера статьи": {
+      "main": [
+        [
+          {
+            "node": "Роутер",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Роутер": {
+      "main": [
+        [
+          {
+            "node": "Отчет об ошибках обработки текста",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Сборка статьи",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "pass",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Перевод названия": {
+      "main": [
+        [
+          {
+            "node": "Контроль",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сборка статьи": {
+      "main": [
+        [
+          {
+            "node": "Контроль сборки статьи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Контроль LLM": {
+      "main": [
+        [
+          {
+            "node": "Обновляем лимит размера статьи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "pass",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Контроль сборки статьи": {
+      "main": [
+        [
+          {
+            "node": "Сохранение статей в БД",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Отчет о ошибках контроля статей",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Перебор статей по одной1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сохранение статей в БД": {
+      "main": [
+        [
+          {
+            "node": "Перебор статей по одной1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Фильтрация ошибок сохранения в БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Фильтрация ошибок сохранения в БД": {
+      "main": [
+        [
+          {
+            "node": "Отчет об ошибках сохранения в БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Фильтрация ошибок сохранения в БД1": {
+      "main": [
+        [
+          {
+            "node": "Отчет об ошибках сохранения в БД1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Список ссылок на статьи": {
+      "main": [
+        [
+          {
+            "node": "Извлекаем ссылки которые уже есть в БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Статьи для публикации": {
+      "main": [
+        [
+          {
+            "node": "Загрузка изображений",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Подготовка текста к публикации",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Объединяем текст и изображение1": {
+      "main": [
+        [
+          {
+            "node": "Ищем новости без фото",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка текста к публикации": {
+      "main": [
+        [
+          {
+            "node": "Объединяем текст и изображение1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Загрузка изображений": {
+      "main": [
+        [
+          {
+            "node": "Объединяем текст и изображение1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Ищем новости без фото": {
+      "main": [
+        [
+          {
+            "node": "Статьи с фото",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Помечаем как опубликованные",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Для Лены",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Статьи без фото",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Помечаем как опубликованные",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Тоже для лены",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Статьи с фото": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Отчет об ошибках вывода",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Статьи без фото": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Отчет об ошибках вывода",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Контроль": {
+      "main": [
+        [
+          {
+            "node": "Сборка статьи",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента": {
+      "main": [
+        [
+          {
+            "node": "Подготовка БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 1": {
+      "main": [
+        [
+          {
+            "node": "RSS и Параметры",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 2": {
+      "main": [
+        [
+          {
+            "node": "Параметры приложения 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 3": {
+      "main": [
+        [
+          {
+            "node": "Параметры приложения",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 4": {
+      "main": [
+        [
+          {
+            "node": "Получение токена",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Параметры приложения 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 5": {
+      "main": [
+        [
+          {
+            "node": "Новости для дайджеста",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Выбор статей для публикации",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получение HTML статей1": {
+      "main": [
+        [
+          {
+            "node": "Проверка",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Извлекаем ссылки которые уже есть в БД": {
+      "main": [
+        [
+          {
+            "node": "Статьи которых нет в БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Статьи которых нет в БД": {
+      "main": [
+        [
+          {
+            "node": "link",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Подготовка материалов для дайджеста",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Подготовка материалов для дайджеста": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сообщение об ошибке": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Code in Python (Native)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Параметры приложения": {
+      "main": [
+        [
+          {
+            "node": "Проверка пароля",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Агрегатор": {
+      "main": [
+        [
+          {
+            "node": "HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Агрегатор 1": {
+      "main": [
+        [
+          {
+            "node": "Подготовка списка статей в HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Параметры приложения 1": {
+      "main": [
+        [
+          {
+            "node": "Параметры и токен",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTML2": {
+      "main": [
+        [
+          {
+            "node": "Готово",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Агрегатор ": {
+      "main": [
+        [
+          {
+            "node": "Контроль LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 6": {
+      "main": [
+        [
+          {
+            "node": "Статьи для публикации",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Параметры приложения 2": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Параметры и токен": {
+      "main": [
+        [
+          {
+            "node": "Проверка токена",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Каждые 4 часа": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Каждые 15 минут": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запись анонсов в БД": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Перебрать RSS ленты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Каждые 1 часа": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Пустой заголовок": {
+      "main": [
+        [
+          {
+            "node": "text = \"\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Перевод названия",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "text = \"\"": {
+      "main": [
+        [
+          {
+            "node": "Контроль",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-04T12:56:02.432Z",
+  "id": "zEdUB7fjAPnIslByJ55M0",
+  "isArchived": false,
+  "meta": null,
+  "name": "Чтение статей из RSS _s",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "={{ $json.execution.error.message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -912,
+        3424
+      ],
+      "id": "493e38eb-8ec9-4c4f-8cd5-edeb950e1fcc",
+      "name": "Send a text message",
+      "webhookId": "a4b08208-4484-4843-8f51-ecaeabec47f2",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## База данных\n\n### RSS ленты (news_rss_channels)\n- news_rss_id - идентификатор\n- news_rss_url - ссылка на ленту\n- news_rss_short - из какого поля, сформированного нодой RSS Read брать текст для дайжеста (.penci-entry-content)\n- news_rss_title - css селектор для поиска названия на странице сайта на который ведет канал, с \".\"\n- news_rss_content - css селектор для поиска статьи , с \".\"\n- news_ rss_ image - css селектор для поиска изображения , с \".\"\n- news_rss_created_at - дата создания/изменения\n- news_rss_disable - True не использовать\n\n### Новость одной строкой (news_summary)\n- news_summary_id - идентификатор\n- news_summary_link - ссылка на саму новость (уникальное)\n- news_summary_text - новость одной строкой\n- news_summary_title - css селектор для поиска названия на странице новости (link )\n- news_summary_content - css селектор для поиска статьи\n- news_summary_image  - css селектор для поиска изображения\n- news_summary_date_digest - дата публикации в дайджесте\n- news_summary_digest - (BOOL) добавлено в статью дайджеста\n- news_summary_date_published - дата публикации статьи\n- news_summary_published - (BOOL) создана статья\n- news_summary_created_at - дата добавления статьи в таблицу\n- news_summary_disable - не отображать для выбора материалов для публикации. Ставится пользователем или автоматически, когда статья уже вышла в дайджесте и была опубликована.\n\n### Статьи для публикации и опубликованные (publication).\n- publication_id - идентификатор публикации\n- publication_title - название публикации\n- publication_text - текст публикации\n- publication_image - ссылка на изображение\n- publication_date - дата запланированной публикации (не пустое)\n- publication_original - ссылка на оригинал новости\n- publication_date_complete - реальная дата публикации (по умолчанию пустая)\n",
+        "height": 1088,
+        "width": 448
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1232,
+        2320
+      ],
+      "typeVersion": 1,
+      "id": "29836128-db91-4148-8615-69716c749ad9",
+      "name": "Sticky Note4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "s/news_authorize",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        1648
+      ],
+      "id": "bd461429-67df-486e-9260-2aca3a98d9ef",
+      "name": "Webhook",
+      "webhookId": "f1c6bc81-e009-40d4-a746-41220389f1b8"
+    },
+    {
+      "parameters": {
+        "content": "## Запрос логина и пароля\nВозвращает страницу авторизации.\nДля правильной работы нужно настроить путь в ноде Webhook:  \n`avdivo/news_authorize`\navdivo - пользователь и схема в БД\n\n### В коде страницы в ноде HTML:\nВ начале задаются параметры базовый адрес и режим запуска (тестовый или нет), пользователь вычисляется сам.",
+        "height": 368,
+        "width": 1056
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        1440
+      ],
+      "typeVersion": 1,
+      "id": "d05572c9-ced0-475c-923b-60d989df6b64",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Получаем параметры\ninput = _items[0][\"json\"]\n\n# Базовый адрес n8n\nbase_url = input[\"app_base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif input[\"app_mode\"] == \"test\":\n  mode += \"-test\"\n\n# Логин пользователя\nlogin = input[\"user_login\"]\n\n# Вычисляем url вебхука из базового адреса, режима запуска (тест/прод), логина пользователя\nwebhook_url = f\"{base_url}{mode}/{login}/get_list\"\n\n\nhtml = \"\"\"\n\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <!-- Мета-тег для учета масштабирования на мобильных устройствах -->\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Страница Авторизации</title>\n    \n    <style>\n        /* Базовые стили для светлой темы (по умолчанию) */\n        body {\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }\n        .container {\n            width: 300px;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n        input[type=\"text\"], input[type=\"password\"] {\n            width: 100%;\n            padding: 10px;\n            margin-bottom: 15px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box; /* Важно для корректной ширины */\n        }\n        input[type=\"submit\"] {\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n        }\n        input[type=\"submit\"]:hover {\n            background-color: #0056b3;\n        }\n\n        /* Медиа-запрос для темной темы */\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: #121212;\n                color: #e0e0e0;\n            }\n            .container {\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }\n            input[type=\"text\"], input[type=\"password\"] {\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Вход</h1>\n        <!-- Убедитесь, что action указывает на ваш второй вебхук POST в n8n -->\n        <form action=\\\"\"\"\" + webhook_url + \"\"\"\\\" method=\"post\">\n            <label for=\"username\">Имя пользователя:</label>\n            <input type=\"text\" id=\"username\" name=\"username\" required>\n            \n            <label for=\"password\">Пароль:</label>\n            <input type=\"password\" id=\"password\" name=\"password\" required>\n            \n            <input type=\"submit\" value=\"Войти\">\n        </form>\n    </div>\n    <script>\n        document.addEventListener('DOMContentLoaded', function() {\n            // Получаем параметры из URL-адреса\n            const urlParams = new URLSearchParams(window.location.search);\n            // Пытаемся получить значение параметра 'error'\n            const errorMessage = urlParams.get('error');\n\n            // Если параметр 'error' существует и содержит текст\n            if (errorMessage) {\n                // Создаем новый элемент <p> для сообщения об ошибке\n                const errorElement = document.createElement('p');\n                \n                // Сообщение может быть закодировано (например, пробелы как %20), поэтому декодируем его\n                errorElement.textContent = decodeURIComponent(errorMessage);\n                \n                // Стилизуем текст, чтобы он был красным\n                errorElement.style.color = 'red';\n                errorElement.style.marginBottom = '15px'; // Добавляем отступ снизу\n\n                // Находим заголовок <h1> и вставляем сообщение об ошибке сразу после него\n                const h1 = document.querySelector('h1');\n                if (h1) {\n                    h1.insertAdjacentElement('afterend', errorElement);\n                }\n            }\n        });\n    </script>\n</body>\n</html>\n\n\"\"\"\n\n# Вернём как output\nreturn {\n    \"body\": html\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        1648
+      ],
+      "id": "cc3d5fc8-6a1b-418d-8252-493fcc63551c",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "s/get_list",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        2112
+      ],
+      "id": "d90b66d2-24b7-40f0-8971-f5cb1fe099b8",
+      "name": "Webhook1",
+      "webhookId": "f1c6bc81-e009-40d4-a746-41220389f1b8"
+    },
+    {
+      "parameters": {
+        "content": "## Авторизация\nВозвращает страницу редактирования статей, выполняя проверку пароля.\nДля правильной работы нужно настроить путь в ноде Webhook:  \n`avdivo/get_list`\navdivo - пользователь и схема в БД\n\n### В коде страницы в нодах HTML:\nВ начале задаются параметры базовый адрес и режим запуска (тестовый или нет), пользователь вычисляется сам.\nОткрывает страницу get_list, если логин и пароль верные или повторно выводит форму ввода пароля.",
+        "height": 512,
+        "width": 2080
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        1856
+      ],
+      "typeVersion": 1,
+      "id": "3e767496-5724-4999-a4e6-f5489717ee17",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Получаем данные и параметры\ninput = _items[0][\"json\"]\nparam = input[\"param\"]\n\n# Базовый адрес n8n\n\nbase_url = param[\"base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif param[\"mode\"] == \"test\":\n  mode += \"-test\"\n\n# Логин пользователя\nlogin = param[\"scheme_name\"]\n\n# Вычисляем url вебхука из базового адреса, режима запуска (тест/прод), логина пользователя\nwebhook_url = f\"{base_url}{mode}/{login}/assign_publications\"\n\n# Токен для подтверждения подлинности измененных данных\ntoken = param[\"token\"]\n\n# Список HTML элементов со статьями\nbody_list = input.get(\"body_list\", \"Нет материалов для обработки.\")\n\n# В Python Node\nhtml = \"\"\"\n\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Подготовка публикации</title>\n    \n        <style>\n        /* --- Базовые стили (Светлая тема) --- */\n        body {\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            margin: 20px;\n            line-height: 1.6;\n        }\n        .container {\n            max-width: 800px;\n            margin: auto;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n        .article-section {\n            padding-bottom: 20px;\n            margin-bottom: 20px;\n            border-bottom: 2px solid #eee;\n        }\n        .article-section:last-child {\n            border-bottom: none;\n            margin-bottom: 0;\n        }\n        h1, h2 {\n            color: #000;\n        }\n        .article-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            margin-bottom: 10px; /* Adjust as needed */\n        }\n        .read-more-link {\n            font-size: 1.8em; /* Adjust icon size */\n            text-decoration: none;\n            color: #007bff; /* Icon color */\n            position: relative;\n            display: inline-block;\n            margin-left: 10px;\n        }\n        .read-more-link:hover {\n            color: #0056b3; /* Darker color on hover */\n        }\n        .read-more-link::after {\n            content: 'Прочитать';\n            position: absolute;\n            right: 0;\n            top: 100%;\n            background-color: rgba(0, 0, 0, 0.8);\n            color: #fff;\n            padding: 5px 8px;\n            border-radius: 4px;\n            white-space: nowrap;\n            opacity: 0;\n            visibility: hidden;\n            transition: opacity 0.2s, visibility 0.2s;\n            font-size: 0.8em;\n            z-index: 10;\n        }\n        .read-more-link:hover::after {\n            opacity: 1;\n            visibility: visible;\n        }\n                    textarea {\n                        width: 100%;\n                        padding: 10px;\n                        margin-bottom: 10px;\n                        border: 1px solid #ccc;\n                        border-radius: 4px;\n                        box-sizing: border-box;\n                        min-height: 150px;\n                        font-size: 17px; /* Увеличенный размер шрифта */\n                    }\n                    input[type=\"datetime-local\"] {\n                        width: 200px; /* Сокращенная ширина */\n                        padding: 8px;\n                        border: 1px solid #ccc;\n                        border-radius: 4px;\n                        background-color: #fff; /* Цвет фона как у контейнера */\n                        color: #333; /* Цвет текста */\n                        color-scheme: light;\n                    }\n        /* Custom Checkbox Styles */\n        label {\n            display: inline-flex;\n            align-items: center;\n            position: relative;\n            padding-left: 25px; /* Space for custom checkbox */\n            cursor: pointer;\n            margin-right: 15px; /* Keep original margin */\n        }\n\n        label input[type=\"checkbox\"] {\n            position: absolute;\n            opacity: 0;\n            width: 16px; /* Match custom checkbox size */\n            height: 16px;\n            cursor: pointer;\n            z-index: 1; /* Ensure it's clickable */\n            left: 0; /* Position correctly */\n            top: 50%;\n            transform: translateY(-50%);\n        }\n\n        label span::before {\n            content: '';\n            position: absolute;\n            left: 0;\n            top: 50%;\n            transform: translateY(-50%);\n            width: 16px;\n            height: 16px;\n            border: 2px solid #007bff; /* Blue border */\n            border-radius: 3px;\n            background-color: #fff;\n            transition: all 0.2s ease;\n        }\n\n        label input[type=\"checkbox\"]:checked + span::before {\n            background-color: #007bff; /* Blue background when checked */\n            border-color: #007bff;\n            content: '✔'; /* Checkmark */\n            color: #fff;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            font-size: 12px;\n            line-height: 1;\n        }\n        .controls {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            flex-wrap: wrap;\n        }\n        input[type=\"datetime-local\"] {\n            margin-right: 5px;\n            vertical-align: middle;\n        }\n\n        .submit-btn {\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n            font-size: 18px; /* Увеличенный размер шрифта */\n            margin-top: 20px;\n        }\n        .submit-btn:hover {\n            background-color: #0056b3;\n        }\n\n\n        /* --- Стили Темной темы --- */\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: #121212;\n                color: #e0e0e0;\n            }\n            .container {\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }\n            h1, h2 {\n                color: #fff;\n            }\n            .article-section {\n                border-bottom: 2px solid #333;\n            }\n            textarea {\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }\n            input[type=\"datetime-local\"] {\n                background-color: #1e1e1e; /* Цвет фона как у контейнера */\n                color: #e0e0e0; /* Цвет текста */\n                border-color: #555;\n                color-scheme: dark;\n            }\n            label span::before {\n                border: 2px solid #007bff; /* Blue border */\n                background-color: #333; /* Dark background */\n            }\n            label input[type=\"checkbox\"]:checked + span::before {\n                background-color: #007bff; /* Blue background when checked */\n                border-color: #007bff;\n                color: #fff;\n            }\n        }\n        @media (max-width: 768px) {\n            .datetime-label {\n                display: flex;\n                flex-wrap: wrap;\n                align-items: center;\n            }\n        }\n    </style>\n    \n</head>\n<body>\n    <div class=\"container\">\n        <h1>Подготовка публикации</h1>\n        \n        <!-- Форма отправляет данные POST-запросом на другой вебхук n8n -->\n        \"\"\" + f'<form action=\"{webhook_url}\" method=\"POST\"><input type=\"hidden\" name=\"auth_token\" value=\"{token}\">' + body_list + \"\"\"\n\n            <button type=\"submit\" class=\"submit-btn\">Отправить</button>\n        </form>\n    </div>\n</body>\n</html>\n\n\"\"\"\n\n# Вернём как output\nreturn {\n    \"body\": html\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        2208
+      ],
+      "id": "66e464c3-0da9-4569-9568-270c1ed21f01",
+      "name": "HTML1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## Подготовка к работе\n- Перед запуском приложения должны быть созданы и заполнены таблицы пользователей и приложений, это делается в воркфлоу Пользователи и приложения.\n- Название воркфлоу должно заканчиваться на _login. Это  логин пользователя, а также схема для него в БД.\n- В вэбхуках проверить свойство  Path, оно должно начинаться с этого логина, например: login/news_authorize\n- Режим работы приложения тестовый или продакт, базовый url, таймзона устанавливаются в таблице приложений для конкретного пользователя/приложения. Эти параметры используются в работе приложения.\n\n",
+        "height": 400,
+        "width": 448,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1232,
+        1888
+      ],
+      "typeVersion": 1,
+      "id": "5f893712-8e4f-461d-982e-816cb70a55f5",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1184,
+        3424
+      ],
+      "id": "4dcc5cb7-40c8-40be-9001-238f9feb5756",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Базовый адрес сервера\nbase_url = _items[0][\"json\"][\"base_url\"]\n\n# Режим запуска: webhook или webhook-test\nmode = \"webhook\"\nif _items[0][\"json\"][\"mode\"] == \"test\":\n  mode += \"-test\"\n\n# Логин пользователя_input.first().json.scheme_name\nlogin = _items[0][\"json\"][\"scheme_name\"]\n\n# Вычисляем url вебхука из базового адреса, режима запуска (тест/прод), логина пользователя\nwebhook_url = f\"{base_url}{mode}/{login}/get_list\"\n\n\nhtml = \"\"\"\n\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n    <meta charset=\"UTF-8\">\n    <!-- Мета-тег для учета масштабирования на мобильных устройствах -->\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Страница Авторизации</title>\n    \n    <style>\n        /* Базовые стили для светлой темы (по умолчанию) */\n        body {\n            font-family: sans-serif;\n            background-color: #f4f4f4;\n            color: #333;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }\n        .container {\n            width: 300px;\n            padding: 30px;\n            background-color: #fff;\n            border-radius: 8px;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n        input[type=\"text\"], input[type=\"password\"] {\n            width: 100%;\n            padding: 10px;\n            margin-bottom: 15px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            box-sizing: border-box; /* Важно для корректной ширины */\n        }\n        input[type=\"submit\"] {\n            width: 100%;\n            padding: 10px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n        }\n        input[type=\"submit\"]:hover {\n            background-color: #0056b3;\n        }\n\n        /* Медиа-запрос для темной темы */\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: #121212;\n                color: #e0e0e0;\n            }\n            .container {\n                background-color: #1e1e1e;\n                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);\n            }\n            input[type=\"text\"], input[type=\"password\"] {\n                background-color: #333;\n                color: #e0e0e0;\n                border-color: #555;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Вход</h1>\n        <p style=\"color: red; margin-bottom: 15px;\">Неверный логин или пароль</p>\n        <!-- Убедитесь, что action указывает на ваш второй вебхук POST в n8n -->\n        <form action=\\\"\"\"\" + webhook_url + \"\"\"\\\" method=\"post\">\n            <label for=\"username\">Имя пользователя:</label>\n            <input type=\"text\" id=\"username\" name=\"username\" required>\n            \n            <label for=\"password\">Пароль:</label>\n            <input type=\"password\" id=\"password\" name=\"password\" required>\n            \n            <input type=\"submit\" value=\"Войти\">\n        </form>\n    </div>\n\n</body>\n</html>\n\n\"\"\"\n\n# Вернём как output\nreturn {\n    \"body\": html\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        2208
+      ],
+      "id": "b140e4e3-4f46-4d7b-87a8-6c4a9500f963",
+      "name": "HTML3"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1216,
+        2208
+      ],
+      "id": "706712ba-9845-41d4-bd41-20a3352567b8",
+      "name": "Отправка формы3",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6f6353cc-7a5a-4ec4-bbbe-9723f0d013da",
+              "leftValue": "={{ $json.app_password }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.password }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "db3b52db-0bba-4580-bf61-3754f87dcf44",
+              "leftValue": "={{ $('Определение клиента 3').item.json.scheme_name }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.username }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        2112
+      ],
+      "id": "7f503d8d-93c8-4d3a-9bd1-0f15415e0dd6",
+      "name": "Проверка пароля"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1872,
+        2128
+      ],
+      "id": "4979f691-feb7-4aad-8711-75fb47c078fd",
+      "name": "Вывод списка статей",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        1648
+      ],
+      "id": "b1551663-0102-4db6-a601-a76ccb247b20",
+      "name": "Переход к авторизации",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "import uuid\n\n# Генерирует UUID версии 4 (случайный)\nuuid_token = str(uuid.uuid4())\nreturn [{\"json\": {\"token\": uuid_token}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        2032
+      ],
+      "id": "649ce201-f3a9-4a1a-bde2-b40e772ac862",
+      "name": "Генерация токена"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=token_news_{{ $('Определение клиента 3').item.json.scheme_name }}",
+        "value": "={{ $json.token }}",
+        "expire": true,
+        "ttl": 43200
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        2032
+      ],
+      "id": "50e58e81-9a8f-4cd2-b542-0a1a46bdfa2e",
+      "name": "Сохранение токена",
+      "notes": "Запись в redis токена доступа к редактированию новостей. Отредактированная форма должна вернуть этот токен. \nТокен действует примерно 12 часов.\nУ каждого пользователя свой ключ."
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "={{ $items(\"Определение клиента 3\").first().json[\"scheme_name\"] }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "news_summary",
+          "mode": "list",
+          "cachedResultName": "news_summary"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "news_summary_disable",
+              "value": "False"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "news_summary_created_at",
+              "direction": "DESC"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1232,
+        2032
+      ],
+      "id": "3043566a-3bc1-4cfa-81ed-a32fa56819e9",
+      "name": "Получение списка статей из БД",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "from datetime import datetime, timezone, timedelta\n\n\n# Получаем все данные и параметры\ninput = _items[0][\"json\"]\n\n# Получаем требуемый чсовой пояс\ntime_zone = input[\"timezone\"]\n\nbody_list = \"\"\nfor i, item in enumerate(input[\"articles\"]):\n\n  # Идентификатор новости в БД\n  id = item[\"news_summary_id\"]\n  \n  # Перевод даты загрузки статьи в нужный формат\n  # строка из JSON\n  date_str = item[\"news_summary_created_at\"]\n  # парсим ISO-дату как UTC\n  dt_utc = datetime.fromisoformat(date_str.replace(\"Z\", \"+00:00\"))\n  # Переводим сразу в нужный часовой пояс (например, UTC+3)\n  dt_local = dt_utc.astimezone(timezone(timedelta(hours=time_zone)))\n  # форматируем\n  created_at = dt_local.strftime(\"%d.%m.%Y\")\n\n  # Если есть дата публикации нужно перевести ее в нужный формат\n  # строка из JSON\n  date_str = item[\"news_summary_date_published\"]\n  date_published = \"\"\n  if date_str:\n    # парсим ISO-дату как UTC\n    dt_utc = datetime.fromisoformat(date_str.replace(\"Z\", \"+00:00\"))\n    # Переводим сразу в нужный часовой пояс (например, UTC+3)\n    dt_local = dt_utc.astimezone(timezone(timedelta(hours=time_zone)))\n    # форматируем\n    date_published = dt_local.strftime(\"%Y-%m-%dT%H:%M\")\n  \n  article = f\"\"\"\n    <div class=\"article-section\">\n      <div class=\"article-header\">\n        <h2>{created_at}</h2>({i+1})\n        <a href=\"{item[\"news_summary_link\"]}\" target=\"_blank\" class=\"read-more-link\">🔗</a>\n      </div>\n      <textarea name=\"articles[{id}][text]\" placeholder=\"Текст статьи...\">{item[\"news_summary_text\"]}</textarea>\n        <div class=\"controls\">\n          <div>\n            <label>\n              <input type=\"checkbox\" name=\"articles[{id}][digest]\" value=\"true\" {\"checked disabled\" if item[\"news_summary_date_digest\"] else \"\"}> <span>Добавить в дайджест</span>\n            </label>\n            <label class=\"datetime-label\">\n              Время публикации:\n              <input type=\"datetime-local\" name=\"articles[{id}][time]\" {f'value=\"{date_published}\" disabled' if date_published else \"\"}>\n            </label>\n          </div>\n          <label>\n            <input type=\"checkbox\" name=\"articles[{id}][delete]\" value=\"true\"> <span>Удалить</span>\n          </label>\n        </div>\n    </div>\n    \n  \"\"\"\n\n  body_list += article\n\n# Передаем параметры дальше\ndel(input[\"articles\"])\n\nreturn {\"json\": {\"body_list\": body_list, \"param\": input}}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        2032
+      ],
+      "id": "125e72ab-e18d-4266-83d8-061354328805",
+      "name": "Подготовка списка статей в HTML",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput",
+      "notes": "Подготовка части html документа отображающего форму со списком статей"
+    },
+    {
+      "parameters": {
+        "content": "## Правка статей\n- Принимает заполненную форму со статьями\n- вносит соответствующие изменения в БД.\nДля правильной работы нужно настроить путь в ноде Webhook:  \n`avdivo/assign_publications`\navdivo - пользователь и схема в БД\n\n### В коде страницы в нодах HTML:\nВ начале задаются параметры базовый адрес и режим запуска (тестовый или нет), пользователь вычисляется сам.\nОткрывает страницу get_list, если логин и пароль верные или повторно выводит форму ввода пароля.",
+        "height": 624,
+        "width": 2080
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        2416
+      ],
+      "typeVersion": 1,
+      "id": "919af82d-6ddc-4949-a622-8a85adf20ac7",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "s/assign_publications",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        48,
+        2880
+      ],
+      "id": "758c6e84-8da1-4d1d-a2ce-324887cde3af",
+      "name": "Webhook2",
+      "webhookId": "f1c6bc81-e009-40d4-a746-41220389f1b8"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "auth_token",
+        "key": "=token_news_{{ $json.scheme_name }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        528,
+        2672
+      ],
+      "id": "9a829eec-776a-4649-8838-c8306d87f22f",
+      "name": "Получение токена",
+      "notes": "Запись в redis токена доступа к редактированию новостей. Отредактированная форма должна вернуть этот токен. \nТокен действует примерно 12 часов.\nУ каждого пользователя свой ключ."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6f6353cc-7a5a-4ec4-bbbe-9723f0d013da",
+              "leftValue": "={{ $json.auth_token }}",
+              "rightValue": "={{ $json.body.auth_token }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        2848
+      ],
+      "id": "a4489838-93fd-4809-acf3-bb885872079a",
+      "name": "Проверка токена"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "import re\nfrom datetime import datetime, timedelta, timezone\n\n\n# Получаем все данные и параметры\ninput = _items[0][\"json\"]\n\n# Получаем требуемый чсовой пояс\ntime_zone = input[\"app_timezone\"]\n\ninput = input[\"body\"]\ninput.pop(\"auth_token\")  # Удаляем токен из ответа \n\n# Перебираем поля формы\n# Строим словарь объектов для обновления БД\nupdate_dict = {}\nfor field, value in input.items():\n  # Получаем значения из первых и вторых скобок. Пример: articles[285][text]\n  # {id: {name_field: volume}}\n  pattern = r\"articles\\[(\\d+)\\]\\[(\\w+)\\]\"\n  match = re.match(pattern, field)\n  if match:\n      id = match.group(1)\n      param = match.group(2)\n  else:\n    continue\n\n  # Подготовка названия и значения обновляемого поля для БД\n  if param == \"text\":\n    # Поле текста пропускаем, если оно пустое\n    if not value:\n      continue\n    param = \"news_summary_text\"\n    \n  if param == \"digest\":\n    # Присутствует, значит добавлено в дайджест, нужно записать дату\n    value = datetime.now().strftime(\"%Y-%m-%d %H:%M\")\n    param = \"news_summary_date_digest\"\n    \n  if param == \"time\":\n    # Преобразуем в строку для Postgres и приводим к часовому поясу UTC\n    if not value:\n      continue\n      \n    value = value.replace(\"T\", \" \")  # → \"2025-12-11 22:32\"\n    # парсим без таймзоны\n    local_dt = datetime.strptime(value, \"%Y-%m-%d %H:%M\")\n    # добавляем информацию о том, что это время в +3\n    local_dt = local_dt.replace(tzinfo=timezone(timedelta(hours=time_zone)))\n    # переводим в UTC\n    value = local_dt.astimezone(timezone.utc).strftime(\"%Y-%m-%d %H:%M\")\n    \n    param = \"news_summary_date_published\"\n    \n  if param == \"delete\":\n    param = \"news_summary_disable\"\n    \n  # если id ещё нет в словаре — создаём пустой словарь\n  if id not in update_dict:\n      update_dict[id] = {}\n  # добавляем пару name: volume\n  update_dict[id][param] = value\n\n# Переводим в нужный формат\nupdate_list = []\nfor id, fields in update_dict.items():\n  fields[\"news_summary_id\"] = id\n  update_list.append({\"json\": fields})\n  \nreturn update_list\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        2848
+      ],
+      "id": "72249320-8c34-4a5c-9c97-db9f5f5dae7b",
+      "name": "Парсинг ответа формы",
+      "notesInFlow": true,
+      "notes": "Определяет клиента и имя его схемы в БД по названию воркфлоу. Если не определится (в названии нет _) выведет ошибку. \nРазбирает поля статей переданные из формы, определяет какие должны меняться, создает значения (если нужно) и готовит массив полей для обновления для каждой статьи."
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "value": "={{ $('Определение клиента 4').item.json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "news_summary",
+          "mode": "list",
+          "cachedResultName": "news_summary"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "news_summary_disable": false
+          },
+          "matchingColumns": [
+            "news_summary_id"
+          ],
+          "schema": [
+            {
+              "id": "news_summary_id",
+              "displayName": "news_summary_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news_summary_link",
+              "displayName": "news_summary_link",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_text",
+              "displayName": "news_summary_text",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_title",
+              "displayName": "news_summary_title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_content",
+              "displayName": "news_summary_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_image",
+              "displayName": "news_summary_image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_date_digest",
+              "displayName": "news_summary_date_digest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_date_published",
+              "displayName": "news_summary_date_published",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_created_at",
+              "displayName": "news_summary_created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "news_summary_disable",
+              "displayName": "news_summary_disable",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1456,
+        2848
+      ],
+      "id": "2932ee99-040b-4829-aff9-224b47d67abd",
+      "name": "Update rows in a table"
+    },
+    {
+      "parameters": {
+        "content": "## Общая схема работы\n1. Ветка Чтение RSS лент запускается по расписанию раз в 2 часа и обновляет список новостей в таблице Новость одной строкой (news_summary). RSS ленты для отслеживания вносятся в ручную в таблицу RSS ленты (news_rss_channels).\n2. Пользователь в любое время переходит по ссылке подобной `https://n8n.avdivo.ru/webhook/avdivo/news_authorize`, где avdivo - это логин пользователя и перенаправляется по адресу `https://n8n.avdivo.ru/webhook/avdivo/get_list` в ветку Авторизация, где производит планирование публикации новостей и дайджеста. \n3. Пункт 2 может быть полностью или частично заменен агентом, который сделает это автоматически. \n4. После внесения изменений данные в таблице обновляются веткой Правка статей `https://n8n.avdivo.ru/webhook/avdivo/assign_publications`. \n5. Затем запускается ветка Подготовка публикаций. Она происходит в автоматическом режиме, собирая одну статью для дайджеста и подготавливая по одной для каждой новости запланированной к публикации. Подготовленные статьи вносятся в таблицу с планом публикаций publication и помечаются после этого в таблице news_summary.\n6. Раз в 15 минут происходит проверка необходимости публикации новостей веткой Публикация. Статьи, чье время публикации прошло или наступило, но они еще не опубликованы (что выясняется по таблице publication) отправляются для вывода в ТГ, после чего отмечаются опубликованными и более не рассматриваются.\n",
+        "height": 688,
+        "width": 448,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1232,
+        1184
+      ],
+      "typeVersion": 1,
+      "id": "f9c681ad-ea16-4269-975b-36dbb65b651f",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "={{ $json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "news_summary",
+          "mode": "list",
+          "cachedResultName": "news_summary"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "news_summary_date_digest",
+              "condition": "IS NOT NULL"
+            },
+            {
+              "column": "news_summary_digest",
+              "value": "FALSE"
+            },
+            {
+              "column": "news_summary_disable",
+              "value": "FALSE"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "news_summary_created_at",
+              "direction": "DESC"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        992,
+        3184
+      ],
+      "id": "3c897d66-0d61-44db-b846-e1a59c921807",
+      "name": "Новости для дайджеста",
+      "notes": "Выбирает новости (одной строкой), которые еще не были включены в дайджест, не завершенные и имеют дату в поле даты публикации. Это должны быть сегодняшние новости или пропущенные более старые."
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "import random\n\n\n# Функция экранирует некоторые символы (такая же функция используется в обработке заголовка и текстов)\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n  \nif not len(_items):\n  raise Exception(\"Нет новостей для дайджеста.\")\n  \nmarkers = [\"📰\",\"⚡\",\"🚨\",\"⭐\",\"📌\",\"🔔\",\"🔥\",\"🚀\",\"🎯\",\"🌍\",\"💡\",\"🛡️\",\"🤖\",\"🧪\",\"🎭\",\"🏆\",\"📣\",\"🌀\",\"💥\",\"✅\",\"❗\",\"🔎\",\"📅\",\"✈️\",\"💬\",\"📊\",\"🧭\"]\n\nmarker = random.choice(markers)\n\ntitle = \"Новости одной строкой\"\ndigest = \"\"\nids = []  # записи, которые нужно помтить выполненными\nfor item in _items:\n  fields = item[\"json\"]\n  text = sql_escape(fields['news_summary_text']) # Экранирование\n  digest += f\"{marker} {text}\\n\\n\"\n  ids.append(fields['news_summary_id'])\n  \nreturn [{\"json\": {\"publication_title\": title, \"publication_text\": digest, \"publication_date\": _items[0][\"json\"][\"news_summary_date_digest\"], \"ids_complite\": ids}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3184
+      ],
+      "id": "33b4a616-9aef-4ce0-af77-0e87d815b95f",
+      "name": "Создание дайджеста",
+      "onError": "continueErrorOutput",
+      "notes": "Формирует статью с подборкой коротких новостей с разными маркерами в формате HTML. Для даты публикации берем дату любой новости из переданных. Еще передаем id включенных в дайджест новостей. Экранируем спецсимволы в текстах."
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "BEGIN;\n\nINSERT INTO {{ $('Определение клиента 5').first().json.scheme_name }}.publication \n  (publication_title, publication_text, publication_date)\nVALUES \n  (\n    '{{ $json.publication_title }}',\n    '{{ $json.publication_text }}',\n    '{{ $json.publication_date }}'\n  );\n\nUPDATE {{ $('Определение клиента 5').first().json.scheme_name }}.news_summary\nSET news_summary_digest = TRUE\nWHERE news_summary_id IN ({{ $json.ids_complite.join(\",\") }});\n\nCOMMIT;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1408,
+        3184
+      ],
+      "id": "d74d74d8-f802-478c-b879-e8a3cd535afb",
+      "name": "Отправка дайджеста в публикацию"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        80,
+        4352
+      ],
+      "id": "3868f5d5-607f-417d-a50a-ddf546e6fcd1",
+      "name": "Перебор статей по одной1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "={{ $json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "news_summary",
+          "mode": "list",
+          "cachedResultName": "news_summary"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "news_summary_date_published",
+              "condition": "IS NOT NULL"
+            },
+            {
+              "column": "news_summary_published",
+              "value": "FALSE"
+            },
+            {
+              "column": "news_summary_disable",
+              "value": "FALSE"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "news_summary_created_at",
+              "direction": "DESC"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        992,
+        3376
+      ],
+      "id": "1149fe82-ba8e-483a-834c-579de9ba239d",
+      "name": "Выбор статей для публикации",
+      "notes": "Выбирает новости (одной строкой), которые еще не были включены в дайджест, не завершенные и имеют дату в поле даты публикации. Это должны быть сегодняшние новости или пропущенные более старые."
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.news_summary_link }}",
+        "options": {}
+      },
+      "id": "3ac04c35-e4e8-4ebf-845d-ff07be0c8cc1",
+      "name": "Получение HTML статей",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1200,
+        3376
+      ],
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "={{ $json.news_summary_title }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4e6d5d7c-a0f8-4d58-b70a-d8ddb51199e1",
+      "name": "Название статьи",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        256,
+        3792
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "BEGIN;\n\n-- 1. Создаем схему, если ее нет\nCREATE SCHEMA IF NOT EXISTS {{ $json.scheme_name }};\n\n-- 2. Создаем таблицу списка rss каналов схеме, если ее нет\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.news_rss_channels (\n    news_rss_id SERIAL PRIMARY KEY,                                -- идентификатор\n    news_rss_url TEXT NOT NULL UNIQUE,                             -- ссылка на ленту\n    news_rss_short VARCHAR(100) NOT NULL DEFAULT 'contentSnippet', -- поле из RSS Read для дайджеста\n    news_rss_title VARCHAR(255),                                   -- CSS селектор для названия\n    news_rss_content VARCHAR(255),                                 -- CSS селектор для статьи\n    news_rss_image VARCHAR(255),                                   -- CSS селектор для изображения\n    news_rss_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,       -- дата создания/изменения\n    news_rss_disable BOOLEAN NOT NULL DEFAULT FALSE                -- True = не использовать\n);\n\n-- 3. Создаем таблицу выбора новостей в схеме, если ее нет\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.news_summary (\n    news_summary_id SERIAL PRIMARY KEY,                            -- идентификатор\n    news_summary_link TEXT NOT NULL UNIQUE,                        -- ссылка на саму новость\n    news_summary_text VARCHAR(500) NOT NULL,                       -- новость одной строкой (анонс)\n    news_summary_title VARCHAR(255),                               -- CSS селектор для поиска названия\n    news_summary_content VARCHAR(255),                             -- CSS селектор для поиска статьи\n    news_summary_image VARCHAR(255),                               -- CSS селектор для поиска изображения\n    news_summary_date_digest TIMESTAMP,                            -- дата публикации в дайджесте\n    news_summary_digest BOOLEAN DEFAULT FALSE,                     -- добавлено в статью дайджеста\n    news_summary_date_published TIMESTAMP,                         -- дата публикации статьи\n    news_summary_published BOOLEAN DEFAULT FALSE,                  -- создана статья\n    news_summary_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- дата добавления статьи\n    news_summary_disable BOOLEAN DEFAULT FALSE                     -- не отображать для выбора публикации\n);\n\n-- 4. Создаем таблицу публикации статей, если ее нет\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.publication (\n    publication_id SERIAL PRIMARY KEY,                             -- идентификатор публикации\n    publication_title TEXT,                                        -- название публикации\n    publication_text TEXT,                                         -- текст публикации\n    publication_image TEXT,                                        -- ссылка на изображение\n    publication_date TIMESTAMP NOT NULL,                           -- дата запланированной публикации (не пустое)\n    publication_original TEXT,                                     -- ссылка на оригинал новости\n    publication_date_complete TIMESTAMP,                           -- реальная дата публикации\n    publication_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP     -- дата создания записи\n);\n\nCOMMIT;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        512,
+        112
+      ],
+      "id": "0b53d849-2853-4a0f-abf0-b46055e287aa",
+      "name": "Подготовка БД",
+      "retryOnFail": true,
+      "executeOnce": false,
+      "notes": "Создает схему для пользователя, если ее нет и добавляет таблицы в БД для работы форкфлоу."
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        112
+      ],
+      "id": "d098641a-de08-43ad-bb35-52bc8ce3f30f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "## Инициализация база данных\nЗапустится через 5 секунд после старта, чтобы создать Схему и Таблицы в БД",
+        "height": 320,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "78c098c9-31a4-4eb8-b6dc-a602ec769674",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1232,
+        4016
+      ],
+      "id": "4956cb81-f0d0-4c7c-8c1b-f91a74ec51c6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        704,
+        688
+      ],
+      "id": "aa68c16c-8814-45f5-8659-bece6422d28c",
+      "name": "Перебрать RSS ленты"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.news_rss_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        976
+      ],
+      "id": "0a4a75ff-81e6-4189-95c6-fd80a868d434",
+      "name": "Чтение очередной RSS ленты",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Переведи текст.\nВерни новость одной строкой:\n- Переведи на РУССКИЙ язык!\n- Без абзацев.\n- Без дополнений, пояснений, только одна строка.\nНе применяй форматирование.\n\nТекст:\n {{ $json.output }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1296,
+        688
+      ],
+      "id": "f282e16f-3859-4e26-af79-a1fe8ec7f67b",
+      "name": "Basic LLM Chain1",
+      "retryOnFail": false,
+      "onError": "continueErrorOutput",
+      "notes": "Не удалось получить перевод статьи"
+    },
+    {
+      "parameters": {
+        "content": "https://www.technologyreview.com/feed/\nhttps://www.wired.com/feed/tag/ai/latest/rss\nhttps://www.artificialintelligence-news.com/feed/rss/\nhttps://www.theguardian.com/technology/artificialintelligenceai/rss\nhttps://futurism.com/categories/ai-artificial-intelligence/feed - отлично для дайджеста",
+        "height": 192,
+        "width": 528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1584,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "c0f3e689-1537-49da-8fec-3297f2c45fe8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "={{ $('Определение клиента 1').first().json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "news_rss_channels",
+          "mode": "list",
+          "cachedResultName": "news_rss_channels"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "news_rss_disable",
+              "value": "False"
+            }
+          ]
+        },
+        "sort": {
+          "values": [
+            {
+              "column": "news_rss_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        480,
+        688
+      ],
+      "id": "6790a971-4a5a-40ff-8779-e90d8f395947",
+      "name": "RSS и Параметры",
+      "notes": "Извлекает из БД:\n- ссылку на RSS ленты\n- из какого поля ленты читать анонс новости\n- CSS селектор текста статьи\n- CSS селектор названия\n- CSS селектор изображения"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a55c0d3-045a-4a67-ba39-529fdc9354ca",
+              "name": "link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1488,
+        960
+      ],
+      "id": "29d6003d-245f-493e-854f-9ddd7c150259",
+      "name": "link",
+      "notes": "Передаем отдельно ссылку на новость"
+    },
+    {
+      "parameters": {
+        "model": "mistralai/mistral-small-24b-instruct-2501",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        864
+      ],
+      "id": "cf4e36eb-6329-437c-b3b6-92855ee39d52",
+      "name": "OpenRouter Chat Model"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "49955f75-fae7-41ac-a7b9-57760d566e3e",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "d3b2586a-61ea-494b-9ab5-ef227d697b02",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2080,
+        784
+      ],
+      "id": "07cbae3a-ab93-494b-ae33-23eae97da744",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {
+          "includeUnpaired": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1904,
+        768
+      ],
+      "id": "75edbef4-32ef-42a8-ba58-b6977a5046bd",
+      "name": "Объединение текста и ссылки",
+      "notes": "Принимает ссылку на статью и описание или ошибку и объединяет их в один элемент"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Для пользователя \"{{ $items(\"Определение клиента 1\").first().json[\"scheme_name\"] }}\" есть не обработанные моделью данные для выбора новостей в Чтении RSS лент. Нужно проверить работу модели.",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2288,
+        880
+      ],
+      "id": "836f88f6-6783-4668-9f61-2a171ced2734",
+      "name": "Сообщение об ошибке",
+      "webhookId": "41d6117d-fcbd-43b6-bf18-84eb984c26cb",
+      "retryOnFail": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "={{ $items(\"Определение клиента 1\").first().json[\"scheme_name\"] }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "news_summary",
+          "mode": "list",
+          "cachedResultName": "news_summary"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "news_summary_link": "={{ $json.link }}",
+            "news_summary_text": "={{ $json.output }}",
+            "news_summary_title": "={{ $('Перебрать RSS ленты').first().json.news_rss_title }}",
+            "news_summary_content": "={{ $('Перебрать RSS ленты').first().json.news_rss_content }}",
+            "news_summary_image": "={{ $('Перебрать RSS ленты').first().json.news_rss_image }}",
+            "news_summary_disable": false
+          },
+          "matchingColumns": [
+            "news_summary_link"
+          ],
+          "schema": [
+            {
+              "id": "news_summary_id",
+              "displayName": "news_summary_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "news_summary_link",
+              "displayName": "news_summary_link",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news_summary_text",
+              "displayName": "news_summary_text",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news_summary_title",
+              "displayName": "news_summary_title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news_summary_content",
+              "displayName": "news_summary_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news_summary_image",
+              "displayName": "news_summary_image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "news_summary_date_digest",
+              "displayName": "news_summary_date_digest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "news_summary_date_published",
+              "displayName": "news_summary_date_published",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "news_summary_created_at",
+              "displayName": "news_summary_created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "news_summary_disable",
+              "displayName": "news_summary_disable",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "skipOnConflict": true
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2288,
+        688
+      ],
+      "id": "599860bc-8e1f-4701-8b4e-b4011f8b65bc",
+      "name": "Запись анонсов в БД"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "import re\n\n\ndef fix_markdown(string):\n  \"\"\"\n  Экранирует все специальные символы для Telegram Markdown V2 с помощью регулярного выражения.\n  \"\"\"\n  return re.sub(r\"([][*()~`>#+\\-=|{}.!_])\", r\"\\\\\\1\", string)\n\n# Экранируем символы для вывода в ТГ, обрезаем до 4000 символов\nresults = []  # Собирает массив статей\nfor item in _items:\n  result = \"\"  # Собирает одну статью\n  # input_text = fix_markdown(item.get(\"json\", {}).get(\"text\", \"\")[0:4000])\n  input_text = item.get(\"json\", {}).get(\"text\", \"\")[0:600].replace(\"\\\\\", \"\")  # Удаляет обратные слэши и обрезает.\n  results.append({\"json\": {\"output\": input_text}})\n\nreturn results\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1712,
+        688
+      ],
+      "id": "68f7d404-1fc3-48a1-9ea4-07aeff1a6fcb",
+      "name": "Сокращение текстов",
+      "notes": "Экранирование не допустимых в markdown ТГ символов отключено"
+    },
+    {
+      "parameters": {
+        "content": "## Чтение RSS лент\nПодготовка таблицы предварительного планирования публикаций (Новость одной строкой (news_summary))",
+        "height": 784,
+        "width": 2752
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "94fc268e-ab34-462b-b68b-9c5d7cc7d08e",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "## Модели\nmistralai/mistral-small-24b-instruct-2501"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2192,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "2113dae7-ac47-49d2-9457-8793a037c1fb",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1392,
+        3568
+      ],
+      "id": "cb023e75-7a2b-4339-b2b4-8fac1d5c2a6a",
+      "name": "Добавление статей в массив"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1ac1bfdd-cd55-4598-9ffd-f559b47d1091",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        3568
+      ],
+      "id": "4cc1fd0e-970b-4b7b-b719-e35c40605d60",
+      "name": "Фильтрация ошибок загрузки статей"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "publication_image",
+              "cssSelector": "={{ $json.news_summary_image }}",
+              "returnValue": "attribute",
+              "attribute": "src"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d201f1cd-9555-45a3-8631-9a4822ab2136",
+      "name": "Изображение",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        2032,
+        4272
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6311476f-8395-4a3d-bc21-8ea38f0eceb1",
+              "name": "publication_date",
+              "value": "={{ $json.news_summary_date_published }}",
+              "type": "string"
+            },
+            {
+              "id": "f3828f34-ffa2-4001-8039-597bafaec58e",
+              "name": "publication_original",
+              "value": "={{ $json.news_summary_link }}",
+              "type": "string"
+            },
+            {
+              "id": "ed9de2bc-3f74-43a2-84f7-036d9169c908",
+              "name": "news_summary_id",
+              "value": "={{ $json.news_summary_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2208,
+        4368
+      ],
+      "id": "f2144ca6-e976-431b-be2f-2d3220a23eab",
+      "name": "Дополнительно"
+    },
+    {
+      "parameters": {
+        "model": "mistralai/mistral-small-24b-instruct-2501",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        688,
+        4064
+      ],
+      "id": "48f1fc80-767a-47eb-9edb-ad6ee59a0410",
+      "name": "OpenRouter Chat Model3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Ты редактор - переводчик.\nПереведи текст на русский язык. \nНе применяй форматирование. Верни только строку.\n\nТекст:\n{{ $json.title }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        688,
+        3920
+      ],
+      "id": "34c4b5d1-1c34-4e1d-8545-a5fad0de118f",
+      "name": "Перевод названия",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": "mistralai/mistral-small-24b-instruct-2501",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        4176
+      ],
+      "id": "82835e89-e216-4ec2-8199-2b42bf4f72a2",
+      "name": "OpenRouter Chat Model4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Ты редактор - переводчик. Твоя статья сразу идет в печать.\n- Выполни перевод на русский.\n- Сократи  и перефразируй текст, оставь только суть\n- Сделай текст понятным, читаемым и интересным для обывателя\n- Длина статьи не более {{ $json.text_len }} символов.\n- Добавь смайлики.\n- Удали рекламные вставки и другие тексты и символы не относящиеся к статье.\n- Не применяй MD форматирование (не нужно *) - чистый текст с абзацами.\n- Добавь в конце текста 2 наиболее релевантных хэштэга отступив от основного текста \\n\\n\nТекст:\n{{ $('Текст статьи').first().json.text }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1536,
+        4032
+      ],
+      "id": "1888863e-69ef-4288-80be-29f007cd1c5c",
+      "name": "Перевод текста",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "text",
+              "cssSelector": "={{ $json.news_summary_content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "15117615-d687-43e8-a747-bde24bd5b016",
+      "name": "Текст статьи",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        608,
+        4208
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        4032
+      ],
+      "id": "99882692-f106-4e0b-a8a7-d3196d4f1f6e",
+      "name": "pass"
+    },
+    {
+      "parameters": {
+        "content": "## Обработка текста\nЛимит на размер статьи изначально задается нодами: Установка длины текста, Ограничение размера статьи.  Может быть заменено на чтение значения из БД.\nПосле получения перевода длина текста сравнивается с удвоенным изначальным лимитом, минус длина заголовка (лимит задается в количестве символов для модели, но поскольку она не может четко его соблюдать, он задается изначально меньше в 2.5 раза, возможно для разных моделей этот показатель нужно менять). \nЕсли длина текста окажется больше, лимит (указываемый модели) уменьшается при каждой итерации на 100 символов. Таким образом предотвращается зацикливание.",
+        "height": 240,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2864,
+        4064
+      ],
+      "typeVersion": 1,
+      "id": "2df8080e-183b-4c47-990c-b1a0adfd67f5",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "text_len",
+        "key": "=token_news_text_limit_{{ $('Определение клиента 5').first().json.scheme_name }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        928,
+        4208
+      ],
+      "id": "214fb671-ba75-4f4d-b440-0df81cee9539",
+      "name": "Ограничение размера статьи"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=token_news_text_limit_{{ $('Определение клиента 5').first().json.scheme_name }}",
+        "value": "=400",
+        "expire": true,
+        "ttl": 43200
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        768,
+        4208
+      ],
+      "id": "aebd2c2e-6bf6-4051-aed6-61939cdfdbb3",
+      "name": "Установка размера статьи",
+      "notes": "Ограничение длины текста для LLM"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=token_news_text_limit_{{ $('Определение клиента 5').first().json.scheme_name }}",
+        "value": "=",
+        "expire": true,
+        "ttl": 43200
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2176,
+        4032
+      ],
+      "id": "c4eb7183-81dc-442a-8934-84f98af85047",
+      "name": "Обновляем лимит размера статьи",
+      "notes": "Ограничение длины текста для LLM"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "error",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6ae0c751-d478-48eb-bb15-5b139466a3a2"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b960a723-44dc-4b75-9063-5428046fcc0b",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "ok",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e2dff7a3-3094-4ade-b11e-dd44614b4ec3",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "repeat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        2352,
+        3936
+      ],
+      "id": "483586fc-f2b7-4811-b2de-c518efcaefce",
+      "name": "Роутер"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 4,
+        "options": {
+          "includeUnpaired": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3024,
+        3792
+      ],
+      "id": "6fa6f776-cc9b-4f7f-b397-57e956903e86",
+      "name": "Сборка статьи"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Функция экранирует некоторые символы (такая же функция используется в обработке заголовка)\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n\n\n# Получаем все данные\ninput = _items[0][\"json\"]\n\ntext_len = 0\n# Длина заголовка (с запасом на тэги и спецсимволы)\ntitle_len = len(input.get(\"title\", \"\")) + 20\n# Получаем исходныйлимит на длину текста\ntext_limit = int(input[\"text_len\"] * 2.5) - title_len\n# Получаем текущий лимит\ntext_limit_now = input[\"text_limit_now\"]\n\n# Если не вернул ошибку узнаем длину ответа\nif not input[\"error\"]:\n  text = input.get(\"text\", \"\")\n  # Экранируем некоторые символы\n  text = sql_escape(text)\n  text_len = len(text)\n\n# Если длина текста в порядке возвращаем его и status=Ok\nif text_len > 10 and text_len <= text_limit:\n  return [{\"json\": {\"text\": text, \"status\": \"ok\", \"text_len\": text_limit_now}}]\n\n# Если возникла любая проблема, проверяем счетчик проблем\n# Счетчиком служит текущее ограничение на длину текста\n# Если оно слишком малое - это уже странно\nif text_limit_now < 0:\n  # Счетчик ошибок превысил лимит\n  return [{\"json\": {\"status\": \"error\", \"text_len\": text_limit_now}}]\n  \n# Если лимит еще не превышен повторяем попытку перевода\ntext_limit_now -= 100\nreturn [{\"json\": {\"status\": \"repeat\", \"text_len\": text_limit_now}}]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        4032
+      ],
+      "id": "a2d7469c-7de0-4f42-9377-91816830c99b",
+      "name": "Контроль LLM",
+      "notes": "Определяет ошибки модели, контролирует длину текста, ограничивает количество попыток обработки текста. Дает команду роутеру что далше делать. Экранирует спецсимволы."
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Контроль формирования данных для публикации статьи\n\ninput = _items[0][\"json\"]\n# Не допускаются пустыми\ntry:\n  publication_text = input[\"text\"]\nexcept: \n  # При возникновении ошибки подготовить комментарий\n  raise Exception(f\"Нет текста. Статя пропущена: \\n{input[\"publication_original\"]}\")\n\n\nreturn [\n  {\n    \"json\": {\n      \"publication_title\": input.get(\"title\", \"\"),\n      \"publication_text\": publication_text,\n      \"publication_image\": input.get(\"publication_image\", \"\"),\n      \"publication_date\": input[\"publication_date\"],\n      \"publication_original\": input[\"publication_original\"],\n      \"news_summary_id\": input[\"news_summary_id\"]\n    }\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3008,
+        4368
+      ],
+      "id": "d077f4ad-d88a-4fd5-a006-9b5c4ecfbfb9",
+      "name": "Контроль сборки статьи",
+      "onError": "continueErrorOutput",
+      "notes": "Проверяет наличие и заполнение ключевых полей публикации и собирает массив. Если не все в порядке - переходит к следующему элементу"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {
+          "fuzzyCompare": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1216,
+        4032
+      ],
+      "id": "2006c780-011b-4711-88f5-4899ce997a16",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "BEGIN;\n\nINSERT INTO {{ $('Определение клиента 5').first().json.scheme_name }}.publication \n  (publication_title, publication_text, publication_image, publication_date, publication_original)\nVALUES \n  ('{{$json.publication_title}}', '{{$json.publication_text}}', '{{$json.publication_image}}', '{{$json.publication_date}}', '{{$json.publication_original}}');\n\nUPDATE {{ $('Определение клиента 5').first().json.scheme_name }}.news_summary\nSET news_summary_published = TRUE\nWHERE news_summary_id = {{$json.news_summary_id}};\n\nCOMMIT;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3440,
+        4432
+      ],
+      "id": "1a74a3aa-98bd-449a-a2b8-f3e95e5dd447",
+      "name": "Сохранение статей в БД",
+      "onError": "continueRegularOutput",
+      "notes": "Сохранение статей в таблице publication и отметка, что они сохранены в таблице news_summary. Выполняется в рамках транзакции."
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Workflow: {{ $workflow.name }}\nNode:     Сохранение статей в БД\n\nОшибка при выполнении запроса.\n---",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3824,
+        4416
+      ],
+      "id": "cdcdadac-2803-4393-a754-6b0122bf0108",
+      "name": "Отчет об ошибках сохранения в БД",
+      "webhookId": "8c151408-f41a-413a-9aa9-25993f7c567e",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1ac1bfdd-cd55-4598-9ffd-f559b47d1091",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3616,
+        4432
+      ],
+      "id": "e87b8a34-44a2-47ab-8501-949d2c86dc49",
+      "name": "Фильтрация ошибок сохранения в БД"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Workflow: {{ $workflow.name }}\nNode:     Контроль сборки статьи\n\n{{ $json.error }}\n---",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3200,
+        4464
+      ],
+      "id": "8372e5cb-3634-4a68-bc68-32ca57135502",
+      "name": "Отчет о ошибках контроля статей",
+      "webhookId": "8c151408-f41a-413a-9aa9-25993f7c567e",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Workflow: {{ $workflow.name }}\nNode:     Перевод текста\n\nМодель не обработала текст статьи.\n---",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2512,
+        3856
+      ],
+      "id": "9e26f56d-cd48-4bb1-9c9c-a3bd7aa874c3",
+      "name": "Отчет об ошибках обработки текста",
+      "webhookId": "8c151408-f41a-413a-9aa9-25993f7c567e",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Workflow: {{ $workflow.name }}\nNode:     Получение HTML статей\n\nНе удалось получить текст статьи:\n{{ $json.news_summary_link }}\n---",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1824,
+        3584
+      ],
+      "id": "343dc7e0-9464-4587-af45-3452f59c02a6",
+      "name": "Отчет об ошибках загрузки статей",
+      "webhookId": "8c151408-f41a-413a-9aa9-25993f7c567e",
+      "notesInFlow": false,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Workflow: {{ $workflow.name }}\nNode:     Отправка дайджеста в публикацию\n\nОшибка при выполнении запроса.\n---",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1808,
+        3168
+      ],
+      "id": "cfc97e37-ed77-4d53-aa6f-ae4e66718388",
+      "name": "Отчет об ошибках сохранения в БД1",
+      "webhookId": "8c151408-f41a-413a-9aa9-25993f7c567e",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1ac1bfdd-cd55-4598-9ffd-f559b47d1091",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        3184
+      ],
+      "id": "bcac7b26-e683-47e4-a6e9-9493ffd558ed",
+      "name": "Фильтрация ошибок сохранения в БД1"
+    },
+    {
+      "parameters": {
+        "content": "## Подготовка публикаций\nПодготовка дайджеста и новостных статей, запланированных для публикации\nи сохранение их в таблице publication.",
+        "height": 1600,
+        "width": 3872
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        3152
+      ],
+      "typeVersion": 1,
+      "id": "fea18aa1-58c1-4328-8062-bc6ad672aa81",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Готовим список url\nurls = []\nfor item in _items:\n  try:\n    urls.append(f\"'{item[\"json\"][\"link\"]}'\")\n  except:\n    pass\nreturn [{\"json\": {\"urls\": urls}}]\n    "
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        976
+      ],
+      "id": "e0e532e6-25f9-4e7a-923d-4add40c10e6f",
+      "name": "Список ссылок на статьи",
+      "notes": "Создаем список url полученных статей для фильтрации"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM {{ $json.scheme_name }}.publication\nWHERE publication_date <= NOW()\n  AND publication_date_complete IS NULL;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        432,
+        4912
+      ],
+      "id": "9f643fbd-da9e-4f9f-87fb-aace0fb5e6a9",
+      "name": "Статьи для публикации"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1008,
+        4912
+      ],
+      "id": "5d463247-a5ca-4d36-9505-e8e80162db5d",
+      "name": "Объединяем текст и изображение1"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Подготовка текста статей к печати\ntexts = []\nfor item in _items:\n  input = item[\"json\"]\n  text = f\"<b>{input.get(\"publication_title\", \"\")}</b>\\n\\n{input.get(\"publication_text\", \"\")}\"\n  texts.append({\"json\": {\"article\": text, \"publication_id\": input[\"publication_id\"]}})\n  \nreturn texts"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        4832
+      ],
+      "id": "a3dce74c-09fe-468c-abaf-76b39d679c33",
+      "name": "Подготовка текста к публикации"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.publication_image }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "bin_image"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        720,
+        5008
+      ],
+      "id": "3b672145-2c95-4da7-8c01-f74e93492909",
+      "name": "Загрузка изображений",
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "249503190",
+        "binaryData": true,
+        "binaryPropertyName": "bin_image",
+        "additionalFields": {
+          "caption": "={{ $json.article }}",
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1632,
+        4816
+      ],
+      "id": "418da2a0-2481-48d5-9215-7ab29f75f5fc",
+      "name": "Статьи с фото",
+      "webhookId": "41d6117d-fcbd-43b6-bf18-84eb984c26cb",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3ab2fef8-fa12-431b-90a0-40ed37316ba9",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        4912
+      ],
+      "id": "96ee1337-6eff-49f0-aeb7-e179d921659e",
+      "name": "Ищем новости без фото"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "={{ $json.article }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1632,
+        5008
+      ],
+      "id": "a57ea6a5-58f6-4f3a-98f8-9a488a29dcc7",
+      "name": "Статьи без фото",
+      "webhookId": "41d6117d-fcbd-43b6-bf18-84eb984c26cb",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "=Workflow: {{ $workflow.name }}\nNode:     Публикация статей\n\nОшибка вывода в телеграмм.\nПубликация в таблице publication: {{ $json.publication_id }}\nОшибка: {{ $json.error }}\n---",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1856,
+        4912
+      ],
+      "id": "da0f081c-d545-4eda-8511-49911575f672",
+      "name": "Отчет об ошибках вывода",
+      "webhookId": "8c151408-f41a-413a-9aa9-25993f7c567e",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "value": "={{ $('Определение клиента 6').first().json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "publication",
+          "mode": "list",
+          "cachedResultName": "publication"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "publication_id": "={{ $json.publication_id }}",
+            "publication_date_complete": "={{ $now.toUTC().format(\"yyyy-MM-dd HH:mm\") }}"
+          },
+          "matchingColumns": [
+            "publication_id"
+          ],
+          "schema": [
+            {
+              "id": "publication_id",
+              "displayName": "publication_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "publication_title",
+              "displayName": "publication_title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "publication_text",
+              "displayName": "publication_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "publication_image",
+              "displayName": "publication_image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "publication_date",
+              "displayName": "publication_date",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "publication_original",
+              "displayName": "publication_original",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "publication_date_complete",
+              "displayName": "publication_date_complete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "publication_created_at",
+              "displayName": "publication_created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1488,
+        4912
+      ],
+      "id": "cbeacfad-4471-40d1-89c5-23ab32f00b3b",
+      "name": "Помечаем как опубликованные"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Функция экранирует некоторые символы (такая же функция используется в обработке текста)\n\ndef sql_escape(value: str) -> str:\n    return value.replace(\"'\", \"''\").replace(\"\\\\\", \"\\\\\\\\\")\n\ntitle = sql_escape(_items[0][\"json\"][\"text\"])\n\nreturn [{\"json\": {\"title\": title}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        3776
+      ],
+      "id": "e437a25d-4867-4f57-988b-778ecf84d90f",
+      "name": "Контроль"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "326830581",
+        "binaryData": true,
+        "binaryPropertyName": "bin_image",
+        "additionalFields": {
+          "caption": "={{ $json.article }}",
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        4720
+      ],
+      "id": "a856a228-5903-4d93-a730-7a291bcf6460",
+      "name": "Для Лены",
+      "webhookId": "41d6117d-fcbd-43b6-bf18-84eb984c26cb",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "326830581",
+        "text": "={{ $json.article }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        5104
+      ],
+      "id": "c6584e02-d7b3-42b9-9210-27f52c3f38f0",
+      "name": "Тоже для лены",
+      "webhookId": "41d6117d-fcbd-43b6-bf18-84eb984c26cb",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        112
+      ],
+      "id": "79be647b-c151-4b17-ba91-7139efae75da",
+      "name": "Определение клиента"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        688
+      ],
+      "id": "e1699067-2948-4ab7-9939-12bc73e7768d",
+      "name": "Определение клиента 1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        1648
+      ],
+      "id": "42841c0c-e299-475a-a50d-59cab054dda5",
+      "name": "Определение клиента 2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        2112
+      ],
+      "id": "777e1b50-6ff8-4080-b974-5f16a8fa96aa",
+      "name": "Определение клиента 3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        2736
+      ],
+      "id": "71814d2f-0717-42c1-b1d1-98c5bd5a23d4",
+      "name": "Определение клиента 4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        3280
+      ],
+      "id": "9ded5fa3-020b-4bc7-8bfd-8d1368648375",
+      "name": "Определение клиента 5"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "text",
+              "cssSelector": ".attachment-post-thumbnail",
+              "returnValue": "attribute",
+              "attribute": "src"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "832e3251-f028-4589-9d98-8662ab6a6f17",
+      "name": "Проверка",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        1344,
+        304
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "url": "=https://techcrunch.com/2026/01/08/openai-to-acquire-the-team-behind-executive-coaching-ai-tool-convogo/",
+        "options": {}
+      },
+      "id": "8b1c0e7a-b368-43c0-9f55-da5ac0a57abb",
+      "name": "Получение HTML статей1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1152,
+        304
+      ],
+      "typeVersion": 4.2,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Поиск и заполнение css селекторов в статьях\n- Обратить внимание на настройку Extract HTML Content ноды: для поиска текста:  Return Value указать - Text, для изображения - Attribute и указать атрибут src.\n- В программе селекторы подставляются из таблицы news_rss_channels БД, где они должны быть записаны c точкой перед селектором.\n- Для проверки использовать эти ноды, в первой указать url статьи, во второй селектор и проверить настройки.",
+        "height": 240,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1072,
+        32
+      ],
+      "typeVersion": 1,
+      "id": "3e88a744-61e0-4734-9952-2f8b8f8142cb",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT\n    news_summary_link\nFROM\n    {{ $('Определение клиента 1').first().json.scheme_name }}.news_summary\nWHERE\n    news_summary_link IN ({{ $json.urls.join(\",\") }});",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        496,
+        976
+      ],
+      "id": "3618013b-afb4-4ea1-8144-dab265214ffd",
+      "name": "Извлекаем ссылки которые уже есть в БД",
+      "alwaysOutputData": true,
+      "notes": "Извлекаем ссылки которые уже есть в БД"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Все статьи из ленты\nall_articles = _('Чтение очередной RSS ленты').all()\n\n# Ссылки на статьи, которые уже есть в БД\nexisting_links = [item.json[\"news_summary_link\"] for item in items if item.json.get(\"news_summary_link\")]\n\n# Оставляем только нужные статьи (которых еще нет)\nout_list = []\nfor article in all_articles:\n  if article.json.link not in existing_links:\n    out_list.append(article)\nreturn out_list"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        1168
+      ],
+      "id": "b37b3549-c5f1-4f7b-8ffa-354dc04e3756",
+      "name": "Статьи которых нет в БД py"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Все статьи из ленты\nconst all_articles = $('Чтение очередной RSS ленты').all()\n\n// Ссылки на статьи, которые уже есть в БД\nconst existing_links = $input.all()\n  .map(item => item.json.news_summary_link)\n  .filter(link => link); // убираем undefined/null/пустые\n\n// Оставляем только нужные статьи (которых еще нет)\nconst out_list = all_articles.filter(article => \n  !existing_links.includes(article.json.link)\n);\n\n// Если статей нет — генерируем ошибку \nif (out_list.length === 0) { \n  throw new Error('Новостей нет'); \n}\n\nreturn out_list;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        976
+      ],
+      "id": "d2ed1929-8b2d-48ce-8188-68a408ac04eb",
+      "name": "Статьи которых нет в БД",
+      "onError": "continueErrorOutput",
+      "notes": "\nПринимает все полученные статьи и  ссылки на статьи, которые есть в БД\nВозвращает только те, которых нет в БД"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Получаем имя поля по которому будет готовиться анонс новости\nnews_rss_short = _(\"Перебрать RSS ленты\").first().json[\"news_rss_short\"]\n\nresults = []  # Собирает массив статей\nfor item in items:\n  json = item.json\n  title = json.get(\"title\", \"\")\n  text = json.get(news_rss_short, \"\")[0:500]\n  result = f\"{title} \\n {text}\"\n  results.append({\"json\": {\"output\": result}})\n\nreturn results\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        496
+      ],
+      "id": "a72143a5-a9fa-4f06-8ebd-db5fcbc8783d",
+      "name": "Подготовка материалов для дайджеста py",
+      "notes": "Сливает название и текст обрезанный до 500 символов"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем имя поля по которому будет готовиться анонс новости\nconst news_rss_short = $(\"Перебрать RSS ленты\").first().json.news_rss_short;\n\n// Собираем массив статей\nconst results = $input.all().map(item => {\n  const json = item.json;\n  const title = json[\"title\"] || \"\";\n  const text = json[news_rss_short] ? json[news_rss_short].substring(0, 500) : \"\";\n  const result = `${title}\\n${text}`;\n  return { json: { output: result } };\n});\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        688
+      ],
+      "id": "62e00994-dec6-415b-b4fe-97b5f58313d1",
+      "name": "Подготовка материалов для дайджеста",
+      "notes": "Сливает название и текст обрезанный до 500 символов"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0241a5c8-47dd-49b1-9375-27d4708c5ef2",
+              "name": "поле 1",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "5d1e212d-4d9c-4010-b1c5-62a298b26643",
+              "name": "поле 2",
+              "value": 2,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -608,
+        4032
+      ],
+      "id": "c9fcc59f-d7e9-4002-a21f-a280c7b57bd3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0241a5c8-47dd-49b1-9375-27d4708c5ef2",
+              "name": "пользователь",
+              "value": "Первый",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1008,
+        4016
+      ],
+      "id": "51158ac7-beef-45aa-8d1d-16cb21f1d94e",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0241a5c8-47dd-49b1-9375-27d4708c5ef2",
+              "name": "токен",
+              "value": "токен",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -816,
+        3888
+      ],
+      "id": "8f4723a4-7e2f-44f6-9862-27d1efb6b575",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba73c295-b9af-4a1c-863e-91c95b5d81f6",
+              "name": "array",
+              "value": "={{ $json }}",
+              "type": "object"
+            },
+            {
+              "id": "3493cf3e-4973-45e2-a442-cdde3482dbdd",
+              "name": "пользователь",
+              "value": "={{ $('Edit Fields1').item.json[\"пользователь\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "d992dbf8-20eb-41eb-938e-856c9fb7f396",
+              "name": "токен",
+              "value": "={{ $('Edit Fields2').item.json[\"токен\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1120,
+        4368
+      ],
+      "id": "cb8bdd3d-2ecc-43b9-b151-4f98345d2343",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "import json\n\n\nout = []\ns = _items[0][\"json\"][\"array\"]\n\nreturn [{\"json\": {\"out\": s}}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -864,
+        4368
+      ],
+      "id": "e187ee25-abc0-4ecc-8d75-f1ca53ded8ef",
+      "name": "Code in Python (Native)"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM public.app\nWHERE app_name = 'news'\n  AND app_user_id = (\n    SELECT user_id\n    FROM public.\"user\"\n    WHERE user_login = '{{ $json.scheme_name }}'\n  );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        416,
+        2112
+      ],
+      "id": "98e2d316-6749-4869-bf57-c02819daf1d9",
+      "name": "Параметры приложения",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "89acf017-4d93-4968-a8e0-320a1e7e9c98",
+              "name": "base_url",
+              "value": "={{ $json.app_base_url }}",
+              "type": "string"
+            },
+            {
+              "id": "3493cf3e-4973-45e2-a442-cdde3482dbdd",
+              "name": "scheme_name",
+              "value": "={{ $('Определение клиента 3').first().json.scheme_name }}",
+              "type": "string"
+            },
+            {
+              "id": "627bd1be-71f4-429e-a724-8992923793a1",
+              "name": "mode",
+              "value": "={{ $json.app_mode }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        2208
+      ],
+      "id": "d9fee32f-285b-4708-ba4f-131bd98de4e6",
+      "name": "Агрегатор",
+      "notes": "Задает параметры скрипта"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad7eb20e-63d9-43b8-9510-4d6fae25f0ed",
+              "name": "articles",
+              "value": "={{ $input.all().map(item => item.json) }}",
+              "type": "array"
+            },
+            {
+              "id": "89acf017-4d93-4968-a8e0-320a1e7e9c98",
+              "name": "base_url",
+              "value": "={{ $('Параметры приложения').first().json.app_base_url }}",
+              "type": "string"
+            },
+            {
+              "id": "3493cf3e-4973-45e2-a442-cdde3482dbdd",
+              "name": "scheme_name",
+              "value": "={{ $('Определение клиента 3').first().json.scheme_name }}",
+              "type": "string"
+            },
+            {
+              "id": "627bd1be-71f4-429e-a724-8992923793a1",
+              "name": "mode",
+              "value": "={{ $('Параметры приложения').first().json.app_mode }}",
+              "type": "string"
+            },
+            {
+              "id": "4f27325a-9b2c-482c-b688-9f2083991557",
+              "name": "timezone",
+              "value": "={{ $('Параметры приложения').first().json.app_timezone }}",
+              "type": "number"
+            },
+            {
+              "id": "d26d84e1-f2af-48f6-b153-4de5a147d4f0",
+              "name": "token",
+              "value": "={{ $('Генерация токена').first().json.token }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        2032
+      ],
+      "id": "41fd0f94-92df-4796-b3dd-da40e727e666",
+      "name": "Агрегатор 1",
+      "executeOnce": true,
+      "notes": "Задает параметры скрипта"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM public.app\nWHERE app_name = 'news'\n  AND app_user_id = (\n    SELECT user_id\n    FROM public.\"user\"\n    WHERE user_login = '{{ $json.scheme_name }}'\n  );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        528,
+        2800
+      ],
+      "id": "092df367-80d6-40b3-878a-183c80cfb22a",
+      "name": "Параметры приложения 1",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# В Python Node\nhtml = \"\"\"\n\n<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Задание выполнено</title>\n  <style>\n    body {\n      margin: 0;\n      height: 100vh;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      font-family: system-ui, sans-serif;\n    }\n\n    h1 {\n      font-size: 3em;\n    }\n\n    /* Светлая тема */\n    @media (prefers-color-scheme: light) {\n      body { background-color: #ffffff; }\n      h1 { color: #222222; }\n    }\n\n    /* Тёмная тема */\n    @media (prefers-color-scheme: dark) {\n      body { background-color: #111111; }\n      h1 { color: #eeeeee; }\n    }\n  </style>\n</head>\n<body>\n  <h1>Готово</h1>\n</body>\n</html>\n\n\n\"\"\"\n\n# Вернём как output\nreturn {\n    \"body\": html\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        2848
+      ],
+      "id": "ab9e6dac-8462-4a6c-89c3-bee996975814",
+      "name": "HTML2",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1840,
+        2848
+      ],
+      "id": "ce14fa57-ce0c-4372-ad5c-719eb5350ffc",
+      "name": "Готово",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "89acf017-4d93-4968-a8e0-320a1e7e9c98",
+              "name": "title",
+              "value": "={{ $('Merge').item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "3493cf3e-4973-45e2-a442-cdde3482dbdd",
+              "name": "text_len",
+              "value": "={{ $('Ограничение размера статьи').item.json.text_len }}",
+              "type": "number"
+            },
+            {
+              "id": "627bd1be-71f4-429e-a724-8992923793a1",
+              "name": "text_limit_now",
+              "value": "={{ $('pass').item.json.text_len }}",
+              "type": "number"
+            },
+            {
+              "id": "4f27325a-9b2c-482c-b688-9f2083991557",
+              "name": "text",
+              "value": "={{ $json.text || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "5dcca407-331a-452a-bb5c-f0be6aa97102",
+              "name": "error",
+              "value": "={{ $json.error || \"\"}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1840,
+        4032
+      ],
+      "id": "b800c7df-fe80-495c-8f48-f8cb2a254e74",
+      "name": "Агрегатор ",
+      "executeOnce": true,
+      "notes": "Задает параметры скрипта"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        4912
+      ],
+      "id": "0bdc6f71-9c7a-49c6-b21f-cf9c15b172a4",
+      "name": "Определение клиента 6"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT a.*, u.user_login \nFROM public.app AS a \nJOIN public.\"user\" AS u \n  ON a.app_user_id = u.user_id \nWHERE a.app_name = 'news' \n  AND u.user_login = '{{ $json.scheme_name }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        416,
+        1648
+      ],
+      "id": "1c8d361c-a2f5-4a6e-baf6-faefcf92d3fe",
+      "name": "Параметры приложения 2",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        816,
+        2832
+      ],
+      "id": "01bf8c3a-b138-4b0e-ac4b-6152c2be2be2",
+      "name": "Параметры и токен"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        688
+      ],
+      "id": "9451fce4-db32-4ad9-b9a1-594ba54f910b",
+      "name": "Каждые 4 часа"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        4912
+      ],
+      "id": "9c87af7b-6753-45c4-9afb-b293cd48d09d",
+      "name": "Каждые 15 минут"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "1V5Kup7MoOLhacSAl1odtps9IoFrk25FYw0b1SsCErJo",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "=Название:\n{{ $json.title }}\n\nТекст:\n{{ $json.text }}\n\nОшибка:\n{{ $json.error }}\n\n{{ $now.format('dd.MM.yyyy HH.mm.ss') }}\n\n---------------------------------------------------------------------------------------------\n\n\n"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        3872
+      ],
+      "id": "06407532-307b-46e6-b46a-6542db7a0a11",
+      "name": "Сохранение текстов"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "1V5Kup7MoOLhacSAl1odtps9IoFrk25FYw0b1SsCErJo",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "=Название:\n{{ $json.title }}\n\nТекст:\n{{ $json.text }}\n\nОшибка:\n{{ $json.error }}\n\n{{ $now.format('dd.MM.yyyy HH.mm.ss') }}\n\n---------------------------------------------------------------------------------------------\n\n\n"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        3856
+      ],
+      "id": "d146084d-b77a-4857-9e78-205f6da93ab0",
+      "name": "Сохранение текстов1"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2528,
+        1056
+      ],
+      "id": "d1f16d7e-d892-4734-bf9f-63cdf3a224e4",
+      "name": "Merge1",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        3280
+      ],
+      "id": "53adfee4-b889-44d5-ac77-70281a28b029",
+      "name": "Каждые 1 часа"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fa088fe3-4545-4442-8e86-1dfe2e33b8c0",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        400,
+        3792
+      ],
+      "id": "835c170b-81ee-491f-803c-e0d49618a50a",
+      "name": "Пустой заголовок"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e39a0f71-79e2-431d-9a95-136e7e3704b9",
+              "name": "text",
+              "value": "=",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        3776
+      ],
+      "id": "9cd4f540-6ca2-460b-abee-19b064d54a16",
+      "name": "text = \"\""
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T12:56:02.432Z",
+      "createdAt": "2026-02-04T12:56:02.432Z",
+      "role": "workflow:owner",
+      "workflowId": "zEdUB7fjAPnIslByJ55M0",
+      "projectId": "MOQYETgRhtmQM3jW"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-04T12:56:02.432Z",
+  "versionId": "c9dea867-8b9e-42a2-b6a0-f3995653b2a3"
+}
