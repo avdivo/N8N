@@ -1,0 +1,527 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Тестовый id кампании",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подпрограмма": {
+      "main": [
+        [
+          {
+            "node": "Данные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Тестовый id кампании": {
+      "main": [
+        [
+          {
+            "node": "Данные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Данные": {
+      "main": [
+        [
+          {
+            "node": "О кампании",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента": {
+      "main": [
+        [
+          {
+            "node": "Статистика по кампании",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Статистика по кампании": {
+      "main": [
+        [
+          {
+            "node": "Даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Лиды по дням": {
+      "main": [
+        [
+          {
+            "node": "Подготовка данных для модели",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Даты": {
+      "main": [
+        [
+          {
+            "node": "Лиды по дням",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Анализ",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка данных для модели": {
+      "main": [
+        [
+          {
+            "node": "Анализ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "О кампании": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Анализ": {
+      "main": [
+        [
+          {
+            "node": "Подготовка отчета",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return": {
+      "main": [
+        [
+          {
+            "node": "Мне",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Лене",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка отчета": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-11T19:21:19.834Z",
+  "id": "bb53Yk8vv40U1KsErMgWL",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_отчет_по_кампании_с_аналитикой_gradki",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        224
+      ],
+      "id": "540eaaca-4b1c-4227-8c69-2377c6c93bfe",
+      "name": "Определение клиента"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        16
+      ],
+      "id": "27c79bd0-fba7-4a7b-b571-b68780a1bcb8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "campaign_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -272,
+        224
+      ],
+      "id": "19d1da34-5327-4a33-bd38-0588576b1bc1",
+      "name": "Подпрограмма"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c03b6225-8587-4d26-b2c1-57cbe905e523",
+              "name": "campaign_id",
+              "value": "1861388811707553",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -32,
+        16
+      ],
+      "id": "f07af834-92dc-4f3c-a664-f635a3d77f74",
+      "name": "Тестовый id кампании"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        224
+      ],
+      "id": "03f89b01-fd26-41b9-98be-ee5266974ce0",
+      "name": "Данные"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * \nFROM \"{{ $json.scheme_name }}\".daily_spends \nWHERE campaign_id = '{{ $('Данные').item.json.campaign_id }}' \n  AND \"date\" < (NOW() AT TIME ZONE 'Europe/Moscow')::DATE;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        480,
+        224
+      ],
+      "id": "86db1c9d-28f1-44bd-a34f-a0b323e600f0",
+      "name": "Статистика по кампании",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    (created_at AT TIME ZONE 'Europe/Moscow')::DATE AS lead_date,\n    COUNT(id) AS leads_count\nFROM {{ $node['Определение клиента'].json.scheme_name }}.leads\nWHERE \n    campaign_id = '{{ $node[\"Данные\"].json.campaign_id }}'\n    AND (created_at AT TIME ZONE 'Europe/Moscow')::DATE \n    BETWEEN '{{ $json.from_date }}' \n    AND '{{ $json.to_date }}'\n\nGROUP BY 1\nORDER BY 1 ASC;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        832,
+        224
+      ],
+      "id": "5008a966-dadb-4de2-9061-3e2af2ce09eb",
+      "name": "Лиды по дням",
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Извлекаем временные метки (числа) вместо объектов Date\nconst timestamps = items\n  .map(item => new Date(item.json.date).getTime())\n  .filter(t => !isNaN(t)); // Убираем битые даты, если есть\n\nif (timestamps.length === 0) {\n  throw new Error(\"Не удалось найти даты во входящих данных\");\n}\n\nconst minTimestamp = Math.min(...timestamps);\nconst minDate = new Date(minTimestamp);\nconst now = new Date();\n\n// Функция форматирования в YYYY-MM-DD\nconst formatDate = (date) => date.toISOString().split('T')[0];\n\nreturn {\n  from_date: formatDate(minDate),\n  to_date: formatDate(now)\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        224
+      ],
+      "id": "5fe7ba72-1dd3-4ce2-a3a5-02282e59fbe1",
+      "name": "Даты"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        400
+      ],
+      "id": "bcec0304-0cd4-4cad-a737-12adbfe092bc",
+      "name": "OpenRouter Chat Model",
+      "retryOnFail": true,
+      "credentials": {
+        "openRouterApi": {
+          "id": "BepcWMXnZ8a1V6Ge",
+          "name": "OpenRouter account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Получаем массивы всех элементов из входящих веток\n// Если данные приходят из разных входов, используем $input.all() или $(node).all()\nconst statsItems = $('Статистика по кампании').all();\nconst leadsItems = $('Лиды по дням').all();\n\n// Извлекаем чистые данные (.json)\nconst stats = statsItems.map(i => i.json);\nconst leads = leadsItems.map(i => i.json);\n\n// 2. Сортируем статистику по дате (от ранней к поздней)\n// Используем Number() чтобы редактор не ругался на вычитание дат\nstats.sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date)));\n\n// 3. Общая информация (из первого элемента после сортировки)\nconst first = stats[0];\nconst platform = first.advertising_platform.charAt(0).toUpperCase() + first.advertising_platform.slice(1);\nconst startDate = new Date(first.date).toLocaleDateString('ru-RU');\n\n// 4. Построение таблицы\nlet tableRows = \"\";\nstats.forEach((item, index) => {\n  const dayNum = index + 1;\n  const spend = parseFloat(item.spend) || 0;\n  \n  // Сопоставляем лиды по дате (сравниваем только часть YYYY-MM-DD)\n  const dateKey = item.date.split('T')[0];\n  const leadEntry = leads.find(l => l.lead_date.startsWith(dateKey));\n  const leadCount = leadEntry ? parseInt(leadEntry.leads_count) : 0;\n  \n  const cpl = leadCount > 0 ? (spend / leadCount).toFixed(2) : \"0.00\";\n  \n  // Формируем строку (с минимальным выравниванием пробелами)\n  tableRows += `${dayNum.toString().padEnd(4)} | ${spend.toFixed(2).padEnd(7)} | ${leadCount.toString().padEnd(4)} | ${cpl}\\n`;\n});\n\n// 5. Итоговый текст\nconst resultText = `\nПлатформа: ${platform}\nКампания: ${first.campaign_name}\nID кампании: ${first.campaign_id}\nСтарт: ${startDate}\nМаксимальный CPL: 9 BYN\nЦель: лиды (заявки на сайте)\n\nДень | Бюджет  | Лиды | CPL\n${tableRows.trim()}\n`.trim();\n\nreturn { result: resultText };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        224
+      ],
+      "id": "c1eb39ac-8554-453f-9a50-1c6e89e43fdb",
+      "name": "Подготовка данных для модели"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Etm_sj2t6HZbOlAZtErMq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Etm_sj2t6HZbOlAZtErMq",
+          "cachedResultName": "sub_отчет_по_кампании_gradki"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "campaign_id": "={{ $json.campaign_id }}"
+          },
+          "matchingColumns": [
+            "campaign_id"
+          ],
+          "schema": [
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        128,
+        224
+      ],
+      "id": "9326e84e-825f-4334-a69f-7f773ec41d16",
+      "name": "О кампании"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## Роль\n\nТы аналитик рекламных кампаний. Получаешь таблицу показателей и выдаёшь короткий ежедневный отчёт.\n\n**ВАЖНО:** Выводи ТОЛЬКО финальный отчёт. Никаких шагов, вычислений, пояснений алгоритма — всё это только внутри своих рассуждений.\n\n---\n\n## Входные данные\n\nПоказатели по дням: {{ $json.result }}\n\nСводка:\n- Дневной бюджет: {{ $node[\"О кампании\"].json.daily_budget }} BYN\n- Активна: {{ $node[\"О кампании\"].json.is_active }}\n- Всего расходов: {{ $node[\"О кампании\"].json.total_spend }} BYN\n- Всего лидов: {{ $node[\"О кампании\"].json.total_leads }}\n- Среднее лидов/день: {{ $node[\"О кампании\"].json.avg_leads_per_day }}\n- Средний CPL: {{ $node[\"О кампании\"].json.avg_lead_price }} BYN\n\nПороговые значения:\n- Максимально допустимый CPL: 9 BYN\n- Нормальный диапазон CPL по рынку: 3–6 BYN\n\n---\n\n## Алгоритм — выполняй внутри, в ответ не выводи\n\n### Шаг 1. Вычисли метрики\n\nN = общее количество дней\nCPL_min = минимальный CPL за всю историю\nCPL_avg = средний CPL за всю историю\nCPL_3d = среднее CPL за последние 3 дня (дни N-2, N-1, N)\nLeads_3d = среднее лидов за последние 3 дня\nLeads_prev3d = среднее лидов за дни N-5, N-4, N-3\nDelta = (CPL_3d - CPL_min) / CPL_min × 100%\n\n### Шаг 2. Определи фазу (проверяй сверху вниз, останови на первом совпадении)\n\nОБУЧЕНИЕ: N <= 4\n→ индикатор 🟡\n\nДЕГРАДАЦИЯ: CPL_3d > CPL дня 1 И CPL_3d >= 9\n→ индикатор 🔴\n\nУСТАЛОСТЬ: все три условия одновременно:\n  - CPL день N > N-1 > N-2 (рост три дня подряд)\n  - Leads_3d < Leads_prev3d\n  - Delta > 30%\n→ индикатор 🔴\n\nСИГНАЛ: два из трёх условий усталости, но не все\n→ индикатор 🟡\n\nПЛАТО: при N >= 5, все CPL за последние 5 дней отклоняются от CPL_avg не более чем на ±15%\n→ индикатор 🟢\n\nСТАБИЛИЗАЦИЯ: N > 4 И CPL_3d <= CPL_avg × 1.1\n→ индикатор 🟢\n\nИНАЧЕ: индикатор 🟡, фаза — наблюдение\n\n### Шаг 3. Аномалия последнего дня\n\nЕсли CPL последнего дня отличается от CPL_3d более чем на 40% — упомянуть в отчёте, фазу не менять.\n\n### Шаг 4. Рекомендация по фазе\n\nОбучение → не вмешиваться, ждать дня 4\nСтабилизация → продолжать. Если Delta < 0 — рассмотреть увеличение бюджета на 10–20%\nПлато → продолжать, готовить новый креатив превентивно\nСигнал → подготовить новый креатив, пока не менять, наблюдать ещё 1 день\nУсталость → подготовить новый креатив и запустить параллельно, проверить аудитории в кабинете\nДеградация → рассмотреть остановку или полную замену креативов и аудиторий\n\n### Шаг 5. Проверка в кабинете\n\nТолько если фаза Усталость или Деградация — одно предложение что именно проверить.\n\n---\n\n## Формат ответа\n\nПиши обычным markdown. Используй **жирный** для цифр и названия фазы, эмодзи для индикатора.\n\nСтруктура — строго такая, ничего лишнего:\n\n[индикатор] **[Фаза]:** 1–2 предложения что происходит с CPL и лидами, конкретные цифры.\n\n[1 предложение: рекомендация]\n\n[Проверь в кабинете: ... — только при Усталости или Деградации]\n\n---\n\n## Пример правильного ответа\n\n🔴 **Усталость:** CPL вырос до **5.82 BYN** за последние три дня против лучшего **2.67 BYN**, лидов стало меньше — 8 в день против 9.3.\n\nПодготовить новый креатив и запустить параллельно.\n\nПроверь в кабинете: частоту показа креатива и охват аудитории — при усталости они обычно упираются в потолок.",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1184,
+        224
+      ],
+      "id": "ab02c8b4-05cc-43ee-b124-0730132cf430",
+      "name": "Анализ",
+      "retryOnFail": false,
+      "onError": "continueErrorOutput",
+      "notes": "Не удалось получить перевод статьи"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "33b1dbb4-9b3f-4986-9b71-eb9a83f36ad9",
+      "name": "Return",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1840,
+        224
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "={{ $json.tg_html }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2032,
+        112
+      ],
+      "id": "77b20e27-b3ae-41e4-bc66-181f3a46ca08",
+      "name": "Мне",
+      "webhookId": "7d5d0791-b540-4df3-a9e3-c0114ca33624",
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "326830581",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2032,
+        320
+      ],
+      "id": "53c40af9-be2d-4c02-9c8f-1754f2c4349b",
+      "name": "Лене",
+      "webhookId": "7d5d0791-b540-4df3-a9e3-c0114ca33624",
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('О кампании').first().json;\nconst analysis = $('Анализ').first().json;\n\n// Эмодзи для платформы\nconst platformEmoji = data.platform.toLowerCase().includes('tiktok') ? '📱' : '🎯';\n\nconst message = `\n📊 *Отчет по кампании: ${data.campaign_name}*\n━━━━━━━━━━━━━━━━━━\n${platformEmoji} *Платформа:* ${data.platform.toUpperCase()}\n🆔 *ID:* \\`${data.campaign_id}\\`\n🚦 *Статус:* ${data.is_active ? '✅ Активна' : '⚪️ Пассивна'}\n💰 *Дневной бюджет:* ${data.daily_budget} BYN\n\n📅 *Период работы:*\n• Старт: \\`${data.start_date}\\`\n• Последний день: \\`${data.last_work_date}\\`\n• Всего активных дней: ${data.active_days}\n\n📈 *Результаты:*\n• Лидов всего: *${data.total_leads}*\n• Расходы всего: *${data.total_spend} BYN*\n• Среднее лидов/день: *${data.avg_leads_per_day}*\n• Средняя цена лида (CPL): *${data.avg_lead_price} BYN*\n\n🤖 *Анализ нейросети:*\n${analysis.text}\n`;\n\nreturn { text: message.trim() };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1504,
+        224
+      ],
+      "id": "b259a4b3-517f-4b3c-95c8-57c2e7a1e899",
+      "name": "Подготовка отчета"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  let text = item.json.text || \"\"; // Укажите ваше поле с текстом от модели\n\n  // 1. Экранируем символы, которые могут сломать HTML ( < , > , & )\n  text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n\n  // 2. Конвертируем Markdown в HTML\n  text = text\n    .replace(/\\*\\*\\*(.*?)\\*\\*\\*/g, '<b><i>$1</i></b>') // Жирный курсив\n    .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')           // Жирный\n    .replace(/__(.*?)__/g, '<u>$1</u>')               // Подчеркнутый\n    .replace(/\\*(.*?)\\*/g, '<i>$1</i>')               // Курсив\n    .replace(/~~(.*?)~~/g, '<s>$1</s>')               // Зачеркнутый\n    .replace(/```([\\s\\S]*?)```/g, '<pre>$1</pre>')    // Блок кода\n    .replace(/`(.*?)`/g, '<code>$1</code>')           // Строчный код\n    .replace(/\\[(.*?)\\]\\((.*?)\\)/g, '<a href=\"$2\">$1</a>'); // Ссылки\n\n  item.json.tg_html = text;\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        224
+      ],
+      "id": "866113f7-be4f-4706-912b-2cc332fde936",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-11T19:21:19.834Z",
+      "createdAt": "2026-04-11T19:21:19.834Z",
+      "role": "workflow:owner",
+      "workflowId": "bb53Yk8vv40U1KsErMgWL",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-15T21:57:33.988Z",
+  "versionId": "429e6945-b56f-481e-a540-3e89a00ada59"
+}
