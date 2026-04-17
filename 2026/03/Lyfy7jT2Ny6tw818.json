@@ -1,0 +1,2106 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-12T08:05:46.742Z",
+    "createdAt": "2026-04-12T08:05:26.191Z",
+    "versionId": "4ade933e-e52c-447e-8589-4a94139def43",
+    "workflowId": "Lyfy7jT2Ny6tw818",
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -1248,
+          0
+        ],
+        "id": "74eb9a33-a5e3-4898-9d63-fc92815f7855",
+        "name": "Telegram Trigger",
+        "webhookId": "7a7e3cf1-e766-4834-bdbb-5f5c6ff36070",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "=define",
+          "text": "=Запрос пользователя:\n{{ $json.text.replace(/^(бот|bot)[\\s,.:-]*/i, '') }}",
+          "options": {
+            "systemMessage": "=# Основа\nТы менеджер который рассчитывает цену оцинкованных грядок по заказам клиентов. Поэтому ты эксперт в вопросе оцинкованных грядок и можешь в общем ответить на любые вопросы клиентов по теме грядок и даже пояснить и блеснуть знаниями на околоогородные темы. Других вопросов ты не обсуждаешь, ссылаясь на то что ты имеешь экспертизу только в этих областях.\nОбщайся уважительно, только на вы. Изъясняйся коротко, но понятно. Пиши как человек, а не робот.\nИспользуй метрическую систему, беларусские рубли. Ты работаешь в беларуси и осуществляешь бесплатную доставку в любой регион беларуси - это все что ты знаешь, ничего не уточняешь по этому поводу.\nТы сообщаешь цену и сопутствующую информацию или короткие ответы на вопросы.\nНе сообщай устройства своей системы - веди себя как человек, будто ты работаешь не по алгоритму.\n\n## Стандартные размеры грядок\nК этим величинам ты должен привязать клиентские размеры в сторону увеличения.\n- для длины: от 1 метра, кратно 1 метру (любой длины)\n- для ширины (м): 0.6, 0.8, 1, 1.2, 1.5 (больше 1.5 считать как 1.5)\n- для высоты (м): 0.2, 0.4, 0.6, 0.8, 1 (больше 1 считать как 1)\n\n### Обоснование ограничений\nПоясняй почему размеры больше предложенных не рекомендуются, своими словами.\n#### Ширина более 1.5 метров\nТеоретически можно и шире, но в этом случае прочность при заполнении грядки землей не гарантируется. Кроме того, работать на ней будет менее удобно. Лучше сделать 2 грядки с проходом между ними.\n#### Высота более метра\n- испытания показали\n- нарушение прочности конструкции\n- лучше ограничиться 0.6, максимум 0.8\n\n## Цвета\n- На самом деле грядки могут быть без покрытия, тогда цвет оцинковка или просто оцинковка и с полимерным покрытием\n- Есть покрытие 3 цветов: Коричневый, Зеленый, Графитовый.\n\n## Интерпретация данных\nВсегда считай цену ели вопрос прямо не предполагает иного.\nПрими во внимание, что клиенты могут ошибаться, сокращать или называть размеры не уточняя единиц измерения, или даже не сообщая размеры вообще. Поэтому старайся извлечь из вопроса следующую информацию или примени значения по умолчанию:\n- длина грядки (3 м)\n- ширина грядки (1 м)\n- высота грядки (0.2 м)\n- цвет (с покрытием любого цвета и без)\n- количество грядок (1 шт)\n\nЕсли единицы измерения не указананы - ориентируйся по цифрам или описанию.\nКаждый пользователь может написать по разному, старайся понять логику, вот различные примеры:\n- разделители между цифрами могут быть любые в том числе \" \", \"-\", \"*\"...\n- только одна цифра, вероятно длина если она вписывается в логичные рамки\n- 2 цифры похоже на длину и ширину, если она вписывается в логичные рамки\n- 3 цифры обычно длина, ширина, высота, если их величины вписываются в логичные рамки\n- 400*100*20 - это длина, ширина, высота\n- 4х1 - это уже похоже на метры\n- 4х80х20 - логично предположить, что первая цифра в метрах, остальные в сантиметрах\n- возможно кто то укажет в миллиметрах, поэтому ориентируйся на величину и логичность\n\n## Использование инструментов и порядок проведения рассчетов\n- Для рассчетов используй калькулятор передавая ему длину, высоту, ширину и материал (строго в метрах):\n  - length (Float) - длина,\n  - width (Float) - ширина,\n  - height (Float) - высота,\n  - polymer (bool) - 1 (если с полимерным покрытием) или 0\n- Произведи расчет цены отдельно для каждой грядки (кроме одинаковых)\n- Определись, нужно ли дать ответ для одной грядки или для нескольких, для каждой рассчитай цену\n- Если не указан материал (с покрытием полимером или без) считай оба варианта\n\n## Описание для общих ответов\nНаши грядки из оцинкованной стали толщиной 0,45 мм — это эталон практичности и долговечности для вашего сада. Продуманная система ребер жесткости в сочетании с обязательными стяжками через каждый метр гарантирует идеальную геометрию: борта не выгнет давлением грунта даже после обильных дождей или таяния снега. Двойная защита — слой цинка и яркое полимерное покрытие — полностью исключает коррозию и избавляет от необходимости ежегодной покраски. Это надежное, эстетичное и легкое в сборке решение, которое превратит огород в зону комфорта на десятилетия».\n\n## Ответ\nТЫ НЕ МОЖЕШЬ САМ ПОСЧИТАТЬ ЦЕНУ ГРЯДКИ НЕ ИСПОЛЬЗУЯ ИНСТРУМЕНТ.\nПеред ответом, если требовалось посчитать цену убедись что ты запрашивал ее у инструмента.\nСообщай результат для одной грядки (для каждой), а так же общую сумму для всех и обв варианты по материалу, если он конкретно не выбран.\nПеревод единиц изменения - это не округление, в этом случае не говори ничего, преобразуй втихаря. Сообщай только об округлении.\nНе пиши формул по которым считаешь указывай в столбик для каждой грядки:\nДлина, м\nШирина, м\nВысота, м\n\"Оцинковка\" или \"Полимерное покрытие\" (если пользователь не указал цвет) или \"Коричневый\"/\"Зеленый\"/\"Графитовый\" (если указал)\nСумма за грядку\n\n### Шаблон ответа для рассчета\nОформляй каждый ответ по следующему шаблону:\n\nПриветствие (для первого раза)\n\nКороткое пояснение по этому рассчету\n\n[Ответ по каждой грядке, со строкой-разделителем между ними: \"----------\"]\n\n---------------\nОбщая сумма (если рассчет не для одной грядки, если надо подбить общую сумму)\n\nБесплатная доставка.\nПри заказе прямо сейчас для вас будет действовать скидка 10%.\n\nОставьте свой номер или позвоните по телефону:\n+375 (29) 664-47-78 или +375 (33) 664-47-78.\n\n### Шаблон ответа на вопрос\nСвободный ответ, не длинный.\n",
+            "maxIterations": 10
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          208,
+          16
+        ],
+        "id": "da4524e4-3309-4d2b-a4af-2230de64a637",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "content": "## Пояснение\n- Рассчитывает стоимость заказа или отвечает на вопрос пользователя\n- Использует голосовой или текстовый ввод\n- При расчете одной грядки использует калькулятор с программным расчетом таблицы (без ИИ)\n- Сумму считает ИИ и составляет отчет\n- После возврата результата копии отправляются разработчикам\n- Результат передается в агент, который проверяет расчеты используя тот же калькулятор\n- Если контроль не прошел, в догонку отправляется сообщение об ошибке.",
+          "height": 208,
+          "width": 736
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -1280,
+          224
+        ],
+        "typeVersion": 1,
+        "id": "5f34eec2-e6f2-4f2d-b6f8-ff998521f7cf",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "model": "qwen/qwen3.5-397b-a17b",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          176,
+          208
+        ],
+        "id": "dafe2111-475c-4a2f-b8b7-26b40dfa1c0c",
+        "name": "OpenRouter Chat Model",
+        "credentials": {
+          "openRouterApi": {
+            "id": "kXN1sr6F4ywWes9o",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "={{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          560,
+          16
+        ],
+        "id": "7cbbd9f7-3877-41aa-8c40-7077cf7c0c28",
+        "name": "Ответ пользователю",
+        "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "c28f3841-929c-4724-8b86-9bec0e054e52",
+                "leftValue": "=zgsQZMyb5y5XRbPkTetE0",
+                "rightValue": "=^[БбВв][ОоОо][ТтТт]|^[Bb][Oo][Tt].*",
+                "operator": {
+                  "type": "string",
+                  "operation": "regex"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -128,
+          640
+        ],
+        "id": "eebd307f-25ce-47a1-b04d-7686a0e8e6a8",
+        "name": "Позвали ли бота словом Бот",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=1asd",
+          "sessionTTL": 180,
+          "contextWindowLength": 50
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          304,
+          224
+        ],
+        "id": "9d3f8184-ba1b-4c47-ba2a-d684a49954fe",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "b5sd4CQ59tgLeFqu",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "=define",
+          "text": "=Отчет для проверки:\n{{ $json.result.text }}",
+          "options": {
+            "systemMessage": "=# Основа\nТвоя задача проверить рассчеты, если они есть, другие тексты тебя не интересуют.\nТы видишь размеры грядок для которых произведен рассчет цен.\nПересчитай цену каждой грядки с помощью инструмента-калькулятора, проверь правильность рассчета итоговых сумм.\n\n## Использование инструментов и порядок проведения рассчетов\n- Для рассчетов используй калькулятор передавая ему длину, высоту, ширину и материал (строго в метрах):\n  - length (Float) - длина,\n  - width (Float) - ширина,\n  - height (Float) - высота,\n  - polymer (bool) - 1 (если с полимерным покрытием) или 0\n- Произведи расчет цены отдельно для каждой грядки (кроме одинаковых)\n\n## Ответ\nТЫ НЕ МОЖЕШЬ САМ ПОСЧИТАТЬ ЦЕНУ ГРЯДКИ НЕ ИСПОЛЬЗУЯ ИНСТРУМЕНТ.\nПеред ответом, если требовалось посчитать цену убедись что ты запрашивал ее у инструмента.\nЕсли рассчеты правильные верни одно слово \"всеок\"\nЕсли рассчетов вообще не было тоже верни \"всеок\"\nЕсли в рассчетах ошибка коротко сообщи ее суть.\n",
+            "maxIterations": 10
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          848,
+          16
+        ],
+        "id": "c79a5db2-1a0a-40df-b2a5-617b36eab046",
+        "name": "AI Agent1"
+      },
+      {
+        "parameters": {
+          "model": "qwen/qwen3.5-397b-a17b",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          816,
+          208
+        ],
+        "id": "ef3f5a00-1954-4cec-9f5d-1339c8082bd2",
+        "name": "OpenRouter Chat Model1",
+        "credentials": {
+          "openRouterApi": {
+            "id": "kXN1sr6F4ywWes9o",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Принимает переменные:  \nlength (Float) - длина,\nwidth (Float) - ширина,\nheight (Float) - высота,\npolymer (bool) - 1 (если с полимерным покрытием) или 0",
+          "workflowId": {
+            "__rl": true,
+            "value": "=nFxpYKvzzbzJlARR",
+            "mode": "id",
+            "cachedResultUrl": "/workflow/=nFxpYKvzzbzJlARR"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "length": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('length', ``, 'number') }}",
+              "width": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('width', ``, 'number') }}",
+              "height": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('height', ``, 'number') }}",
+              "polymer": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('polymer', ``, 'number') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "length",
+                "displayName": "length",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              },
+              {
+                "id": "width",
+                "displayName": "width",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              },
+              {
+                "id": "height",
+                "displayName": "height",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              },
+              {
+                "id": "polymer",
+                "displayName": "polymer",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          432,
+          208
+        ],
+        "id": "28d80bea-975f-4df6-b2d6-145c705f4be4",
+        "name": "Калькулятор"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6562e0cf-512b-4a79-9433-ec5acaa0a972",
+                "leftValue": "={{ $json.result.chat.id }}",
+                "rightValue": 326830581,
+                "operator": {
+                  "type": "number",
+                  "operation": "notEquals"
+                }
+              },
+              {
+                "id": "6b28c11d-c86f-4f63-b342-df17ed2e3b63",
+                "leftValue": "={{ $json.result.chat.id }}",
+                "rightValue": 249503190,
+                "operator": {
+                  "type": "number",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          848,
+          -160
+        ],
+        "id": "4bee1de6-77f4-4b4f-942c-4c5c4cc29ab9",
+        "name": "Если это не мы"
+      },
+      {
+        "parameters": {
+          "chatId": "=249503190",
+          "text": "={{ $json.result.text }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1152,
+          -352
+        ],
+        "id": "06a3f5dc-1255-4383-bfdb-e3d304457bae",
+        "name": "Копия мне",
+        "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "=326830581",
+          "text": "={{ $json.result.text }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1152,
+          -176
+        ],
+        "id": "419e78b4-a270-4e09-820f-bfa5c8b67e88",
+        "name": "Копия Лене",
+        "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6562e0cf-512b-4a79-9433-ec5acaa0a972",
+                "leftValue": "={{ $json.output }}",
+                "rightValue": "всеок",
+                "operator": {
+                  "type": "string",
+                  "operation": "notContains"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1152,
+          16
+        ],
+        "id": "f8a67b52-edf0-4797-9f29-18a9c1110aa5",
+        "name": "Ошибка рассчетов"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "={{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1360,
+          16
+        ],
+        "id": "c962b151-ea8a-4fee-a923-b20f2e15fe95",
+        "name": "Сообщение об ошибке",
+        "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Принимает переменные:  \nlength (Float) - длина,\nwidth (Float) - ширина,\nheight (Float) - высота,\npolymer (bool) - 1 (если с полимерным покрытием) или 0",
+          "workflowId": {
+            "__rl": true,
+            "value": "=nFxpYKvzzbzJlARR",
+            "mode": "id",
+            "cachedResultUrl": "/workflow/=nFxpYKvzzbzJlARR"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "length": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('length', ``, 'number') }}",
+              "width": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('width', ``, 'number') }}",
+              "height": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('height', ``, 'number') }}",
+              "polymer": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('polymer', ``, 'number') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "length",
+                "displayName": "length",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              },
+              {
+                "id": "width",
+                "displayName": "width",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              },
+              {
+                "id": "height",
+                "displayName": "height",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              },
+              {
+                "id": "polymer",
+                "displayName": "polymer",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          1024,
+          208
+        ],
+        "id": "dd5ac2b6-4496-4914-bfdf-01571628110c",
+        "name": "Калькулятор тот-же"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "zgsQZMyb5y5XRbPkTetE0",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/zgsQZMyb5y5XRbPkTetE0",
+            "cachedResultName": "sub Typing для ТГ"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "chat_id": "={{ $json.message.chat.id }}",
+              "time": 6
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "time",
+                "displayName": "time",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number"
+              },
+              {
+                "id": "chat_id",
+                "displayName": "chat_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "number"
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": false
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          -1056,
+          0
+        ],
+        "id": "126caecf-b217-48bc-9bd1-ce4c2514d687",
+        "name": "Call 'sub Typing для ТГ'"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.message.voice }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "object",
+                        "operation": "exists",
+                        "singleValue": true
+                      },
+                      "id": "ace82956-f7b9-4223-86e0-4d1e2f202685"
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "ae613213-a214-44da-894b-ddec64a9a49a",
+                      "leftValue": "={{ $json.message.voice }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "object",
+                        "operation": "notExists",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          -864,
+          0
+        ],
+        "id": "ed87678e-fbad-41ec-aa7e-1254f4dfbd58",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.voice.file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -688,
+          -144
+        ],
+        "id": "93cdb32c-73ec-44b2-a723-291a9002086a",
+        "name": "Скачиваем аудио файл",
+        "webhookId": "1ea56e0b-aa70-4231-be78-16ca70234312",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "binaryToPropery",
+          "destinationKey": "audio_base64",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.extractFromFile",
+        "typeVersion": 1.1,
+        "position": [
+          -496,
+          -144
+        ],
+        "id": "bba79d41-0a2f-460d-875a-70ceb4a426d1",
+        "name": "Преобразуем в Base64"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://openrouter.ai/api/v1/chat/completions",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash-lite\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Transcribe this audio to text exactly. Return only the text.\"\n        },\n        {\n          \"type\": \"input_audio\",\n          \"input_audio\": {\n            \"data\": \"{{ $json.audio_base64 }}\",\n            \"format\": \"ogg\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          -304,
+          -144
+        ],
+        "id": "68d6b642-3445-4424-a870-efc4900202d3",
+        "name": "Запрос для транскрибации",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "dpYChc7qojQ9uDdV",
+            "name": "Калькулятор грядок HTTP Request"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $item(0).$node[\"Telegram Trigger\"].json.message.chat.id }}",
+          "text": "={{ $json.choices[0].message.content }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}",
+            "message_thread_id": "={{ $item(0).$node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -16,
+          -144
+        ],
+        "id": "8732e3a1-7b55-4ac3-9467-82c3c75d46b6",
+        "name": "Вывод текстового сообщения",
+        "webhookId": "f09af543-ab54-4ada-8ae2-8c029480a1b6",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "bd9a72c5-2e18-4270-a822-d3bc2ee60c71",
+                "name": "text",
+                "value": "={{ $json.choices?.[0]?.message?.content || $json.message?.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -16,
+          16
+        ],
+        "id": "b9ab88cf-b8c8-4f83-a3ed-11fe2bb566b0",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "TheEnd",
+          "value": "0"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          -1056,
+          -160
+        ],
+        "id": "dc230feb-daed-4961-8673-14e0d49c0f8e",
+        "name": "Запуск Typyng1",
+        "credentials": {
+          "redis": {
+            "id": "b5sd4CQ59tgLeFqu",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "TheEnd",
+          "value": "1"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          848,
+          -320
+        ],
+        "id": "e526ec58-9f31-49b2-a24b-217f0efd1acd",
+        "name": "Остановка Typyng",
+        "credentials": {
+          "redis": {
+            "id": "b5sd4CQ59tgLeFqu",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "550e5d43-a880-4176-a2ec-d200103ccb8d",
+                "name": "message.text",
+                "value": "={{ $('Edit Fields').first().json.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          592,
+          272
+        ],
+        "id": "b0b0a98d-b4cc-4f22-8350-c3e9afb952ab",
+        "name": "Повтор"
+      }
+    ],
+    "connections": {
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "Call 'sub Typing для ТГ'",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Запуск Typyng1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Ответ пользователю",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Позвали ли бота словом Бот": {
+        "main": [
+          []
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Ответ пользователю": {
+        "main": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Если это не мы",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Остановка Typyng",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Повтор",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Калькулятор": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent1": {
+        "main": [
+          [
+            {
+              "node": "Ошибка рассчетов",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Если это не мы": {
+        "main": [
+          [
+            {
+              "node": "Копия мне",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Копия Лене",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Ошибка рассчетов": {
+        "main": [
+          [
+            {
+              "node": "Сообщение об ошибке",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Калькулятор тот-же": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'sub Typing для ТГ'": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Скачиваем аудио файл",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Скачиваем аудио файл": {
+        "main": [
+          [
+            {
+              "node": "Преобразуем в Base64",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Преобразуем в Base64": {
+        "main": [
+          [
+            {
+              "node": "Запрос для транскрибации",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Запрос для транскрибации": {
+        "main": [
+          [
+            {
+              "node": "Вывод текстового сообщения",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Повтор": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 4ade933e",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "4ade933e-e52c-447e-8589-4a94139def43",
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Call 'sub Typing для ТГ'",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Запуск Typyng1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Ответ пользователю",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Позвали ли бота словом Бот": {
+      "main": [
+        []
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ответ пользователю": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Если это не мы",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Остановка Typyng",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Повтор",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Калькулятор": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Ошибка рассчетов",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Если это не мы": {
+      "main": [
+        [
+          {
+            "node": "Копия мне",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Копия Лене",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Ошибка рассчетов": {
+      "main": [
+        [
+          {
+            "node": "Сообщение об ошибке",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Калькулятор тот-же": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'sub Typing для ТГ'": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Скачиваем аудио файл",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Скачиваем аудио файл": {
+      "main": [
+        [
+          {
+            "node": "Преобразуем в Base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Преобразуем в Base64": {
+      "main": [
+        [
+          {
+            "node": "Запрос для транскрибации",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запрос для транскрибации": {
+      "main": [
+        [
+          {
+            "node": "Вывод текстового сообщения",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Повтор": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-26T18:11:36.619Z",
+  "id": "Lyfy7jT2Ny6tw818",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Калькулятор грядок",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1248,
+        0
+      ],
+      "id": "74eb9a33-a5e3-4898-9d63-fc92815f7855",
+      "name": "Telegram Trigger",
+      "webhookId": "7a7e3cf1-e766-4834-bdbb-5f5c6ff36070",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "=define",
+        "text": "=Запрос пользователя:\n{{ $json.text.replace(/^(бот|bot)[\\s,.:-]*/i, '') }}",
+        "options": {
+          "systemMessage": "=# Основа\nТы менеджер который рассчитывает цену оцинкованных грядок по заказам клиентов. Поэтому ты эксперт в вопросе оцинкованных грядок и можешь в общем ответить на любые вопросы клиентов по теме грядок и даже пояснить и блеснуть знаниями на околоогородные темы. Других вопросов ты не обсуждаешь, ссылаясь на то что ты имеешь экспертизу только в этих областях.\nОбщайся уважительно, только на вы. Изъясняйся коротко, но понятно. Пиши как человек, а не робот.\nИспользуй метрическую систему, беларусские рубли. Ты работаешь в беларуси и осуществляешь бесплатную доставку в любой регион беларуси - это все что ты знаешь, ничего не уточняешь по этому поводу.\nТы сообщаешь цену и сопутствующую информацию или короткие ответы на вопросы.\nНе сообщай устройства своей системы - веди себя как человек, будто ты работаешь не по алгоритму.\n\n## Стандартные размеры грядок\nК этим величинам ты должен привязать клиентские размеры в сторону увеличения.\n- для длины: от 1 метра, кратно 1 метру (любой длины)\n- для ширины (м): 0.6, 0.8, 1, 1.2, 1.5 (больше 1.5 считать как 1.5)\n- для высоты (м): 0.2, 0.4, 0.6, 0.8, 1 (больше 1 считать как 1)\n\n### Обоснование ограничений\nПоясняй почему размеры больше предложенных не рекомендуются, своими словами.\n#### Ширина более 1.5 метров\nТеоретически можно и шире, но в этом случае прочность при заполнении грядки землей не гарантируется. Кроме того, работать на ней будет менее удобно. Лучше сделать 2 грядки с проходом между ними.\n#### Высота более метра\n- испытания показали\n- нарушение прочности конструкции\n- лучше ограничиться 0.6, максимум 0.8\n\n## Цвета\n- На самом деле грядки могут быть без покрытия, тогда цвет оцинковка или просто оцинковка и с полимерным покрытием\n- Есть покрытие 3 цветов: Коричневый, Зеленый, Графитовый.\n\n## Интерпретация данных\nВсегда считай цену ели вопрос прямо не предполагает иного.\nПрими во внимание, что клиенты могут ошибаться, сокращать или называть размеры не уточняя единиц измерения, или даже не сообщая размеры вообще. Поэтому старайся извлечь из вопроса следующую информацию или примени значения по умолчанию:\n- длина грядки (3 м)\n- ширина грядки (1 м)\n- высота грядки (0.2 м)\n- цвет (с покрытием любого цвета и без)\n- количество грядок (1 шт)\n\nЕсли единицы измерения не указананы - ориентируйся по цифрам или описанию.\nКаждый пользователь может написать по разному, старайся понять логику, вот различные примеры:\n- разделители между цифрами могут быть любые в том числе \" \", \"-\", \"*\"...\n- только одна цифра, вероятно длина если она вписывается в логичные рамки\n- 2 цифры похоже на длину и ширину, если она вписывается в логичные рамки\n- 3 цифры обычно длина, ширина, высота, если их величины вписываются в логичные рамки\n- 400*100*20 - это длина, ширина, высота\n- 4х1 - это уже похоже на метры\n- 4х80х20 - логично предположить, что первая цифра в метрах, остальные в сантиметрах\n- возможно кто то укажет в миллиметрах, поэтому ориентируйся на величину и логичность\n\n## Использование инструментов и порядок проведения рассчетов\n- Для рассчетов используй калькулятор передавая ему длину, высоту, ширину и материал (строго в метрах):\n  - length (Float) - длина,\n  - width (Float) - ширина,\n  - height (Float) - высота,\n  - polymer (bool) - 1 (если с полимерным покрытием) или 0\n- Произведи расчет цены отдельно для каждой грядки (кроме одинаковых)\n- Определись, нужно ли дать ответ для одной грядки или для нескольких, для каждой рассчитай цену\n- Если не указан материал (с покрытием полимером или без) считай оба варианта\n\n## Описание для общих ответов\nНаши грядки из оцинкованной стали толщиной 0,45 мм — это эталон практичности и долговечности для вашего сада. Продуманная система ребер жесткости в сочетании с обязательными стяжками через каждый метр гарантирует идеальную геометрию: борта не выгнет давлением грунта даже после обильных дождей или таяния снега. Двойная защита — слой цинка и яркое полимерное покрытие — полностью исключает коррозию и избавляет от необходимости ежегодной покраски. Это надежное, эстетичное и легкое в сборке решение, которое превратит огород в зону комфорта на десятилетия».\n\n## Ответ\nТЫ НЕ МОЖЕШЬ САМ ПОСЧИТАТЬ ЦЕНУ ГРЯДКИ НЕ ИСПОЛЬЗУЯ ИНСТРУМЕНТ.\nПеред ответом, если требовалось посчитать цену убедись что ты запрашивал ее у инструмента.\nСообщай результат для одной грядки (для каждой), а так же общую сумму для всех и обв варианты по материалу, если он конкретно не выбран.\nПеревод единиц изменения - это не округление, в этом случае не говори ничего, преобразуй втихаря. Сообщай только об округлении.\nНе пиши формул по которым считаешь указывай в столбик для каждой грядки:\nДлина, м\nШирина, м\nВысота, м\n\"Оцинковка\" или \"Полимерное покрытие\" (если пользователь не указал цвет) или \"Коричневый\"/\"Зеленый\"/\"Графитовый\" (если указал)\nСумма за грядку\n\n### Шаблон ответа для рассчета\nОформляй каждый ответ по следующему шаблону:\n\nПриветствие (для первого раза)\n\nКороткое пояснение по этому рассчету\n\n[Ответ по каждой грядке, со строкой-разделителем между ними: \"----------\"]\n\n---------------\nОбщая сумма (если рассчет не для одной грядки, если надо подбить общую сумму)\n\nБесплатная доставка.\nПри заказе прямо сейчас для вас будет действовать скидка 10%.\n\nОставьте свой номер или позвоните по телефону:\n+375 (29) 664-47-78 или +375 (33) 664-47-78.\n\n### Шаблон ответа на вопрос\nСвободный ответ, не длинный.\n",
+          "maxIterations": 10
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        16
+      ],
+      "id": "da4524e4-3309-4d2b-a4af-2230de64a637",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Пояснение\n- Рассчитывает стоимость заказа или отвечает на вопрос пользователя\n- Использует голосовой или текстовый ввод\n- При расчете одной грядки использует калькулятор с программным расчетом таблицы (без ИИ)\n- Сумму считает ИИ и составляет отчет\n- После возврата результата копии отправляются разработчикам\n- Результат передается в агент, который проверяет расчеты используя тот же калькулятор\n- Если контроль не прошел, в догонку отправляется сообщение об ошибке.",
+        "height": 208,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1280,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "5f34eec2-e6f2-4f2d-b6f8-ff998521f7cf",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3.5-397b-a17b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        176,
+        208
+      ],
+      "id": "dafe2111-475c-4a2f-b8b7-26b40dfa1c0c",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "kXN1sr6F4ywWes9o",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        16
+      ],
+      "id": "7cbbd9f7-3877-41aa-8c40-7077cf7c0c28",
+      "name": "Ответ пользователю",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c28f3841-929c-4724-8b86-9bec0e054e52",
+              "leftValue": "=zgsQZMyb5y5XRbPkTetE0",
+              "rightValue": "=^[БбВв][ОоОо][ТтТт]|^[Bb][Oo][Tt].*",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -128,
+        640
+      ],
+      "id": "eebd307f-25ce-47a1-b04d-7686a0e8e6a8",
+      "name": "Позвали ли бота словом Бот",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=1asd",
+        "sessionTTL": 180,
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        304,
+        224
+      ],
+      "id": "9d3f8184-ba1b-4c47-ba2a-d684a49954fe",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "b5sd4CQ59tgLeFqu",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "=define",
+        "text": "=Отчет для проверки:\n{{ $json.result.text }}",
+        "options": {
+          "systemMessage": "=# Основа\nТвоя задача проверить рассчеты, если они есть, другие тексты тебя не интересуют.\nТы видишь размеры грядок для которых произведен рассчет цен.\nПересчитай цену каждой грядки с помощью инструмента-калькулятора, проверь правильность рассчета итоговых сумм.\n\n## Использование инструментов и порядок проведения рассчетов\n- Для рассчетов используй калькулятор передавая ему длину, высоту, ширину и материал (строго в метрах):\n  - length (Float) - длина,\n  - width (Float) - ширина,\n  - height (Float) - высота,\n  - polymer (bool) - 1 (если с полимерным покрытием) или 0\n- Произведи расчет цены отдельно для каждой грядки (кроме одинаковых)\n\n## Ответ\nТЫ НЕ МОЖЕШЬ САМ ПОСЧИТАТЬ ЦЕНУ ГРЯДКИ НЕ ИСПОЛЬЗУЯ ИНСТРУМЕНТ.\nПеред ответом, если требовалось посчитать цену убедись что ты запрашивал ее у инструмента.\nЕсли рассчеты правильные верни одно слово \"всеок\"\nЕсли рассчетов вообще не было тоже верни \"всеок\"\nЕсли в рассчетах ошибка коротко сообщи ее суть.\n",
+          "maxIterations": 10
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        848,
+        16
+      ],
+      "id": "c79a5db2-1a0a-40df-b2a5-617b36eab046",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3.5-397b-a17b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        816,
+        208
+      ],
+      "id": "ef3f5a00-1954-4cec-9f5d-1339c8082bd2",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "kXN1sr6F4ywWes9o",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Принимает переменные:  \nlength (Float) - длина,\nwidth (Float) - ширина,\nheight (Float) - высота,\npolymer (bool) - 1 (если с полимерным покрытием) или 0",
+        "workflowId": {
+          "__rl": true,
+          "value": "=nFxpYKvzzbzJlARR",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/=nFxpYKvzzbzJlARR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "length": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('length', ``, 'number') }}",
+            "width": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('width', ``, 'number') }}",
+            "height": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('height', ``, 'number') }}",
+            "polymer": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('polymer', ``, 'number') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "length",
+              "displayName": "length",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "width",
+              "displayName": "width",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "height",
+              "displayName": "height",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "polymer",
+              "displayName": "polymer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        208
+      ],
+      "id": "28d80bea-975f-4df6-b2d6-145c705f4be4",
+      "name": "Калькулятор"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6562e0cf-512b-4a79-9433-ec5acaa0a972",
+              "leftValue": "={{ $json.result.chat.id }}",
+              "rightValue": 326830581,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "6b28c11d-c86f-4f63-b342-df17ed2e3b63",
+              "leftValue": "={{ $json.result.chat.id }}",
+              "rightValue": 249503190,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        848,
+        -160
+      ],
+      "id": "4bee1de6-77f4-4b4f-942c-4c5c4cc29ab9",
+      "name": "Если это не мы"
+    },
+    {
+      "parameters": {
+        "chatId": "=249503190",
+        "text": "={{ $json.result.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1152,
+        -352
+      ],
+      "id": "06a3f5dc-1255-4383-bfdb-e3d304457bae",
+      "name": "Копия мне",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=326830581",
+        "text": "={{ $json.result.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1152,
+        -176
+      ],
+      "id": "419e78b4-a270-4e09-820f-bfa5c8b67e88",
+      "name": "Копия Лене",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6562e0cf-512b-4a79-9433-ec5acaa0a972",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "всеок",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1152,
+        16
+      ],
+      "id": "f8a67b52-edf0-4797-9f29-18a9c1110aa5",
+      "name": "Ошибка рассчетов"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "message_thread_id": "={{ $node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        16
+      ],
+      "id": "c962b151-ea8a-4fee-a923-b20f2e15fe95",
+      "name": "Сообщение об ошибке",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Принимает переменные:  \nlength (Float) - длина,\nwidth (Float) - ширина,\nheight (Float) - высота,\npolymer (bool) - 1 (если с полимерным покрытием) или 0",
+        "workflowId": {
+          "__rl": true,
+          "value": "=nFxpYKvzzbzJlARR",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/=nFxpYKvzzbzJlARR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "length": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('length', ``, 'number') }}",
+            "width": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('width', ``, 'number') }}",
+            "height": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('height', ``, 'number') }}",
+            "polymer": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('polymer', ``, 'number') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "length",
+              "displayName": "length",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "width",
+              "displayName": "width",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "height",
+              "displayName": "height",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "polymer",
+              "displayName": "polymer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        208
+      ],
+      "id": "dd5ac2b6-4496-4914-bfdf-01571628110c",
+      "name": "Калькулятор тот-же"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "zgsQZMyb5y5XRbPkTetE0",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/zgsQZMyb5y5XRbPkTetE0",
+          "cachedResultName": "sub Typing для ТГ"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chat_id": "={{ $json.message.chat.id }}",
+            "time": 6
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -1056,
+        0
+      ],
+      "id": "126caecf-b217-48bc-9bd1-ce4c2514d687",
+      "name": "Call 'sub Typing для ТГ'"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "ace82956-f7b9-4223-86e0-4d1e2f202685"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ae613213-a214-44da-894b-ddec64a9a49a",
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -864,
+        0
+      ],
+      "id": "ed87678e-fbad-41ec-aa7e-1254f4dfbd58",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -688,
+        -144
+      ],
+      "id": "93cdb32c-73ec-44b2-a723-291a9002086a",
+      "name": "Скачиваем аудио файл",
+      "webhookId": "1ea56e0b-aa70-4231-be78-16ca70234312",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "destinationKey": "audio_base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -496,
+        -144
+      ],
+      "id": "bba79d41-0a2f-460d-875a-70ceb4a426d1",
+      "name": "Преобразуем в Base64"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash-lite\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Transcribe this audio to text exactly. Return only the text.\"\n        },\n        {\n          \"type\": \"input_audio\",\n          \"input_audio\": {\n            \"data\": \"{{ $json.audio_base64 }}\",\n            \"format\": \"ogg\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -304,
+        -144
+      ],
+      "id": "68d6b642-3445-4424-a870-efc4900202d3",
+      "name": "Запрос для транскрибации",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "dpYChc7qojQ9uDdV",
+          "name": "Калькулятор грядок HTTP Request"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $item(0).$node[\"Telegram Trigger\"].json.message.chat.id }}",
+        "text": "={{ $json.choices[0].message.content }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}",
+          "message_thread_id": "={{ $item(0).$node[\"Telegram Trigger\"].json.message.message_thread_id || \"\" }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -16,
+        -144
+      ],
+      "id": "8732e3a1-7b55-4ac3-9467-82c3c75d46b6",
+      "name": "Вывод текстового сообщения",
+      "webhookId": "f09af543-ab54-4ada-8ae2-8c029480a1b6",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bd9a72c5-2e18-4270-a822-d3bc2ee60c71",
+              "name": "text",
+              "value": "={{ $json.choices?.[0]?.message?.content || $json.message?.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        16
+      ],
+      "id": "b9ab88cf-b8c8-4f83-a3ed-11fe2bb566b0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "TheEnd",
+        "value": "0"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        -160
+      ],
+      "id": "dc230feb-daed-4961-8673-14e0d49c0f8e",
+      "name": "Запуск Typyng1",
+      "credentials": {
+        "redis": {
+          "id": "b5sd4CQ59tgLeFqu",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "TheEnd",
+        "value": "1"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        848,
+        -320
+      ],
+      "id": "e526ec58-9f31-49b2-a24b-217f0efd1acd",
+      "name": "Остановка Typyng",
+      "credentials": {
+        "redis": {
+          "id": "b5sd4CQ59tgLeFqu",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "550e5d43-a880-4176-a2ec-d200103ccb8d",
+              "name": "message.text",
+              "value": "={{ $('Edit Fields').first().json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        272
+      ],
+      "id": "b0b0a98d-b4cc-4f22-8350-c3e9afb952ab",
+      "name": "Повтор"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-26T18:11:36.619Z",
+      "createdAt": "2026-03-26T18:11:36.619Z",
+      "role": "workflow:owner",
+      "workflowId": "Lyfy7jT2Ny6tw818",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-12T08:05:26.188Z",
+  "versionId": "4ade933e-e52c-447e-8589-4a94139def43"
+}
