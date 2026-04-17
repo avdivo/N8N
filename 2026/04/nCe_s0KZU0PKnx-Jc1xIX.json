@@ -1,0 +1,526 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Attachment Only",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Chat Message Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get Chat Message Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Attachment": {
+      "main": [
+        [
+          {
+            "node": "Get & Download Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Attachment Only": {
+      "main": [
+        [
+          {
+            "node": "Get & Download Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Waiting For Message": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Chat Message Only": {
+      "main": [
+        [
+          {
+            "node": "Next Step ! ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Chat Message Content": {
+      "main": [
+        [
+          {
+            "node": "Next Step !",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get & Download Attachment": {
+      "main": [
+        [
+          {
+            "node": "Next Step !  ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-16T10:02:42.576Z",
+  "id": "nCe_s0KZU0PKnx-Jc1xIX",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": false
+        }
+      },
+      "id": "fc16299e-303d-4c18-b827-eee14ed5593c",
+      "name": "Waiting For Message",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        816,
+        1712
+      ],
+      "webhookId": "3d811399-b5e2-4c6c-833d-9c7c0b0ce4c6",
+      "typeVersion": 1.2,
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1590916-031f-4cc6-b6ce-7b1721a53a30",
+              "name": "text",
+              "type": "string",
+              "value": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9adf67f0-3820-44e9-95d4-c43a7fc6f8c3",
+      "name": "Get Chat Message Only",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1264,
+        1904
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "1c36bdfd-7a9a-4f5d-bd53-12ffc8c8f829",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.message.caption }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Attachmet+Message(Caption)"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "a0080ad2-7885-4485-ae57-0c4dea199483",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.message.document }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Attachment Only"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "dd9f3c11-ba4b-4963-bc02-23cd7670bf94",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Message Only"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9cf7e45c-0eb7-48e3-a5f4-f540e3cb153b",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        1008,
+        1696
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "message.document.file_id, message.document.file_name, message.caption",
+        "options": {}
+      },
+      "id": "7b65e057-10c3-4cfb-a1cc-1b4db38d9879",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        1264,
+        1520
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41cf616c-c640-4f61-a2ba-49715aa1bf2a",
+              "name": "file_id",
+              "type": "string",
+              "value": "={{$json.message.document.file_id}}"
+            },
+            {
+              "id": "22fcf53f-ebd5-4294-9fd8-7a485b8293f2",
+              "name": "file_name",
+              "type": "string",
+              "value": "={{$json.message.document.file_name}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8a05df14-062e-43b8-92df-4ea973b9efa3",
+      "name": "Get Attachment Only",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1264,
+        1712
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.file_id || $json.message.document.file_id }}",
+        "additionalFields": {}
+      },
+      "id": "efde1d10-57e5-4efc-a333-4ed40b3edf7b",
+      "name": "Get & Download Attachment",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1504,
+        1712
+      ],
+      "webhookId": "d73ca4c3-e657-4205-9443-59c111c5cb5f",
+      "typeVersion": 1.2,
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41cf616c-c640-4f61-a2ba-49715aa1bf2a",
+              "name": "file_id",
+              "type": "string",
+              "value": "={{ $json['message.document.file_id'] }}"
+            },
+            {
+              "id": "22fcf53f-ebd5-4294-9fd8-7a485b8293f2",
+              "name": "file_name",
+              "type": "string",
+              "value": "={{ $json['message.document.file_name'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0457c55d-b8b2-4802-afcb-be056c4423df",
+      "name": "Get Attachment",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1504,
+        1520
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {},
+      "id": "88ea1020-7f95-472b-a274-22a617d6f3db",
+      "name": "Next Step !",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1712,
+        1328
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "c43a4f88-9740-49d1-9867-fc23346c318c",
+      "name": "Next Step !  ",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1712,
+        1712
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "4c198ca0-aee8-4b0b-970e-0efd10d04479",
+      "name": "Next Step ! ",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        1504,
+        1904
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8de49002-38ba-43fe-ba48-18e8c85241a2",
+              "name": "chat_message_content",
+              "type": "string",
+              "value": "={{ $json['message.caption'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eb0a9fd7-5b7e-4497-b1d3-c427cd742588",
+      "name": "Get Chat Message Content",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1504,
+        1328
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "content": "## **Automate Telegram Message Processing - Separate Text and Files** 💬📁 \n### ⚡️ **Quick Demo**\n* **Input:** A message sent to your Telegram bot. It can be text-only, a file-only (like a PDF or image), or a file with a text caption.\n* **Output:** The workflow intelligently separates the content. You get the plain text in one field and the ready-to-use file (as binary data) in another, perfectly prepared for the next step.\n\n### ✅ **What You Get**\n* **Smart Content Routing:** Automatically detects if a message contains text, a file, or both, and sends it down the correct processing path. No complex `IF` logic needed!\n* **Clean Data Separation:** Neatly extracts text from messages or captions and isolates file attachments, preventing data mix-ups in your automations.\n* **Ready-to-Use Files:** Downloads attachments and provides them as binary data, perfect for saving directly to cloud storage or sending to other services for processing.\n\n### 🎯 **Perfect For**\n* Building chatbots or automated support bots on Telegram.\n* Creating a system to automatically archive documents or images sent to a group.\n* Anyone who needs to reliably process varied and unpredictable messages from Telegram users.",
+        "height": 1072,
+        "width": 1184
+      },
+      "id": "d439d77b-a18a-4f67-bc4f-0f0daf410a1d",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        1008
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🔄 **WORKFLOW FLOW EXPLAINED**\n### ➡️ **INPUT STAGE**\n- Telegram Trigger\n- Listens for any new message sent to your Telegram bot.\n- Fetches the raw message data, including text, captions, and file.\n\n### 🔀 **ROUTING STAGE**\n- Switch Node\n- Inspects the incoming data to identify the message type (text, file, or file+caption).\n- Routes the execution down one of three specialized processing paths.\n\n### ⚙️ **PROCESSING STAGE**\n- Set Nodes → Split Out Node\n- Path 1 (File + Caption): The `Split Out` node separates file data and caption text into distinct items.\n- Path 2 & 3 (File Only / Text Only): `Set` nodes isolate and reformat the specific data (file info or message text) to make it clean and easy to use.\n\n### 🏁 **OUTPUT STAGE**\n- Telegram Node → NoOp (Placeholder)\n- If a file was sent, the `Telegram` node downloads the actual file binary data.\n- The workflow ends at a `NoOp` placeholder, presenting the final, separated data ready for your custom logic.",
+        "height": 576,
+        "width": 592
+      },
+      "id": "3d6868de-ae9e-4185-8cb6-fc91ed8c4956",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1936,
+        1008
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🙏 **Thank You for Trying This Workflow**\nYour time and trust mean a lot! I truly appreciate you using the Telegram Message Parser.\n\nYour feedback is the key to making this template better, more effective, and more useful for everyone.\nIf you have:\n- Suggestions for improvement\n- Ideas for new features\n- Requests for other automation workflows\n\n### Please share them with me! Every idea helps shape the next update.\n### Thank you again for being part of this journey.",
+        "height": 288,
+        "width": 1184
+      },
+      "id": "291f05b9-86da-448c-8590-87cc7b26f90f",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        2096
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🛠️ **CUSTOMIZATION OPTIONS**\n### ▶️ **Extend Functionality**\n- Save Attachments: Replace the final `NoOp` nodes with **Google Drive**, **Dropbox**, or **AWS S3** nodes to automatically archive files.\n- Process with AI: Connect the text output to a **Gemini** or **OpenAI** node to summarize content, analyze sentiment, or generate a reply.\n- Log to Database: Add a **Google Sheets**, **Airtable**, or **Postgres** node to log all incoming messages.\n\n### ▶️ **Handle More Media Types**\n- Add Rules: Modify the **Switch** node to add new routing rules for photos (`message.photo`), videos (`message.video`), or audio (`message.audio`).\n- Update Logic: Add or clone the `Set` nodes in the new paths to correctly extract the relevant file IDs and metadata for each media type.",
+        "height": 352,
+        "width": 592
+      },
+      "id": "abcc3227-9815-4b68-9beb-5679f1416285",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        1008
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🩺 TROUBLESHOOTING\n### ❌ **Common Issues**\n- **\"Workflow doesn't trigger\"**\n  - Double-check that you selected the correct **Telegram credential** in the Trigger node.\n  - Ensure your workflow is **Active**.\n  - Make sure you are sending messages to the correct bot in Telegram.\n- **\"File is not downloading\"**\n  - Verify that the **Telegram** node (named \"Get & Download Attachment\") is also configured with the correct credential.\n  - Check the execution log for errors from the Telegram API, which might indicate a problem with the file or `file_id`.\n\n### ✅ **Debug Checklist**\n- [ ] Telegram credential is valid and connected to **both** Telegram nodes.\n- [ ] Workflow is active.\n- [ ] Tested by sending all three message types (text, file, file+caption).\n- [ ] Checked the output of the final `NoOp` node in a test execution to see the structured data.",
+        "height": 480,
+        "width": 592
+      },
+      "id": "d7d7c746-85d2-4c5c-a64e-69afd3bac7d7",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1936,
+        1600
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🔧 **STEP-BY-STEP SETUP GUIDE**\n### 1️⃣ **Create Your Telegram Bot** ***(2 minutes)***\nCreate a new bot to receive messages and files.\n- Open Telegram and send a message to the official `@BotFather`.\n- Send the command `/newbot` and follow the prompts to give your bot a name and username.\n- ❗️**Important:** BotFather will give you a unique **API Token**. Copy and save this token for the next step.\n\n### 2️⃣ **Configure n8n Credentials**\nAdd the bot's API Token to your n8n instance.\n- In n8n, navigate to the **Credentials** section in the left panel.\n- Click **Add credential**, search for \"Telegram\", and select it.\n- Paste your API Token into the **Access Token** field and click **Save**.\n\n### 3️⃣ **Update Workflow Settings**\nConnect your new credential to the required nodes in the workflow.\n- Open the **\"Waiting For Message\" (Telegram Trigger)** node and select your new credential from the dropdown menu.\n- Open the **\"Get & Download Attachment\" (Telegram)** node and select the *same* credential.\n\n### 4️⃣ **Test Your Setup**\nActivate the workflow and send test messages to your bot.\n1.  **Activate** the workflow using the toggle in the top-right corner.\n2.  Send your bot a simple text message (e.g., \"Hello!\").\n3.  Send your bot a file (like a PDF or image) *without* any text.\n4.  Send your bot a file *with* a message (caption).\n5.  Check the **Executions** list in n8n to see three successful runs, one for each test.\n\n### ✅ **Setup complete!** Your workflow is now live and ready to parse incoming Telegram messages.",
+        "height": 784,
+        "width": 592
+      },
+      "id": "5c79de06-da4b-4de4-80a1-81e3023943f4",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        1376
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-16T10:02:42.576Z",
+      "createdAt": "2026-04-16T10:02:42.576Z",
+      "role": "workflow:owner",
+      "workflowId": "nCe_s0KZU0PKnx-Jc1xIX",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-16T10:09:59.527Z",
+  "versionId": "d167a612-7321-44cb-be57-5d8a746aef00"
+}
