@@ -1,0 +1,322 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-03-30T08:56:37.414Z",
+    "createdAt": "2026-03-30T08:56:27.530Z",
+    "versionId": "9cca4283-dd74-45b8-b779-19e0aa5908bb",
+    "workflowId": "nFxpYKvzzbzJlARR",
+    "nodes": [
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
+                "name": "price",
+                "type": "string",
+                "value": "={{ $json.price }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "5beda49c-721e-4734-8555-fd48de7c4879",
+        "name": "Return",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          160,
+          -96
+        ],
+        "typeVersion": 3.3
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "length",
+                "type": "number"
+              },
+              {
+                "name": "width",
+                "type": "number"
+              },
+              {
+                "name": "height",
+                "type": "number"
+              },
+              {
+                "name": "polymer",
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -272,
+          -96
+        ],
+        "id": "70954a61-9eb8-4fe8-9865-e7cb29f8db3d",
+        "name": "Подпрограмма"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.errorTrigger",
+        "typeVersion": 1,
+        "position": [
+          -272,
+          256
+        ],
+        "id": "c6dbcb96-e236-4450-9c83-5a8907a45338",
+        "name": "Error Trigger"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
+                "name": "answer",
+                "type": "string",
+                "value": "=Ошибка при выполнении операции: {{ $json.execution.error.message }}."
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "7db16d6e-0e82-43be-9b75-d263923a9ae0",
+        "name": "Return1",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          -80,
+          256
+        ],
+        "typeVersion": 3.3
+      },
+      {
+        "parameters": {
+          "jsCode": "// Получаем данные из входящего узла\nconst input = $input.first().json;\n\nlet width = input.width;\nlet length = input.length;\nlet height = input.height;\nlet polymer = input.polymer;\nlet meter = 39;\nlet length_plus = 22;\n\n// 1. Ограничение ширины (width): от 0.6 до 1.5\nif (width < 0.6) width = 0.6;\nif (width > 1.5) width = 1.5;\n\n// 2. Длина (length): минимум 1 и округление вверх до целого (например, 1.2 -> 2)\nlength = Math.max(1, Math.ceil(length));\n\n// 3. Ограничение высоты (height): от 0.2 до 1\nif (height < 0.2) height = 0.2;\nif (height > 1) height = 1;\n\n// Цена за метр в зависимости от материалла.\n// Считаем цену за метр удлинения: для оцинковки length_plus, для полимерного покрытия + 5.5\nif (polymer !== 0) {\n  meter = 49;\n  length_plus = length_plus + 5.5;\n}\n\n// Поправка связанная с особенностями рассчета в таблице\nif (width == 1.5) width = 1.4\n\n// Прибавляем по 2 рубля к цене метра за каждые 20 см ширины свыше 0.6 ширины\nmeter = meter + (width - 0.6) * 10\n\n// Прибавляем установленную цену за каждый метр длины к минимальной цене метра данного материала данной ширины\nlet price = meter + (length - 1) * length_plus\nprice = Math.ceil(price);\n\n// Каждый этаж (каждые 20 см высоты) это одна цена, увеличиваем кратно\nprice = price * Math.round(height / 0.2); \n\nreturn {\n  price: Math.ceil(price)\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -64,
+          -96
+        ],
+        "id": "87632a99-6981-43ff-8ccc-f75db98867de",
+        "name": "Рассчет"
+      }
+    ],
+    "connections": {
+      "Подпрограмма": {
+        "main": [
+          [
+            {
+              "node": "Рассчет",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Error Trigger": {
+        "main": [
+          [
+            {
+              "node": "Return1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Рассчет": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 9cca4283",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "9cca4283-dd74-45b8-b779-19e0aa5908bb",
+  "connections": {
+    "Подпрограмма": {
+      "main": [
+        [
+          {
+            "node": "Рассчет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Return1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Рассчет": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-26T18:12:10.832Z",
+  "id": "nFxpYKvzzbzJlARR",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_расчет цены грядки",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
+              "name": "price",
+              "type": "string",
+              "value": "={{ $json.price }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5beda49c-721e-4734-8555-fd48de7c4879",
+      "name": "Return",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        160,
+        -96
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "length",
+              "type": "number"
+            },
+            {
+              "name": "width",
+              "type": "number"
+            },
+            {
+              "name": "height",
+              "type": "number"
+            },
+            {
+              "name": "polymer",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -272,
+        -96
+      ],
+      "id": "70954a61-9eb8-4fe8-9865-e7cb29f8db3d",
+      "name": "Подпрограмма"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        256
+      ],
+      "id": "c6dbcb96-e236-4450-9c83-5a8907a45338",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
+              "name": "answer",
+              "type": "string",
+              "value": "=Ошибка при выполнении операции: {{ $json.execution.error.message }}."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7db16d6e-0e82-43be-9b75-d263923a9ae0",
+      "name": "Return1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -80,
+        256
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем данные из входящего узла\nconst input = $input.first().json;\n\nlet width = input.width;\nlet length = input.length;\nlet height = input.height;\nlet polymer = input.polymer;\nlet meter = 39;\nlet length_plus = 22;\n\n// 1. Ограничение ширины (width): от 0.6 до 1.5\nif (width < 0.6) width = 0.6;\nif (width > 1.5) width = 1.5;\n\n// 2. Длина (length): минимум 1 и округление вверх до целого (например, 1.2 -> 2)\nlength = Math.max(1, Math.ceil(length));\n\n// 3. Ограничение высоты (height): от 0.2 до 1\nif (height < 0.2) height = 0.2;\nif (height > 1) height = 1;\n\n// Цена за метр в зависимости от материалла.\n// Считаем цену за метр удлинения: для оцинковки length_plus, для полимерного покрытия + 5.5\nif (polymer !== 0) {\n  meter = 49;\n  length_plus = length_plus + 5.5;\n}\n\n// Поправка связанная с особенностями рассчета в таблице\nif (width == 1.5) width = 1.4\n\n// Прибавляем по 2 рубля к цене метра за каждые 20 см ширины свыше 0.6 ширины\nmeter = meter + (width - 0.6) * 10\n\n// Прибавляем установленную цену за каждый метр длины к минимальной цене метра данного материала данной ширины\nlet price = meter + (length - 1) * length_plus\nprice = Math.ceil(price);\n\n// Каждый этаж (каждые 20 см высоты) это одна цена, увеличиваем кратно\nprice = price * Math.round(height / 0.2); \n\nreturn {\n  price: Math.ceil(price)\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -96
+      ],
+      "id": "87632a99-6981-43ff-8ccc-f75db98867de",
+      "name": "Рассчет"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-26T18:12:10.832Z",
+      "createdAt": "2026-03-26T18:12:10.832Z",
+      "role": "workflow:owner",
+      "workflowId": "nFxpYKvzzbzJlARR",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-30T08:56:27.525Z",
+  "versionId": "9cca4283-dd74-45b8-b779-19e0aa5908bb"
+}
