@@ -1,0 +1,717 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-03-31T04:52:23.213Z",
+    "createdAt": "2026-03-31T04:52:12.028Z",
+    "versionId": "ece4212b-48c5-4df3-96a5-fd6dc9b9c78e",
+    "workflowId": "dujWRDB46Hw3uZn4wWFZj",
+    "nodes": [
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
+                "name": "answer",
+                "type": "string",
+                "value": "=Операция выполнена успешно"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "05600d82-d5c7-462b-a1a1-9146d84dd2f7",
+        "name": "Return",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          1184,
+          -128
+        ],
+        "typeVersion": 3.3
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "documentURL": "={{ $json.doc_id }}",
+          "simple": false
+        },
+        "type": "n8n-nodes-base.googleDocs",
+        "typeVersion": 2,
+        "position": [
+          -304,
+          -96
+        ],
+        "id": "24ea1630-7904-43e5-8368-c852ad477c59",
+        "name": "Читаем отчет",
+        "credentials": {
+          "googleDocsOAuth2Api": {
+            "id": "ZP7nu4fDe0Rr71th",
+            "name": "Google Docs OAuth2 Замковая гора"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=ИСХОДНЫЙ ТЕКСТ:\n{{ $json.fullText }}\n\nПРАВКИ:\n{{ $('Подпрограмма').item.json.text }}",
+          "messages": {
+            "messageValues": [
+              {
+                "message": "Ты профессиональный редактор текстов.  Ты получаешь обрабатываемый текст документа в виде вопросов и ответов, а также текст описывающий изменения и дополнения для этого текста. Язык русский, простой текст без форматирования (если оно где-то есть - удали), в качестве разделителей пустые строки. Если вопрос и ответ еще не был записан - запиши в конец документа. Если такой вопрос уже есть и есть ответ на него, проверь возможно это исправление или дополнение, внеси предложенные изменения в имеющийся ответ или ответы. Не меняй стиль, смысл и слова имеющихся и дополняемых текстов. Они должны остаться такими, как были. Допускаются только изменения для согласования. Верни измененный текст полностью. “ИСХОДНЫЙ ТЕКСТ:”,“ПРАВКИ:” - это служебные слова, не вноси их в итоговый документ.  Вопросы и ответы не обязательно названы так. Если текст правки не имеет четких указаний и не относится не к одному из записанных вопросов - просто добавь его в раздел Дополнительно (создай раздел, если его нет). Добавляй только то что передано, без дополнительных комментариев."
+              }
+            ]
+          },
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          112,
+          -96
+        ],
+        "id": "f2bc9471-6260-4e16-8d3b-547f1182c610",
+        "name": "Basic LLM Chain1",
+        "retryOnFail": false,
+        "onError": "continueErrorOutput",
+        "notes": "Не удалось получить перевод статьи"
+      },
+      {
+        "parameters": {
+          "model": "google/gemini-2.0-flash-001",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          112,
+          80
+        ],
+        "id": "6f15a0c5-81f5-4ad7-8ba2-a10ca8f0fe45",
+        "name": "OpenRouter Chat Model",
+        "retryOnFail": true,
+        "credentials": {
+          "openRouterApi": {
+            "id": "LxZYzts8zkLJT4ZX",
+            "name": "OpenRouter account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "text"
+              },
+              {
+                "name": "doc_id"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -512,
+          -96
+        ],
+        "id": "901015a5-b1c0-4bf4-a283-e084b66143b8",
+        "name": "Подпрограмма"
+      },
+      {
+        "parameters": {
+          "jsCode": "const data = $input.first().json;\nconst content = data.body.content;\n\nconst fullText = content\n  .filter(block => block.paragraph)\n  .flatMap(block => block.paragraph.elements)\n  .map(el => el.textRun?.content || '')\n  .join('');\n\nconst endIndex = content[content.length - 1].endIndex - 1;\n\nreturn [{ json: { \n  fullText, \n  endIndex, \n  documentId: data.documentId \n}}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -96,
+          -96
+        ],
+        "id": "6f2d11da-35e4-4de9-9014-9f75d092ce40",
+        "name": "doc_info"
+      },
+      {
+        "parameters": {
+          "jsCode": "const documentId = $('Подпрограмма').first().json.doc_id;\nconst endIndex = $('doc_info').first().json.endIndex;\nconst newText = $input.first().json.text;\n\nconst body = {\n  requests: [\n    {\n      deleteContentRange: {\n        range: {\n          startIndex: 1,\n          endIndex: endIndex\n        }\n      }\n    },\n    {\n      insertText: {\n        location: { index: 1 },\n        text: newText\n      }\n    }\n  ]\n};\n\nreturn [{ json: { documentId, body } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          512,
+          -112
+        ],
+        "id": "f53f4c42-676e-42a6-8913-d5b9cf349d64",
+        "name": "Подготовка данных для редактирования"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://docs.googleapis.com/v1/documents/{{ $('Подпрограмма').item.json.doc_id }}:batchUpdate",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "googleDocsOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json.body }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          960,
+          -224
+        ],
+        "id": "ca8bfe62-0729-4d16-95f9-101b0a5914fe",
+        "name": "Замена текста в документе",
+        "credentials": {
+          "googleDocsOAuth2Api": {
+            "id": "ZP7nu4fDe0Rr71th",
+            "name": "Google Docs OAuth2 Замковая гора"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "407685a1-2b00-4a7f-8d4d-1c9e18e0fd8b",
+                "leftValue": "={{ $json.body.requests[0].deleteContentRange.range.endIndex }}",
+                "rightValue": 1,
+                "operator": {
+                  "type": "number",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          720,
+          -112
+        ],
+        "id": "bfd45947-39a9-4f56-81fa-361a8b27c281",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentURL": "={{ $('Подпрограмма').item.json.doc_id }}",
+          "actionsUi": {
+            "actionFields": [
+              {
+                "action": "insert",
+                "text": "={{ $json.body.requests[1].insertText.text }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.googleDocs",
+        "typeVersion": 2,
+        "position": [
+          960,
+          -16
+        ],
+        "id": "bc39cf7b-6847-43de-b2c6-5139c59cddb2",
+        "name": "Update a document",
+        "credentials": {
+          "googleDocsOAuth2Api": {
+            "id": "ZP7nu4fDe0Rr71th",
+            "name": "Google Docs OAuth2 Замковая гора"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Читаем отчет": {
+        "main": [
+          [
+            {
+              "node": "doc_info",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain1": {
+        "main": [
+          [
+            {
+              "node": "Подготовка данных для редактирования",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подпрограмма": {
+        "main": [
+          [
+            {
+              "node": "Читаем отчет",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "doc_info": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подготовка данных для редактирования": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Замена текста в документе": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Замена текста в документе",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update a document",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update a document": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version ece4212b",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "ece4212b-48c5-4df3-96a5-fd6dc9b9c78e",
+  "connections": {
+    "Читаем отчет": {
+      "main": [
+        [
+          {
+            "node": "doc_info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Подготовка данных для редактирования",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подпрограмма": {
+      "main": [
+        [
+          {
+            "node": "Читаем отчет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "doc_info": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка данных для редактирования": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Замена текста в документе": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Замена текста в документе",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-21T18:02:11.964Z",
+  "id": "dujWRDB46Hw3uZn4wWFZj",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_интервьюер",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
+              "name": "answer",
+              "type": "string",
+              "value": "=Операция выполнена успешно"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "05600d82-d5c7-462b-a1a1-9146d84dd2f7",
+      "name": "Return",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1184,
+        -128
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.doc_id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -96
+      ],
+      "id": "24ea1630-7904-43e5-8368-c852ad477c59",
+      "name": "Читаем отчет",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ZP7nu4fDe0Rr71th",
+          "name": "Google Docs OAuth2 Замковая гора"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=ИСХОДНЫЙ ТЕКСТ:\n{{ $json.fullText }}\n\nПРАВКИ:\n{{ $('Подпрограмма').item.json.text }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Ты профессиональный редактор текстов.  Ты получаешь обрабатываемый текст документа в виде вопросов и ответов, а также текст описывающий изменения и дополнения для этого текста. Язык русский, простой текст без форматирования (если оно где-то есть - удали), в качестве разделителей пустые строки. Если вопрос и ответ еще не был записан - запиши в конец документа. Если такой вопрос уже есть и есть ответ на него, проверь возможно это исправление или дополнение, внеси предложенные изменения в имеющийся ответ или ответы. Не меняй стиль, смысл и слова имеющихся и дополняемых текстов. Они должны остаться такими, как были. Допускаются только изменения для согласования. Верни измененный текст полностью. “ИСХОДНЫЙ ТЕКСТ:”,“ПРАВКИ:” - это служебные слова, не вноси их в итоговый документ.  Вопросы и ответы не обязательно названы так. Если текст правки не имеет четких указаний и не относится не к одному из записанных вопросов - просто добавь его в раздел Дополнительно (создай раздел, если его нет). Добавляй только то что передано, без дополнительных комментариев."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        112,
+        -96
+      ],
+      "id": "f2bc9471-6260-4e16-8d3b-547f1182c610",
+      "name": "Basic LLM Chain1",
+      "retryOnFail": false,
+      "onError": "continueErrorOutput",
+      "notes": "Не удалось получить перевод статьи"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-001",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        112,
+        80
+      ],
+      "id": "6f15a0c5-81f5-4ad7-8ba2-a10ca8f0fe45",
+      "name": "OpenRouter Chat Model",
+      "retryOnFail": true,
+      "credentials": {
+        "openRouterApi": {
+          "id": "LxZYzts8zkLJT4ZX",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "text"
+            },
+            {
+              "name": "doc_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -512,
+        -96
+      ],
+      "id": "901015a5-b1c0-4bf4-a283-e084b66143b8",
+      "name": "Подпрограмма"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst content = data.body.content;\n\nconst fullText = content\n  .filter(block => block.paragraph)\n  .flatMap(block => block.paragraph.elements)\n  .map(el => el.textRun?.content || '')\n  .join('');\n\nconst endIndex = content[content.length - 1].endIndex - 1;\n\nreturn [{ json: { \n  fullText, \n  endIndex, \n  documentId: data.documentId \n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        -96
+      ],
+      "id": "6f2d11da-35e4-4de9-9014-9f75d092ce40",
+      "name": "doc_info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const documentId = $('Подпрограмма').first().json.doc_id;\nconst endIndex = $('doc_info').first().json.endIndex;\nconst newText = $input.first().json.text;\n\nconst body = {\n  requests: [\n    {\n      deleteContentRange: {\n        range: {\n          startIndex: 1,\n          endIndex: endIndex\n        }\n      }\n    },\n    {\n      insertText: {\n        location: { index: 1 },\n        text: newText\n      }\n    }\n  ]\n};\n\nreturn [{ json: { documentId, body } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        -112
+      ],
+      "id": "f53f4c42-676e-42a6-8913-d5b9cf349d64",
+      "name": "Подготовка данных для редактирования"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://docs.googleapis.com/v1/documents/{{ $('Подпрограмма').item.json.doc_id }}:batchUpdate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDocsOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        960,
+        -224
+      ],
+      "id": "ca8bfe62-0729-4d16-95f9-101b0a5914fe",
+      "name": "Замена текста в документе",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ZP7nu4fDe0Rr71th",
+          "name": "Google Docs OAuth2 Замковая гора"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "407685a1-2b00-4a7f-8d4d-1c9e18e0fd8b",
+              "leftValue": "={{ $json.body.requests[0].deleteContentRange.range.endIndex }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        720,
+        -112
+      ],
+      "id": "bfd45947-39a9-4f56-81fa-361a8b27c281",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Подпрограмма').item.json.doc_id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.body.requests[1].insertText.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        960,
+        -16
+      ],
+      "id": "bc39cf7b-6847-43de-b2c6-5139c59cddb2",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "ZP7nu4fDe0Rr71th",
+          "name": "Google Docs OAuth2 Замковая гора"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-21T18:02:11.964Z",
+      "createdAt": "2026-03-21T18:02:11.964Z",
+      "role": "workflow:owner",
+      "workflowId": "dujWRDB46Hw3uZn4wWFZj",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-31T04:52:12.018Z",
+  "versionId": "ece4212b-48c5-4df3-96a5-fd6dc9b9c78e"
+}
