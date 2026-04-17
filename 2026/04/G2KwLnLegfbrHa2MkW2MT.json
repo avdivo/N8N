@@ -1,0 +1,459 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-12T15:49:36.152Z",
+    "createdAt": "2026-04-12T15:49:17.338Z",
+    "versionId": "4830f6b7-7c4f-474e-8b20-65fe738089f3",
+    "workflowId": "G2KwLnLegfbrHa2MkW2MT",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          208,
+          -64
+        ],
+        "id": "9a75e18a-1571-47b9-b3d4-a9439fa615bb",
+        "name": "Определение клиента"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -144,
+          -272
+        ],
+        "id": "0bae36cf-edbc-43f5-9c1f-4d3d59877f9b",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT \n    campaign_id, \n    campaign_name, -- Теперь это поле есть в GROUP BY ниже\n    advertising_platform,\n    SUM(spend) AS total_spend\nFROM \"{{ $json.scheme_name }}\".daily_spends\nWHERE (date AT TIME ZONE 'Europe/Moscow')::DATE BETWEEN '{{ $('Даты').item.json.from_date }}' AND '{{ $('Даты').item.json.to_date }}'\nGROUP BY campaign_id, campaign_name, advertising_platform;\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          416,
+          -64
+        ],
+        "id": "376f63c6-8dd3-46c5-a702-a01c40a89b57",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "from_date"
+              },
+              {
+                "name": "to_date"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -144,
+          -64
+        ],
+        "id": "e08ebbec-1c3c-4f9c-beaf-8bed77417aa3",
+        "name": "Подпрограмма"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "c03b6225-8587-4d26-b2c1-57cbe905e523",
+                "name": "from_date",
+                "value": "2026.03.01",
+                "type": "string"
+              },
+              {
+                "id": "de7b8546-c5ac-4cc9-9c46-73fac1049ff4",
+                "name": "to_date",
+                "value": "2026.04.12",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          32,
+          -272
+        ],
+        "id": "a0020a3c-5ec4-40aa-82cc-a1c0fce4220a",
+        "name": "Тестовые даты"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          32,
+          -64
+        ],
+        "id": "0fedede7-d729-445e-810b-759aca8f7cc4",
+        "name": "Даты"
+      },
+      {
+        "parameters": {
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "id": "296667fa-08f6-4142-8f15-dfe248a04694",
+        "name": "Return",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          608,
+          -64
+        ],
+        "typeVersion": 3.3
+      },
+      {
+        "parameters": {
+          "content": "По датам возвращает все рекламные площадки  с информацией о кампаниях для каждой: Название кампании и расходы по ней\n```\n{\n  \"tiktok\": {\n      \"55646466\": {\n          \"name\": \"...\",\n          \"costs\": 34\n      }\n      ...\n   },\n   ...\n}\n```",
+          "height": 304,
+          "width": 336
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -144,
+          -640
+        ],
+        "typeVersion": 1,
+        "id": "5ce43eb7-8552-49d0-b6ca-4cc2c44a83fe",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {
+      "Определение клиента": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Тестовые даты",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подпрограмма": {
+        "main": [
+          [
+            {
+              "node": "Даты",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Тестовые даты": {
+        "main": [
+          [
+            {
+              "node": "Даты",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Даты": {
+        "main": [
+          [
+            {
+              "node": "Определение клиента",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 4830f6b7",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "4830f6b7-7c4f-474e-8b20-65fe738089f3",
+  "connections": {
+    "Определение клиента": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Тестовые даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подпрограмма": {
+      "main": [
+        [
+          {
+            "node": "Даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Тестовые даты": {
+      "main": [
+        [
+          {
+            "node": "Даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Даты": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-09T21:42:37.628Z",
+  "id": "G2KwLnLegfbrHa2MkW2MT",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_расходы_на_кампании_gradki",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -64
+      ],
+      "id": "9a75e18a-1571-47b9-b3d4-a9439fa615bb",
+      "name": "Определение клиента"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        -272
+      ],
+      "id": "0bae36cf-edbc-43f5-9c1f-4d3d59877f9b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    campaign_id, \n    campaign_name, -- Теперь это поле есть в GROUP BY ниже\n    advertising_platform,\n    SUM(spend) AS total_spend\nFROM \"{{ $json.scheme_name }}\".daily_spends\nWHERE (date AT TIME ZONE 'Europe/Moscow')::DATE BETWEEN '{{ $('Даты').item.json.from_date }}' AND '{{ $('Даты').item.json.to_date }}'\nGROUP BY campaign_id, campaign_name, advertising_platform;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        416,
+        -64
+      ],
+      "id": "376f63c6-8dd3-46c5-a702-a01c40a89b57",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "from_date"
+            },
+            {
+              "name": "to_date"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        -64
+      ],
+      "id": "e08ebbec-1c3c-4f9c-beaf-8bed77417aa3",
+      "name": "Подпрограмма"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c03b6225-8587-4d26-b2c1-57cbe905e523",
+              "name": "from_date",
+              "value": "2026.03.01",
+              "type": "string"
+            },
+            {
+              "id": "de7b8546-c5ac-4cc9-9c46-73fac1049ff4",
+              "name": "to_date",
+              "value": "2026.04.12",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        -272
+      ],
+      "id": "a0020a3c-5ec4-40aa-82cc-a1c0fce4220a",
+      "name": "Тестовые даты"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -64
+      ],
+      "id": "0fedede7-d729-445e-810b-759aca8f7cc4",
+      "name": "Даты"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "296667fa-08f6-4142-8f15-dfe248a04694",
+      "name": "Return",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        608,
+        -64
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "content": "По датам возвращает все рекламные площадки  с информацией о кампаниях для каждой: Название кампании и расходы по ней\n```\n{\n  \"tiktok\": {\n      \"55646466\": {\n          \"name\": \"...\",\n          \"costs\": 34\n      }\n      ...\n   },\n   ...\n}\n```",
+        "height": 304,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "5ce43eb7-8552-49d0-b6ca-4cc2c44a83fe",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-09T21:42:37.628Z",
+      "createdAt": "2026-04-09T21:42:37.628Z",
+      "role": "workflow:owner",
+      "workflowId": "G2KwLnLegfbrHa2MkW2MT",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-12T15:49:17.337Z",
+  "versionId": "4830f6b7-7c4f-474e-8b20-65fe738089f3"
+}
