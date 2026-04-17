@@ -1,0 +1,647 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-10T13:28:34.304Z",
+    "createdAt": "2026-04-09T22:06:00.282Z",
+    "versionId": "559f313e-29c3-4609-8aa5-b54ddfd1c197",
+    "workflowId": "9l1DGabqai9hvdyylkp9T",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          176,
+          0
+        ],
+        "id": "5f93d935-c389-489f-81da-19e96113b491",
+        "name": "Определение клиента"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "RD4z38INjKYcoijD",
+            "mode": "list",
+            "cachedResultName": "Кампании",
+            "cachedResultUrl": "/projects/ILcfmLBZn60jlfes/datatables/RD4z38INjKYcoijD"
+          },
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "daily_budget",
+                "condition": "gt",
+                "keyValue": "0"
+              }
+            ]
+          },
+          "returnAll": true
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          352,
+          0
+        ],
+        "id": "6754cc6d-bda6-4ed0-9e6d-a6461ea0c810",
+        "name": "Активные кампании"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "WITH input_ids AS (\n  SELECT unnest(ARRAY[\n    {{ \"'\" + $input.all().map(i => i.json.campaign_id).join(\"','\") + \"'\" }}\n  ])::VARCHAR AS campaign_id\n)\nSELECT DISTINCT i.campaign_id\nFROM input_ids i\nLEFT JOIN \"{{ $(\"Определение клиента\").first().json.scheme_name }}\".daily_spends d\n  ON i.campaign_id = d.campaign_id\n  /* Приводим время сервера к вашему поясу перед получением даты */\n  AND d.date = (NOW() AT TIME ZONE 'Europe/Moscow')::DATE\nWHERE d.campaign_id IS NULL\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          528,
+          0
+        ],
+        "id": "8a5e920a-bc56-406f-bf9e-2df39ec39158",
+        "name": "Каких ids нет",
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "Получает все активные кампании и определяет id кампаний, которых нет в таблице с текущей датой",
+          "height": 96,
+          "width": 272
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          352,
+          -112
+        ],
+        "typeVersion": 1,
+        "id": "da908ca1-8633-4097-9650-ffc57494dbc1",
+        "name": "Sticky Note",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "// Получаем список ID, которых нет в базе (из входящих данных текущей ноды)\nconst missingIds = $input.all().map(i => i.json.campaign_id);\n\n// Получаем полный список активных кампаний\nconst activeCampaigns = $(\"Активные кампании\").all();\n\n// Фильтруем активные кампании, оставляя только те, чьи ID есть в списке missingIds\nconst result = activeCampaigns\n  .filter(item => missingIds.includes(item.json.campaign_id))\n  .map(item => {\n    return {\n      json: {\n        campaign_id: item.json.campaign_id,\n        campaign_name: item.json.campaign_name,\n        advertising_platform: item.json.advertising_platform,\n        spend: item.json.daily_budget // daily_budget переходит в spend\n      }\n    };\n  });\n\nreturn result;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          704,
+          0
+        ],
+        "id": "285b394b-9958-4b6c-8ba9-cc745a3f80fe",
+        "name": "Список кампаний для записи"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "={{ $('Определение клиента').item.json.scheme_name }}",
+            "mode": "name"
+          },
+          "table": {
+            "__rl": true,
+            "value": "daily_spends",
+            "mode": "list",
+            "cachedResultName": "daily_spends"
+          },
+          "columns": {
+            "mappingMode": "autoMapInputData",
+            "value": {
+              "id": 0,
+              "spend": 0
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "date",
+                "displayName": "date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "campaign_id",
+                "displayName": "campaign_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "advertising_platform",
+                "displayName": "advertising_platform",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "spend",
+                "displayName": "spend",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          880,
+          0
+        ],
+        "id": "5b36fbdb-a263-4e7a-bdf3-b55453a50f6f",
+        "name": "Запись в таблицу",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "Фильтруем кампании, оставляя те, которых нет в таблице. Готовим данные и записываем.",
+          "height": 96,
+          "width": 272
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          704,
+          -112
+        ],
+        "typeVersion": 1,
+        "id": "5277068a-c525-46cb-ab85-bd5ee5687639",
+        "name": "Sticky Note1",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {}
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          -144
+        ],
+        "id": "2f03c811-19a4-4ed1-857d-2ba96ceba56f",
+        "name": "00:00"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "12211df6-e3d0-479f-8665-aa5bf5590290",
+        "name": "When Executed by Another Workflow"
+      }
+    ],
+    "connections": {
+      "Определение клиента": {
+        "main": [
+          [
+            {
+              "node": "Активные кампании",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Активные кампании": {
+        "main": [
+          [
+            {
+              "node": "Каких ids нет",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Каких ids нет": {
+        "main": [
+          [
+            {
+              "node": "Список кампаний для записи",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Список кампаний для записи": {
+        "main": [
+          [
+            {
+              "node": "Запись в таблицу",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "00:00": {
+        "main": [
+          [
+            {
+              "node": "Определение клиента",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Определение клиента",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 559f313e",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "559f313e-29c3-4609-8aa5-b54ddfd1c197",
+  "connections": {
+    "Определение клиента": {
+      "main": [
+        [
+          {
+            "node": "Активные кампании",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Активные кампании": {
+      "main": [
+        [
+          {
+            "node": "Каких ids нет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Каких ids нет": {
+      "main": [
+        [
+          {
+            "node": "Список кампаний для записи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Список кампаний для записи": {
+      "main": [
+        [
+          {
+            "node": "Запись в таблицу",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "00:00": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-08T20:32:08.898Z",
+  "id": "9l1DGabqai9hvdyylkp9T",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_планирование_расходов_на_кампании_gradki",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        0
+      ],
+      "id": "5f93d935-c389-489f-81da-19e96113b491",
+      "name": "Определение клиента"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "RD4z38INjKYcoijD",
+          "mode": "list",
+          "cachedResultName": "Кампании",
+          "cachedResultUrl": "/projects/ILcfmLBZn60jlfes/datatables/RD4z38INjKYcoijD"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "daily_budget",
+              "condition": "gt",
+              "keyValue": "0"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "6754cc6d-bda6-4ed0-9e6d-a6461ea0c810",
+      "name": "Активные кампании"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH input_ids AS (\n  SELECT unnest(ARRAY[\n    {{ \"'\" + $input.all().map(i => i.json.campaign_id).join(\"','\") + \"'\" }}\n  ])::VARCHAR AS campaign_id\n)\nSELECT DISTINCT i.campaign_id\nFROM input_ids i\nLEFT JOIN \"{{ $(\"Определение клиента\").first().json.scheme_name }}\".daily_spends d\n  ON i.campaign_id = d.campaign_id\n  /* Приводим время сервера к вашему поясу перед получением даты */\n  AND d.date = (NOW() AT TIME ZONE 'Europe/Moscow')::DATE\nWHERE d.campaign_id IS NULL\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        528,
+        0
+      ],
+      "id": "8a5e920a-bc56-406f-bf9e-2df39ec39158",
+      "name": "Каких ids нет",
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Получает все активные кампании и определяет id кампаний, которых нет в таблице с текущей датой",
+        "height": 96,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        352,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "da908ca1-8633-4097-9650-ffc57494dbc1",
+      "name": "Sticky Note",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем список ID, которых нет в базе (из входящих данных текущей ноды)\nconst missingIds = $input.all().map(i => i.json.campaign_id);\n\n// Получаем полный список активных кампаний\nconst activeCampaigns = $(\"Активные кампании\").all();\n\n// Фильтруем активные кампании, оставляя только те, чьи ID есть в списке missingIds\nconst result = activeCampaigns\n  .filter(item => missingIds.includes(item.json.campaign_id))\n  .map(item => {\n    return {\n      json: {\n        campaign_id: item.json.campaign_id,\n        campaign_name: item.json.campaign_name,\n        advertising_platform: item.json.advertising_platform,\n        spend: item.json.daily_budget // daily_budget переходит в spend\n      }\n    };\n  });\n\nreturn result;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        0
+      ],
+      "id": "285b394b-9958-4b6c-8ba9-cc745a3f80fe",
+      "name": "Список кампаний для записи"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "={{ $('Определение клиента').item.json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "daily_spends",
+          "mode": "list",
+          "cachedResultName": "daily_spends"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "id": 0,
+            "spend": 0
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "advertising_platform",
+              "displayName": "advertising_platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "spend",
+              "displayName": "spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        880,
+        0
+      ],
+      "id": "5b36fbdb-a263-4e7a-bdf3-b55453a50f6f",
+      "name": "Запись в таблицу",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Фильтруем кампании, оставляя те, которых нет в таблице. Готовим данные и записываем.",
+        "height": 96,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        704,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "5277068a-c525-46cb-ab85-bd5ee5687639",
+      "name": "Sticky Note1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        -144
+      ],
+      "id": "2f03c811-19a4-4ed1-857d-2ba96ceba56f",
+      "name": "00:00"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "12211df6-e3d0-479f-8665-aa5bf5590290",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-08T20:32:08.898Z",
+      "createdAt": "2026-04-08T20:32:08.898Z",
+      "role": "workflow:owner",
+      "workflowId": "9l1DGabqai9hvdyylkp9T",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-09T22:06:00.280Z",
+  "versionId": "559f313e-29c3-4609-8aa5-b54ddfd1c197"
+}
