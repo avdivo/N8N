@@ -1,0 +1,516 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-05T17:13:12.000Z",
+    "createdAt": "2026-04-05T17:12:55.444Z",
+    "versionId": "52fb76be-43a3-412e-9897-240804cdc1fd",
+    "workflowId": "zgsQZMyb5y5XRbPkTetE0",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "time",
+                "type": "number"
+              },
+              {
+                "name": "chat_id",
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -416,
+          -32
+        ],
+        "id": "19cd8e95-f54f-4ec1-841b-44919b460997",
+        "name": "Подпрограмма"
+      },
+      {
+        "parameters": {
+          "content": "Принимает:\n- ID чата\n- Сколько циклов по 5 сек (только для лимита)\nКаждые 5 секун отправляет в чат Typing\nЗавершает по лимиту или когда значение TheEnd из Redis стало = 1\n",
+          "height": 144,
+          "width": 400
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -416,
+          -240
+        ],
+        "typeVersion": 1,
+        "id": "d4f4b516-8290-4939-b970-95275d166583",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          352,
+          -16
+        ],
+        "id": "9c8f9f91-3f9d-48bf-bda9-232e0fca6494",
+        "name": "Wait",
+        "webhookId": "048a67ae-7401-4dd1-958e-0d2472b853c1"
+      },
+      {
+        "parameters": {
+          "operation": "sendChatAction",
+          "chatId": "={{ $('Подпрограмма').item.json.chat_id }}"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          192,
+          -16
+        ],
+        "id": "4ab7dd61-6320-4280-ab59-ca8522bc7def",
+        "name": "Печатает",
+        "webhookId": "d02faec7-4024-4465-a530-f29d6956481c",
+        "credentials": {
+          "telegramApi": {
+            "id": "cYiCQIv1jDYfVYvD",
+            "name": "Калькулятор грядок"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -16,
+          -32
+        ],
+        "id": "13350b25-0cbd-4007-937a-827c7f0d4bbf",
+        "name": "Цикл"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Получаем значение 'time' из предыдущей ноды\nconst iterations = $input.first().json.time || 5; // 5 — значение по умолчанию, если time не пришло\n\n// Генерируем массив из N элементов (пустышек)\nreturn Array.from({ length: iterations }, (_, i) => ({ iteration: i + 1 }));\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -208,
+          -32
+        ],
+        "id": "04b72473-9214-431c-81ef-52a159fa95cc",
+        "name": "Количество итераций"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "propertyName": "TheEnd",
+          "key": "TheEnd",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          512,
+          -16
+        ],
+        "id": "94b02c89-d2a1-43a9-ba5c-e4ff9f53d215",
+        "name": "Завершить?",
+        "credentials": {
+          "redis": {
+            "id": "b5sd4CQ59tgLeFqu",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "07b679fa-771d-409d-a84c-6e728a98b3ea",
+                "leftValue": "={{ $json.TheEnd }}",
+                "rightValue": "1",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          656,
+          -16
+        ],
+        "id": "165df452-3f4e-43b2-8e05-96b5cf12707a",
+        "name": "Завершить"
+      }
+    ],
+    "connections": {
+      "Подпрограмма": {
+        "main": [
+          [
+            {
+              "node": "Количество итераций",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Завершить?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Печатает": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Цикл": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Печатает",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Количество итераций": {
+        "main": [
+          [
+            {
+              "node": "Цикл",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Завершить?": {
+        "main": [
+          [
+            {
+              "node": "Завершить",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Завершить": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Цикл",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 52fb76be",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "52fb76be-43a3-412e-9897-240804cdc1fd",
+  "connections": {
+    "Подпрограмма": {
+      "main": [
+        [
+          {
+            "node": "Количество итераций",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Завершить?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Печатает": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Цикл": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Печатает",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Количество итераций": {
+      "main": [
+        [
+          {
+            "node": "Цикл",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Завершить?": {
+      "main": [
+        [
+          {
+            "node": "Завершить",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Завершить": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Цикл",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-04T21:10:10.360Z",
+  "id": "zgsQZMyb5y5XRbPkTetE0",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub Typing для ТГ",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "time",
+              "type": "number"
+            },
+            {
+              "name": "chat_id",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -416,
+        -32
+      ],
+      "id": "19cd8e95-f54f-4ec1-841b-44919b460997",
+      "name": "Подпрограмма"
+    },
+    {
+      "parameters": {
+        "content": "Принимает:\n- ID чата\n- Сколько циклов по 5 сек (только для лимита)\nКаждые 5 секун отправляет в чат Typing\nЗавершает по лимиту или когда значение TheEnd из Redis стало = 1\n",
+        "height": 144,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -416,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "d4f4b516-8290-4939-b970-95275d166583",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "9c8f9f91-3f9d-48bf-bda9-232e0fca6494",
+      "name": "Wait",
+      "webhookId": "048a67ae-7401-4dd1-958e-0d2472b853c1"
+    },
+    {
+      "parameters": {
+        "operation": "sendChatAction",
+        "chatId": "={{ $('Подпрограмма').item.json.chat_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        -16
+      ],
+      "id": "4ab7dd61-6320-4280-ab59-ca8522bc7def",
+      "name": "Печатает",
+      "webhookId": "d02faec7-4024-4465-a530-f29d6956481c",
+      "credentials": {
+        "telegramApi": {
+          "id": "cYiCQIv1jDYfVYvD",
+          "name": "Калькулятор грядок"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -16,
+        -32
+      ],
+      "id": "13350b25-0cbd-4007-937a-827c7f0d4bbf",
+      "name": "Цикл"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем значение 'time' из предыдущей ноды\nconst iterations = $input.first().json.time || 5; // 5 — значение по умолчанию, если time не пришло\n\n// Генерируем массив из N элементов (пустышек)\nreturn Array.from({ length: iterations }, (_, i) => ({ iteration: i + 1 }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -208,
+        -32
+      ],
+      "id": "04b72473-9214-431c-81ef-52a159fa95cc",
+      "name": "Количество итераций"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "TheEnd",
+        "key": "TheEnd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -16
+      ],
+      "id": "94b02c89-d2a1-43a9-ba5c-e4ff9f53d215",
+      "name": "Завершить?",
+      "credentials": {
+        "redis": {
+          "id": "b5sd4CQ59tgLeFqu",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "07b679fa-771d-409d-a84c-6e728a98b3ea",
+              "leftValue": "={{ $json.TheEnd }}",
+              "rightValue": "1",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        656,
+        -16
+      ],
+      "id": "165df452-3f4e-43b2-8e05-96b5cf12707a",
+      "name": "Завершить"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-04T21:10:10.360Z",
+      "createdAt": "2026-04-04T21:10:10.360Z",
+      "role": "workflow:owner",
+      "workflowId": "zgsQZMyb5y5XRbPkTetE0",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-05T17:12:55.437Z",
+  "versionId": "52fb76be-43a3-412e-9897-240804cdc1fd"
+}
