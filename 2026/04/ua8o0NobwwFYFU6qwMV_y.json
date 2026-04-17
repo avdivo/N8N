@@ -1,0 +1,641 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-11T21:18:58.661Z",
+    "createdAt": "2026-04-11T21:18:24.765Z",
+    "versionId": "52809a45-66d1-48a1-b0ee-f43d6068fc46",
+    "workflowId": "ua8o0NobwwFYFU6qwMV_y",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          288,
+          160
+        ],
+        "id": "797ac14c-441b-4d32-9cbf-783a4291d11f",
+        "name": "Определение клиента"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -128,
+          -48
+        ],
+        "id": "e52f08e1-2bfd-4f09-aff7-0e9f964048c8",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "c03b6225-8587-4d26-b2c1-57cbe905e523",
+                "name": "from_date",
+                "value": "2026.04.12",
+                "type": "string"
+              },
+              {
+                "id": "de7b8546-c5ac-4cc9-9c46-73fac1049ff4",
+                "name": "to_date",
+                "value": "2026.04.12",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          112,
+          -48
+        ],
+        "id": "58e60b0c-b2ed-49d3-bb82-d372d78b37d1",
+        "name": "Тестовые даты"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          112,
+          160
+        ],
+        "id": "75bcf010-9724-4511-a9f0-17ba0db26da9",
+        "name": "Даты"
+      },
+      {
+        "parameters": {
+          "content": "Количество лидов за указанный период по каждому источнику",
+          "height": 80,
+          "width": 176
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          464,
+          64
+        ],
+        "typeVersion": 1,
+        "id": "c6c88137-730d-4400-9693-3f69b26de20c",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT \n    COALESCE(NULLIF(source_name, ''), 'no_source') as source_name, \n    COUNT(*) as leads_count\nFROM \n    {{ $json.scheme_name }}.leads\nWHERE \n    (created_at AT TIME ZONE 'Europe/Moscow')::DATE BETWEEN '{{ $('Даты').item.json.from_date.replaceAll('.', '-') }}' AND '{{ $('Даты').item.json.to_date.replaceAll('.', '-') }}'\nGROUP BY \n    1\nORDER BY \n    leads_count DESC;\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          480,
+          160
+        ],
+        "id": "4250f1f6-aa99-458b-af93-e1692fe54003",
+        "name": "Лидов по источникам",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "G2KwLnLegfbrHa2MkW2MT",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/G2KwLnLegfbrHa2MkW2MT",
+            "cachedResultName": "sub_расходы_на_кампании_gradki"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "from_date": "={{ $('Даты').item.json.from_date }}",
+              "to_date": "={{ $('Даты').item.json.to_date }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "from_date",
+                "displayName": "from_date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "to_date",
+                "displayName": "to_date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "mode": "each",
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          688,
+          160
+        ],
+        "id": "380c6e89-e398-4957-bd7d-2666d6ee22c4",
+        "name": "Расходы на кампании",
+        "executeOnce": true
+      },
+      {
+        "parameters": {
+          "jsCode": "const leadsItems = $('Лидов по источникам').all();\nconst spendsItems = $('Расходы на кампании').all();\n\n// 1. Агрегация лидов\nlet leads_tiktok = 0;\nlet leads_ig = 0;\nlet leads_fb = 0;\nlet leads_no = 0;\n\nleadsItems.forEach(item => {\n    const src = (item.json.source_name || '').toLowerCase();\n    const count = parseInt(item.json.leads_count) || 0;\n\n    if (src.includes('tiktok')) {\n        leads_tiktok += count;\n    } else if (src.includes('ig') || src.includes('inst')) {\n        leads_ig += count;\n    } else if (src.includes('fb') || src.includes('face')) {\n        leads_fb += count;\n    } else {\n        leads_no += count;\n    }\n});\n\n// Сумма лидов для Меты и общая\nconst leads_meta = leads_ig + leads_fb;\nconst leads_total = leads_tiktok + leads_meta + leads_no;\n\n// 2. Агрегация расходов (сумма всех кампаний по платформе)\nlet spend_tiktok = 0;\nlet spend_meta = 0;\n\nspendsItems.forEach(item => {\n    const platform = (item.json.advertising_platform || '').toLowerCase();\n    const spend = parseFloat(item.json.total_spend) || 0;\n\n    if (platform === 'tiktok') {\n        spend_tiktok += spend;\n    } else if (platform === 'meta' || platform === 'facebook' || platform === 'instagram') {\n        spend_meta += spend;\n    }\n});\n\nconst spend_total = spend_tiktok + spend_meta;\n\n// 3. Расчет цены лида (с 2 знаками после запятой)\nconst calcPrice = (s, c) => c > 0 ? (s / c).toFixed(2) : \"0.00\";\n\nconst lead_price_tiktok = calcPrice(spend_tiktok, leads_tiktok);\nconst lead_price_meta = calcPrice(spend_meta, leads_meta);\nconst lead_price_all = calcPrice(spend_total, leads_total);\n\n// 4. Формирование отчета\nconst report = `*Тикток:* ${leads_tiktok}\n*Инстаграм:* ${leads_ig}\n*Фейсбук:* ${leads_fb}\n*Не определены:* ${leads_no}\n*Всего за сегодня:* ${leads_total}\n\n*Цена лида:* \n*Тикток:* ${lead_price_tiktok} руб.\n*Мета:* ${lead_price_meta} руб.\n*Общая:* ${lead_price_all} руб.`;\n\nreturn { report };\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          896,
+          160
+        ],
+        "id": "d68c06ec-a7b7-4b14-b907-c5dfa94a7cde",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "id": "47f1df07-bb89-4d64-952b-a3cec83868d2",
+        "name": "Return",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          1088,
+          160
+        ],
+        "typeVersion": 3.3
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "from_date"
+              },
+              {
+                "name": "to_date"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -128,
+          160
+        ],
+        "id": "6fe246d9-7e51-4a2e-8973-e572db13bb9c",
+        "name": "Подпрограмма"
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Тестовые даты",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Определение клиента": {
+        "main": [
+          [
+            {
+              "node": "Лидов по источникам",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Тестовые даты": {
+        "main": [
+          [
+            {
+              "node": "Даты",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Даты": {
+        "main": [
+          [
+            {
+              "node": "Определение клиента",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Лидов по источникам": {
+        "main": [
+          [
+            {
+              "node": "Расходы на кампании",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Расходы на кампании": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подпрограмма": {
+        "main": [
+          [
+            {
+              "node": "Даты",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 52809a45",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "52809a45-66d1-48a1-b0ee-f43d6068fc46",
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Тестовые даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента": {
+      "main": [
+        [
+          {
+            "node": "Лидов по источникам",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Тестовые даты": {
+      "main": [
+        [
+          {
+            "node": "Даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Даты": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Лидов по источникам": {
+      "main": [
+        [
+          {
+            "node": "Расходы на кампании",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Расходы на кампании": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подпрограмма": {
+      "main": [
+        [
+          {
+            "node": "Даты",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-10T11:51:59.386Z",
+  "id": "ua8o0NobwwFYFU6qwMV_y",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_сводка_за_период_gradki",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        160
+      ],
+      "id": "797ac14c-441b-4d32-9cbf-783a4291d11f",
+      "name": "Определение клиента"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -48
+      ],
+      "id": "e52f08e1-2bfd-4f09-aff7-0e9f964048c8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c03b6225-8587-4d26-b2c1-57cbe905e523",
+              "name": "from_date",
+              "value": "2026.04.16",
+              "type": "string"
+            },
+            {
+              "id": "de7b8546-c5ac-4cc9-9c46-73fac1049ff4",
+              "name": "to_date",
+              "value": "2026.04.16",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        -48
+      ],
+      "id": "58e60b0c-b2ed-49d3-bb82-d372d78b37d1",
+      "name": "Тестовые даты"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        112,
+        160
+      ],
+      "id": "75bcf010-9724-4511-a9f0-17ba0db26da9",
+      "name": "Даты"
+    },
+    {
+      "parameters": {
+        "content": "Количество лидов за указанный период по каждому источнику",
+        "height": 80,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "c6c88137-730d-4400-9693-3f69b26de20c",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    COALESCE(NULLIF(source_name, ''), 'no_source') as source_name, \n    COUNT(*) as leads_count\nFROM \n    {{ $json.scheme_name }}.leads\nWHERE \n    (created_at AT TIME ZONE 'Europe/Moscow')::DATE BETWEEN '{{ $('Даты').item.json.from_date.replaceAll('.', '-') }}' AND '{{ $('Даты').item.json.to_date.replaceAll('.', '-') }}'\nGROUP BY \n    1\nORDER BY \n    leads_count DESC;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        480,
+        160
+      ],
+      "id": "4250f1f6-aa99-458b-af93-e1692fe54003",
+      "name": "Лидов по источникам",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "G2KwLnLegfbrHa2MkW2MT",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/G2KwLnLegfbrHa2MkW2MT",
+          "cachedResultName": "sub_расходы_на_кампании_gradki"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "from_date": "={{ $('Даты').item.json.from_date }}",
+            "to_date": "={{ $('Даты').item.json.to_date }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "from_date",
+              "displayName": "from_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "to_date",
+              "displayName": "to_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        688,
+        160
+      ],
+      "id": "380c6e89-e398-4957-bd7d-2666d6ee22c4",
+      "name": "Расходы на кампании",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const leadsItems = $('Лидов по источникам').all();\nconst spendsItems = $('Расходы на кампании').all();\n\n// 1. Агрегация лидов\nlet leads_tiktok = 0;\nlet leads_ig = 0;\nlet leads_fb = 0;\nlet leads_no = 0;\n\nleadsItems.forEach(item => {\n    const src = (item.json.source_name || '').toLowerCase();\n    const count = parseInt(item.json.leads_count) || 0;\n\n    if (src.includes('tiktok')) {\n        leads_tiktok += count;\n    } else if (src.includes('ig') || src.includes('inst')) {\n        leads_ig += count;\n    } else if (src.includes('fb') || src.includes('face')) {\n        leads_fb += count;\n    } else {\n        leads_no += count;\n    }\n});\n\n// Сумма лидов для Меты и общая\nconst leads_meta = leads_ig + leads_fb;\nconst leads_total = leads_tiktok + leads_meta + leads_no;\n\n// 2. Агрегация расходов (сумма всех кампаний по платформе)\nlet spend_tiktok = 0;\nlet spend_meta = 0;\n\nspendsItems.forEach(item => {\n    const platform = (item.json.advertising_platform || '').toLowerCase();\n    const spend = parseFloat(item.json.total_spend) || 0;\n\n    if (platform === 'tiktok') {\n        spend_tiktok += spend;\n    } else if (platform === 'meta' || platform === 'facebook' || platform === 'instagram') {\n        spend_meta += spend;\n    }\n});\n\nconst spend_total = spend_tiktok + spend_meta;\n\n// 3. Расчет цены лида (с 2 знаками после запятой)\nconst calcPrice = (s, c) => c > 0 ? (s / c).toFixed(2) : \"0.00\";\n\nconst lead_price_tiktok = calcPrice(spend_tiktok, leads_tiktok);\nconst lead_price_meta = calcPrice(spend_meta, leads_meta);\nconst lead_price_all = calcPrice(spend_total, leads_total);\n\n// 4. Формирование отчета\nconst report = `*Тикток:* ${leads_tiktok}\n*Инстаграм:* ${leads_ig}\n*Фейсбук:* ${leads_fb}\n*Не определены:* ${leads_no}\n*Всего за сегодня:* ${leads_total}\n\n*Цена лида:* \n*Тикток:* ${lead_price_tiktok} руб.\n*Мета:* ${lead_price_meta} руб.\n*Общая:* ${lead_price_all} руб.`;\n\nreturn { report };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        160
+      ],
+      "id": "d68c06ec-a7b7-4b14-b907-c5dfa94a7cde",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "47f1df07-bb89-4d64-952b-a3cec83868d2",
+      "name": "Return",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1088,
+        160
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "from_date"
+            },
+            {
+              "name": "to_date"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        160
+      ],
+      "id": "6fe246d9-7e51-4a2e-8973-e572db13bb9c",
+      "name": "Подпрограмма"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-10T11:51:59.386Z",
+      "createdAt": "2026-04-10T11:51:59.386Z",
+      "role": "workflow:owner",
+      "workflowId": "ua8o0NobwwFYFU6qwMV_y",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-16T08:32:37.956Z",
+  "versionId": "7f7ca01c-b3e6-498d-8a5e-764afed6471a"
+}
