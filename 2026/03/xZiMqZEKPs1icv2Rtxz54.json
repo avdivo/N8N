@@ -1,0 +1,1223 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-04-16T21:55:38.998Z",
+    "createdAt": "2026-04-16T21:55:32.204Z",
+    "versionId": "4f82063d-1b69-4ab6-8386-fe6ef4aacfc4",
+    "workflowId": "xZiMqZEKPs1icv2Rtxz54",
+    "nodes": [
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "-- 1. Создаем схему\nCREATE SCHEMA IF NOT EXISTS {{ $json.scheme_name }};\n\n-- 2. Создаем таблицу с защитой от дублей по external_id (tranid)\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.leads (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    phone VARCHAR(50),\n    campaign_id VARCHAR(50),\n    campaign_name VARCHAR(255),\n    content_id VARCHAR(50),\n    content_name VARCHAR(255),\n    source_name VARCHAR(100),\n    lead_json JSONB\n);\n\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.daily_spends (\n    id SERIAL PRIMARY KEY,\n    date DATE DEFAULT (NOW() AT TIME ZONE 'Europe/Moscow')::DATE,\n    campaign_id VARCHAR(50),\n    campaign_name VARCHAR(255),\n    advertising_platform VARCHAR(50),\n    spend DECIMAL(10, 2)\n);\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          -320,
+          -304
+        ],
+        "id": "6ffa3af6-1e75-4740-8e2b-e81674872f69",
+        "name": "Подготовка БД",
+        "retryOnFail": true,
+        "executeOnce": false,
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        },
+        "notes": "Создает схему для пользователя, если ее нет и добавляет таблицы в БД для работы форкфлоу."
+      },
+      {
+        "parameters": {
+          "content": "## Инициализация база данных\nЧтобы создать Схему и Таблицы в БД",
+          "height": 320,
+          "width": 736
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -592,
+          -432
+        ],
+        "typeVersion": 1,
+        "id": "57335f24-e4e4-4e2a-9a10-884f5738036e",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -528,
+          -304
+        ],
+        "id": "06567359-504d-40e9-872c-ab265b66e10e",
+        "name": "Определение клиента"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT *\nFROM public.app\nWHERE app_name = 'soc_analytics'\n  AND app_user_id = (\n    SELECT user_id\n    FROM public.\"user\"\n    WHERE user_login = '{{ $json.scheme_name }}'\n  );\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          144,
+          368
+        ],
+        "id": "66764fba-69a1-4a16-a17a-a5604f7babc6",
+        "name": "Параметры приложения",
+        "alwaysOutputData": true,
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -592,
+          192
+        ],
+        "id": "d9333dbc-5bbc-4616-971c-7d1e281068fe",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -32,
+          368
+        ],
+        "id": "61be56c8-6069-4afb-96d0-7aa74f92fdeb",
+        "name": "Определение клиента 1"
+      },
+      {
+        "parameters": {
+          "jsCode": "return [\n  {\n    \"headers\": {\n      \"host\": \"n8n.avdivo.ru\",\n      \"user-agent\": \"Mozilla/5.0 (Linux; Android 16; SM-A266B Build/BP2A.250605.031.A3) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/146.0.7680.177 Mobile Safari/537.36 musical_ly_44.6.4 RevealType/Dialog\",\n      \"content-length\": \"2230\",\n      \"accept\": \"*/*\",\n      \"content-type\": \"application/x-www-form-urlencoded\",\n      \"referer\": \"https://social-quiz.tilda.ws/?adset_id=1861388811707569&ad_id=1861399740567570&utm_term=%D0%93%D1%80%D1%83%D0%BF%D0%BF%D0%B0+1&utm_source=tiktok&utm_id=1861388811707553&utm_campaign=2+%D0%BA%D0%B0%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F&utm_medium=social&utm_content=%D0%9E%D0%A6%D0%98%D0%9D%D0%9A%D0%9E%D0%92%D0%90%D0%9D%D0%9D%D0%AB%D0%95+%D0%93%D0%A0%D0%AF%D0%94%D0%9A%D0%98+%E2%86%92+20+%D0%BB%D0%B5%D1%82+%D0%BA%D0%B0%D0%BA+%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5%21+%E2%9C%A8+%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%8E%D1%82%D1%81%D1%8F+%D0%B7%D0%B0+15+%D0%BC%D0%B8%D0%BD%D1%83%D1%82+%D0%B1%D0%B5%D0%B7+%D0%B4%D1%80%D0%B5%D0%BB%D0%B8.+%D0%92%D1%8B%D0%B3%D0%BB%D1%8F%D0%B4%D0%B8%D1%82+%D0%BA%D0%B0%D0%BA+%D0%B8%D0%B7+Pinterest.+%D0%90+%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%BE%D0%B5+%E2%80%94+%D0%BD%D0%B8%D0%BA%D0%BE%D0%B3%D0%B4%D0%B0+%D0%BD%D0%B5+%D1%81%D0%B3%D0%BD%D0%B8%D1%91%D1%82%21+%D0%9B%D1%83%D1%87%D1%88%D0%B5%D0%B5+%D0%B2%D1%80%D0%B5%D0%BC%D1%8F+%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C.++#Ð¾Ð³Ð¾ÑÐ¾Ð´\",\n      \"via\": \"2.0 Caddy\",\n      \"x-forwarded-for\": \"87.242.111.251\",\n      \"x-forwarded-host\": \"n8n.avdivo.ru\",\n      \"x-forwarded-proto\": \"https\",\n      \"accept-encoding\": \"gzip\"\n    },\n    \"params\": {},\n    \"query\": {},\n    \"body\": {\n      \"Location\": \"Для огорода\",\n      \"Color\": \"Коричневый\",\n      \"Time\": \"Прицениваюсь\",\n      \"phone\": \"+375 (29) 691-09-21\",\n      \"Checkbox\": \"yes\",\n      \"tranid\": \"22857336:8328261783\",\n      \"COOKIES\": \"_ga=GA1.1.1891874018.1776319102; _ym_uid=1776319103613819472; _ym_d=1776319103; _fbp=fb.1.1776319102613.356893472751808924; _ym_isad=2; _ym_visorc=w; _tt_enable_cookie=1; _ttp=01KPADWZRZ30W1GBZVWQ05NXYW_.tt.1; ttclid=E_C_P_CtwBighV7_NwV7nst9E-64HttvbseDvv3I-xxekHnnMqCuK-tCCzlZGIltkj1LMDs8KULnUO_CsUF_H3cgKVV9vaAeQzF308Ic71-l1ko2tc4oXlkJl5e8pQxboOOmLYXnUjckzKTopcy7SbQtpKZ_zyjEr3mHCLgjQTr1ouzs_hrSFvw9LrnL5NqgpNBrDdRBxC2Uas4XMWw6CUTSuV6tVGBva7v43ylaCAfeouyj0o3obx4Ii7-u6u19IKyppgPIAzz4c5ShQDPOegJOlfC-FvXM4jZmRCwbbhw0AUdBIEdjIuMA; _ga_N8C4G8HRNB=GS2.1.s1776319102$o1$g1$t1776319113$j49$l0$h0; ttcsid_D6NC4H3C77UBTM3F3U7G=1776319102768::NoQZbje3m7NZ_-JKH2t5.1.1776319179432.1; ttcsid=1776319102770::yRKujPzj2Xsio14u77oV.1.1776319179433.0::1.-1505.0::76595.11.209.684::51200.13.128;tildauid=9067e1346974b5bafa78ce25359bdbec\",\n      \"formid\": \"form2005219531\",\n      \"formname\": \"Квиз для соцсетей\",\n      \"utm_term\": \"Группа 1\",\n      \"utm_source\": \"tiktok\",\n      \"utm_id\": \"1861388811707553\",\n      \"utm_campaign\": \"2 кампания\",\n      \"utm_medium\": \"social\",\n      \"utm_content\": \"ОЦИНКОВАННЫЕ ГРЯДКИ &rarr; 20 лет как новые! ✨ Собираются за 15 минут без дрели. Выглядит как из Pinterest. А главное &mdash; никогда не сгниёт! Лучшее время купить.\"\n    },\n    \"webhookUrl\": \"https://n8n.avdivo.ru/webhook/lead\",\n    \"executionMode\": \"production\"\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -416,
+          192
+        ],
+        "id": "9f6d5364-c0f7-4a0a-8ef5-18c359dc0139",
+        "name": "Тестовые данные"
+      },
+      {
+        "parameters": {
+          "jsCode": "// const main = $('Тестовые данные').first();\nconst main = $('Лид').first();\nconst body = main.json.body;\nconst headers = main.json.headers;\nconst creatives = $input.all()\n\n// UTM-параметры из тела запроса\nconst campaign_id = body.utm_id;  // id кампании\nconst campaign_name = body.utm_campaign;  // название кампании\nconst source_name = body.utm_source;  // название источника (соцсети)\nconst phone = body.phone;  // Телефон\n\n// Парсим referer для извлечения параметров контента\nconst referer = headers.referer || '';\nconst getParam = (url, key) => {\n  const match = url.match(new RegExp(`[?&]${key}=([^&]*)`));\n  return match ? decodeURIComponent(match[1]) : null;\n};\nlet content_id = getParam(referer, 'ad_id');  // id креатива или объявления\nlet content_name = getParam(referer, 'utm_content');  // название объявления\n\n// Полный JSON лида\nconst lead_json = main.json;\n\n// Ищем совпадение по creativity_id\nconst match = creatives.find(item => item.json.creativity_id === content_id);\n\n// Если найдено — перезаписываем переменные\nif (match) {\n  content_id = match.json.id;           // внутренний ID из БД\n  content_name = match.json.content_name; // название креатива из БД\n}\n\n// Формируем объект для записи в БД\nconst record = {\n  campaign_id,\n  phone,\n  campaign_name,\n  content_id,\n  content_name,\n  source_name,\n  lead_json\n};\n\n// Возвращаем в формате n8n для следующей ноды\nreturn [{ json: record }];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          512,
+          368
+        ],
+        "id": "1933eb23-81d7-4c50-9d81-f63fa6336c2b",
+        "name": "Подготовка записи в БД"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "s4h0bmcYKZBrK6f7",
+            "mode": "list",
+            "cachedResultName": "Объявления",
+            "cachedResultUrl": "/projects/ILcfmLBZn60jlfes/datatables/s4h0bmcYKZBrK6f7"
+          },
+          "matchType": "allConditions",
+          "returnAll": true
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          336,
+          368
+        ],
+        "id": "25023ab2-30e3-4460-9540-e363742b7432",
+        "name": "Чтение таблицы объявлений"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "={{ $('Определение клиента 1').first().json.scheme_name }}",
+            "mode": "name"
+          },
+          "table": {
+            "__rl": true,
+            "value": "leads",
+            "mode": "list",
+            "cachedResultName": "leads"
+          },
+          "columns": {
+            "mappingMode": "autoMapInputData",
+            "value": {},
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "campaign_id",
+                "displayName": "campaign_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "campaign_name",
+                "displayName": "campaign_name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "content_id",
+                "displayName": "content_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "content_name",
+                "displayName": "content_name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "source_name",
+                "displayName": "source_name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "lead_json",
+                "displayName": "lead_json",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "object",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          704,
+          368
+        ],
+        "id": "c5b3b6ba-8063-44a3-9b43-4cffb8f6c3bd",
+        "name": "Добавление лида",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "249503190",
+          "text": "={{ $json.report }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1296,
+          256
+        ],
+        "id": "f15fffa8-74ee-46a7-98df-fe2c547e7ff2",
+        "name": "Мне",
+        "webhookId": "7d5d0791-b540-4df3-a9e3-c0114ca33624",
+        "retryOnFail": true,
+        "waitBetweenTries": 3000,
+        "credentials": {
+          "telegramApi": {
+            "id": "IQJLoP9sNTnsVVqS",
+            "name": "AlexLenaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "326830581",
+          "text": "={{ $json.report }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1296,
+          464
+        ],
+        "id": "ec57b51b-c3dc-43e5-93ff-8c9dbe63138b",
+        "name": "Лене",
+        "webhookId": "7d5d0791-b540-4df3-a9e3-c0114ca33624",
+        "retryOnFail": true,
+        "waitBetweenTries": 3000,
+        "credentials": {
+          "telegramApi": {
+            "id": "IQJLoP9sNTnsVVqS",
+            "name": "AlexLenaBot"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "lead",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -592,
+          368
+        ],
+        "id": "524069de-a5d0-4068-b75e-b1e6b08c46f1",
+        "name": "Tilda",
+        "webhookId": "7a34da02-7776-4316-949c-fe64b91c204f"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          -224,
+          368
+        ],
+        "id": "45e12a90-5cb7-445e-8adf-8541f11a117a",
+        "name": "Лид"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Функция для безопасной вставки текста в HTML\nconst esc = (str) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n\n// 1. Получаем данные из нод\nconst leadInfo = $('Подготовка записи в БД').first().json;\nconst summary = $('Сводка').first().json.report; // Тут уже могут быть <b> или *\n\n// 2. Извлекаем и СРАЗУ экранируем только \"грязные\" данные\nconst source = esc(leadInfo.source_name || 'не определен');\nconst phone = esc(leadInfo.phone || 'нет номера');\nconst content = esc(leadInfo.content_name || 'не указано');\n\n// 3. Формируем заголовок (теги <b> пишем ПРЯМО, не экранируя их)\nconst leadHeader = `<b>Лид из ${source}</b>\n<b>Телефон</b>: ${phone}\n<b>Объявление</b>: ${content}`;\n\n// 4. Обрабатываем сводку (если там остались звездочки, меняем их на <b>)\nconst cleanSummary = summary.replace(/\\*(.*?)\\*/g, '<b>$1</b>');\n\nreturn {\n  report: `${leadHeader}\\n\\n${cleanSummary}`\n};\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1072,
+          368
+        ],
+        "id": "a169c67d-e85e-47d2-991a-e876bad1b2c9",
+        "name": "Расчет"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "ua8o0NobwwFYFU6qwMV_y",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/ua8o0NobwwFYFU6qwMV_y",
+            "cachedResultName": "sub_сводка_за_период_gradki"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "from_date": "={{ $now.toFormat('yyyy.MM.dd') }}",
+              "to_date": "={{ $now.toFormat('yyyy.MM.dd') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "from_date",
+                "displayName": "from_date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "to_date",
+                "displayName": "to_date",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          896,
+          368
+        ],
+        "id": "2adce479-4ef7-41d1-b403-437a576e77a9",
+        "name": "Сводка",
+        "executeOnce": true
+      },
+      {
+        "parameters": {
+          "content": "Подготовка лида к записи в БД и запись.\n- Проверка и переименование креативов\n- Подготовка полей",
+          "height": 80,
+          "width": 464
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          336,
+          256
+        ],
+        "typeVersion": 1,
+        "id": "9a01820a-6109-476d-a325-aeec915a13d7",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "content": "Подготовка отчета с учетом нового лида.",
+          "height": 80,
+          "width": 272
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          896,
+          256
+        ],
+        "typeVersion": 1,
+        "id": "61c2aac6-f063-484c-bcfe-6a9c89eba5ca",
+        "name": "Sticky Note2"
+      }
+    ],
+    "connections": {
+      "Определение клиента": {
+        "main": [
+          [
+            {
+              "node": "Подготовка БД",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Параметры приложения": {
+        "main": [
+          [
+            {
+              "node": "Чтение таблицы объявлений",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Тестовые данные",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Определение клиента 1": {
+        "main": [
+          [
+            {
+              "node": "Параметры приложения",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Тестовые данные": {
+        "main": [
+          [
+            {
+              "node": "Лид",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подготовка записи в БД": {
+        "main": [
+          [
+            {
+              "node": "Добавление лида",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Чтение таблицы объявлений": {
+        "main": [
+          [
+            {
+              "node": "Подготовка записи в БД",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Добавление лида": {
+        "main": [
+          [
+            {
+              "node": "Сводка",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Tilda": {
+        "main": [
+          [
+            {
+              "node": "Лид",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Лид": {
+        "main": [
+          [
+            {
+              "node": "Определение клиента 1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Расчет": {
+        "main": [
+          [
+            {
+              "node": "Мне",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Лене",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Сводка": {
+        "main": [
+          [
+            {
+              "node": "Расчет",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Алексей К",
+    "name": "Version 4f82063d",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "4f82063d-1b69-4ab6-8386-fe6ef4aacfc4",
+  "connections": {
+    "Определение клиента": {
+      "main": [
+        [
+          {
+            "node": "Подготовка БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Параметры приложения": {
+      "main": [
+        [
+          {
+            "node": "Чтение таблицы объявлений",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Тестовые данные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение клиента 1": {
+      "main": [
+        [
+          {
+            "node": "Параметры приложения",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Тестовые данные": {
+      "main": [
+        [
+          {
+            "node": "Лид",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка записи в БД": {
+      "main": [
+        [
+          {
+            "node": "Добавление лида",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Чтение таблицы объявлений": {
+      "main": [
+        [
+          {
+            "node": "Подготовка записи в БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Добавление лида": {
+      "main": [
+        [
+          {
+            "node": "Сводка",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tilda": {
+      "main": [
+        [
+          {
+            "node": "Лид",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Лид": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Расчет": {
+      "main": [
+        [
+          {
+            "node": "Мне",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Лене",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сводка": {
+      "main": [
+        [
+          {
+            "node": "Расчет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-31T11:31:35.552Z",
+  "id": "xZiMqZEKPs1icv2Rtxz54",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Аналитика_gradki",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- 1. Создаем схему\nCREATE SCHEMA IF NOT EXISTS {{ $json.scheme_name }};\n\n-- 2. Создаем таблицу с защитой от дублей по external_id (tranid)\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.leads (\n    id SERIAL PRIMARY KEY,\n    created_at TIMESTAMPTZ DEFAULT NOW(),\n    phone VARCHAR(50),\n    campaign_id VARCHAR(50),\n    campaign_name VARCHAR(255),\n    content_id VARCHAR(50),\n    content_name VARCHAR(255),\n    source_name VARCHAR(100),\n    lead_json JSONB\n);\n\nCREATE TABLE IF NOT EXISTS {{ $json.scheme_name }}.daily_spends (\n    id SERIAL PRIMARY KEY,\n    date DATE DEFAULT (NOW() AT TIME ZONE 'Europe/Moscow')::DATE,\n    campaign_id VARCHAR(50),\n    campaign_name VARCHAR(255),\n    advertising_platform VARCHAR(50),\n    spend DECIMAL(10, 2)\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -320,
+        -304
+      ],
+      "id": "6ffa3af6-1e75-4740-8e2b-e81674872f69",
+      "name": "Подготовка БД",
+      "retryOnFail": true,
+      "executeOnce": false,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      },
+      "notes": "Создает схему для пользователя, если ее нет и добавляет таблицы в БД для работы форкфлоу."
+    },
+    {
+      "parameters": {
+        "content": "## Инициализация база данных\nЧтобы создать Схему и Таблицы в БД",
+        "height": 320,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -592,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "57335f24-e4e4-4e2a-9a10-884f5738036e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name; \n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\" \n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\n\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\n// Берем последний элемент массива (индекс длина минус 1)\nconst schema_name = parsing[parsing.length - 1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        -304
+      ],
+      "id": "06567359-504d-40e9-872c-ab265b66e10e",
+      "name": "Определение клиента"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM public.app\nWHERE app_name = 'soc_analytics'\n  AND app_user_id = (\n    SELECT user_id\n    FROM public.\"user\"\n    WHERE user_login = '{{ $json.scheme_name }}'\n  );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        144,
+        368
+      ],
+      "id": "66764fba-69a1-4a16-a17a-a5604f7babc6",
+      "name": "Параметры приложения",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        192
+      ],
+      "id": "d9333dbc-5bbc-4616-971c-7d1e281068fe",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Доступ к имени рабочего процесса осуществляется через _workflow.name\nconst workflow_name = $workflow.name;\n\n// Ожидаем имя типа \"DB_Initializer_Schema_HR\"\n\n// Есть ли в имени суффикс\nconst parsing = workflow_name.split('_');\nif (parsing.length < 2) {\n  throw new Error(\"Не указана схема для пользователя в названии процесса.\");\n}\n\nconst schema_name = parsing[1];\n\nreturn [{ json: { scheme_name: schema_name } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        368
+      ],
+      "id": "61be56c8-6069-4afb-96d0-7aa74f92fdeb",
+      "name": "Определение клиента 1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"headers\": {\n      \"host\": \"n8n.avdivo.ru\",\n      \"user-agent\": \"Mozilla/5.0 (Linux; Android 16; SM-A266B Build/BP2A.250605.031.A3) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/146.0.7680.177 Mobile Safari/537.36 musical_ly_44.6.4 RevealType/Dialog\",\n      \"content-length\": \"2230\",\n      \"accept\": \"*/*\",\n      \"content-type\": \"application/x-www-form-urlencoded\",\n      \"referer\": \"https://social-quiz.tilda.ws/?adset_id=1861388811707569&ad_id=1861399740567570&utm_term=%D0%93%D1%80%D1%83%D0%BF%D0%BF%D0%B0+1&utm_source=tiktok&utm_id=1861388811707553&utm_campaign=2+%D0%BA%D0%B0%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D1%8F&utm_medium=social&utm_content=%D0%9E%D0%A6%D0%98%D0%9D%D0%9A%D0%9E%D0%92%D0%90%D0%9D%D0%9D%D0%AB%D0%95+%D0%93%D0%A0%D0%AF%D0%94%D0%9A%D0%98+%E2%86%92+20+%D0%BB%D0%B5%D1%82+%D0%BA%D0%B0%D0%BA+%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5%21+%E2%9C%A8+%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%8E%D1%82%D1%81%D1%8F+%D0%B7%D0%B0+15+%D0%BC%D0%B8%D0%BD%D1%83%D1%82+%D0%B1%D0%B5%D0%B7+%D0%B4%D1%80%D0%B5%D0%BB%D0%B8.+%D0%92%D1%8B%D0%B3%D0%BB%D1%8F%D0%B4%D0%B8%D1%82+%D0%BA%D0%B0%D0%BA+%D0%B8%D0%B7+Pinterest.+%D0%90+%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%BE%D0%B5+%E2%80%94+%D0%BD%D0%B8%D0%BA%D0%BE%D0%B3%D0%B4%D0%B0+%D0%BD%D0%B5+%D1%81%D0%B3%D0%BD%D0%B8%D1%91%D1%82%21+%D0%9B%D1%83%D1%87%D1%88%D0%B5%D0%B5+%D0%B2%D1%80%D0%B5%D0%BC%D1%8F+%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C.++#Ð¾Ð³Ð¾ÑÐ¾Ð´\",\n      \"via\": \"2.0 Caddy\",\n      \"x-forwarded-for\": \"87.242.111.251\",\n      \"x-forwarded-host\": \"n8n.avdivo.ru\",\n      \"x-forwarded-proto\": \"https\",\n      \"accept-encoding\": \"gzip\"\n    },\n    \"params\": {},\n    \"query\": {},\n    \"body\": {\n      \"Location\": \"Для огорода\",\n      \"Color\": \"Коричневый\",\n      \"Time\": \"Прицениваюсь\",\n      \"phone\": \"+375 (29) 691-09-21\",\n      \"Checkbox\": \"yes\",\n      \"tranid\": \"22857336:8328261783\",\n      \"COOKIES\": \"_ga=GA1.1.1891874018.1776319102; _ym_uid=1776319103613819472; _ym_d=1776319103; _fbp=fb.1.1776319102613.356893472751808924; _ym_isad=2; _ym_visorc=w; _tt_enable_cookie=1; _ttp=01KPADWZRZ30W1GBZVWQ05NXYW_.tt.1; ttclid=E_C_P_CtwBighV7_NwV7nst9E-64HttvbseDvv3I-xxekHnnMqCuK-tCCzlZGIltkj1LMDs8KULnUO_CsUF_H3cgKVV9vaAeQzF308Ic71-l1ko2tc4oXlkJl5e8pQxboOOmLYXnUjckzKTopcy7SbQtpKZ_zyjEr3mHCLgjQTr1ouzs_hrSFvw9LrnL5NqgpNBrDdRBxC2Uas4XMWw6CUTSuV6tVGBva7v43ylaCAfeouyj0o3obx4Ii7-u6u19IKyppgPIAzz4c5ShQDPOegJOlfC-FvXM4jZmRCwbbhw0AUdBIEdjIuMA; _ga_N8C4G8HRNB=GS2.1.s1776319102$o1$g1$t1776319113$j49$l0$h0; ttcsid_D6NC4H3C77UBTM3F3U7G=1776319102768::NoQZbje3m7NZ_-JKH2t5.1.1776319179432.1; ttcsid=1776319102770::yRKujPzj2Xsio14u77oV.1.1776319179433.0::1.-1505.0::76595.11.209.684::51200.13.128;tildauid=9067e1346974b5bafa78ce25359bdbec\",\n      \"formid\": \"form2005219531\",\n      \"formname\": \"Квиз для соцсетей\",\n      \"utm_term\": \"Группа 1\",\n      \"utm_source\": \"tiktok\",\n      \"utm_id\": \"1861388811707553\",\n      \"utm_campaign\": \"2 кампания\",\n      \"utm_medium\": \"social\",\n      \"utm_content\": \"ОЦИНКОВАННЫЕ ГРЯДКИ &rarr; 20 лет как новые! ✨ Собираются за 15 минут без дрели. Выглядит как из Pinterest. А главное &mdash; никогда не сгниёт! Лучшее время купить.\"\n    },\n    \"webhookUrl\": \"https://n8n.avdivo.ru/webhook/lead\",\n    \"executionMode\": \"production\"\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        192
+      ],
+      "id": "9f6d5364-c0f7-4a0a-8ef5-18c359dc0139",
+      "name": "Тестовые данные"
+    },
+    {
+      "parameters": {
+        "jsCode": "// const main = $('Тестовые данные').first();\nconst main = $('Лид').first();\nconst body = main.json.body;\nconst headers = main.json.headers;\nconst creatives = $input.all()\n\n// UTM-параметры из тела запроса\nconst campaign_id = body.utm_id;  // id кампании\nconst campaign_name = body.utm_campaign;  // название кампании\nconst source_name = body.utm_source;  // название источника (соцсети)\nconst phone = body.phone;  // Телефон\n\n// Парсим referer для извлечения параметров контента\nconst referer = headers.referer || '';\nconst getParam = (url, key) => {\n  const match = url.match(new RegExp(`[?&]${key}=([^&]*)`));\n  return match ? decodeURIComponent(match[1]) : null;\n};\nlet content_id = getParam(referer, 'ad_id');  // id креатива или объявления\nlet content_name = getParam(referer, 'utm_content');  // название объявления\n\n// Полный JSON лида\nconst lead_json = main.json;\n\n// Ищем совпадение по creativity_id\nconst match = creatives.find(item => item.json.creativity_id === content_id);\n\n// Если найдено — перезаписываем переменные\nif (match) {\n  content_id = match.json.id;           // внутренний ID из БД\n  content_name = match.json.content_name; // название креатива из БД\n}\n\n// Формируем объект для записи в БД\nconst record = {\n  campaign_id,\n  phone,\n  campaign_name,\n  content_id,\n  content_name,\n  source_name,\n  lead_json\n};\n\n// Возвращаем в формате n8n для следующей ноды\nreturn [{ json: record }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        368
+      ],
+      "id": "1933eb23-81d7-4c50-9d81-f63fa6336c2b",
+      "name": "Подготовка записи в БД"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "s4h0bmcYKZBrK6f7",
+          "mode": "list",
+          "cachedResultName": "Объявления",
+          "cachedResultUrl": "/projects/ILcfmLBZn60jlfes/datatables/s4h0bmcYKZBrK6f7"
+        },
+        "matchType": "allConditions",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        336,
+        368
+      ],
+      "id": "25023ab2-30e3-4460-9540-e363742b7432",
+      "name": "Чтение таблицы объявлений"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "={{ $('Определение клиента 1').first().json.scheme_name }}",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "leads",
+          "mode": "list",
+          "cachedResultName": "leads"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "campaign_name",
+              "displayName": "campaign_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "content_id",
+              "displayName": "content_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "content_name",
+              "displayName": "content_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source_name",
+              "displayName": "source_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lead_json",
+              "displayName": "lead_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        704,
+        368
+      ],
+      "id": "c5b3b6ba-8063-44a3-9b43-4cffb8f6c3bd",
+      "name": "Добавление лида",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "249503190",
+        "text": "={{ $json.report }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1296,
+        256
+      ],
+      "id": "f15fffa8-74ee-46a7-98df-fe2c547e7ff2",
+      "name": "Мне",
+      "webhookId": "7d5d0791-b540-4df3-a9e3-c0114ca33624",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "326830581",
+        "text": "={{ $json.report }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1296,
+        464
+      ],
+      "id": "ec57b51b-c3dc-43e5-93ff-8c9dbe63138b",
+      "name": "Лене",
+      "webhookId": "7d5d0791-b540-4df3-a9e3-c0114ca33624",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -592,
+        368
+      ],
+      "id": "524069de-a5d0-4068-b75e-b1e6b08c46f1",
+      "name": "Tilda",
+      "webhookId": "7a34da02-7776-4316-949c-fe64b91c204f"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        368
+      ],
+      "id": "45e12a90-5cb7-445e-8adf-8541f11a117a",
+      "name": "Лид"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Функция для безопасной вставки текста в HTML\nconst esc = (str) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n\n// 1. Получаем данные из нод\nconst leadInfo = $('Подготовка записи в БД').first().json;\nconst summary = $('Сводка').first().json.report; // Тут уже могут быть <b> или *\n\n// 2. Извлекаем и СРАЗУ экранируем только \"грязные\" данные\nconst source = esc(leadInfo.source_name || 'не определен');\nconst phone = esc(leadInfo.phone || 'нет номера');\nconst content = esc(leadInfo.content_name || 'не указано');\n\n// 3. Формируем заголовок (теги <b> пишем ПРЯМО, не экранируя их)\nconst leadHeader = `<b>Лид из ${source}</b>\n<b>Телефон</b>: ${phone}\n<b>Объявление</b>: ${content}`;\n\n// 4. Обрабатываем сводку (если там остались звездочки, меняем их на <b>)\nconst cleanSummary = summary.replace(/\\*(.*?)\\*/g, '<b>$1</b>');\n\nreturn {\n  report: `${leadHeader}\\n\\n${cleanSummary}`\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        368
+      ],
+      "id": "a169c67d-e85e-47d2-991a-e876bad1b2c9",
+      "name": "Расчет"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ua8o0NobwwFYFU6qwMV_y",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ua8o0NobwwFYFU6qwMV_y",
+          "cachedResultName": "sub_сводка_за_период_gradki"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "from_date": "={{ $now.toFormat('yyyy.MM.dd') }}",
+            "to_date": "={{ $now.toFormat('yyyy.MM.dd') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "from_date",
+              "displayName": "from_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "to_date",
+              "displayName": "to_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        368
+      ],
+      "id": "2adce479-4ef7-41d1-b403-437a576e77a9",
+      "name": "Сводка",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "content": "Подготовка лида к записи в БД и запись.\n- Проверка и переименование креативов\n- Подготовка полей",
+        "height": 80,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        336,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "9a01820a-6109-476d-a325-aeec915a13d7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Подготовка отчета с учетом нового лида.",
+        "height": 80,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "61c2aac6-f063-484c-bcfe-6a9c89eba5ca",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-03-31T11:31:35.552Z",
+      "createdAt": "2026-03-31T11:31:35.552Z",
+      "role": "workflow:owner",
+      "workflowId": "xZiMqZEKPs1icv2Rtxz54",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-16T21:55:32.203Z",
+  "versionId": "4f82063d-1b69-4ab6-8386-fe6ef4aacfc4"
+}
