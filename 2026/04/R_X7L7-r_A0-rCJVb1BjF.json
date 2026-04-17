@@ -1,0 +1,664 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Attachment Only",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Вывод списка отчетов",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Определение команды",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Определение команды": {
+      "main": [
+        [
+          {
+            "node": "start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get Chat Message Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Attachment Only": {
+      "main": [
+        [
+          {
+            "node": "Next Step !  ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Attachment": {
+      "main": [
+        [
+          {
+            "node": "Next Step !  ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Chat Message Content": {
+      "main": [
+        [
+          {
+            "node": "Next Step !",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-04-16T21:27:00.125Z",
+  "id": "R_X7L7-r_A0-rCJVb1BjF",
+  "isArchived": true,
+  "meta": null,
+  "name": "ТГ Бот",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1392,
+        1248
+      ],
+      "id": "e7ee2545-6721-4882-adbb-76c2f650e336",
+      "name": "Telegram Trigger",
+      "webhookId": "903511e8-e3f0-43b7-937b-e47406a9734a",
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "1c36bdfd-7a9a-4f5d-bd53-12ffc8c8f829",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.message.caption }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Attachmet+Message(Caption)"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "a0080ad2-7885-4485-ae57-0c4dea199483",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.message.document }}",
+                    "rightValue": ""
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "Attachment Only"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "df878dd1-7cc4-4632-9873-aeeab06f4032",
+                    "leftValue": "={{ $json.body.callback_query }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "inline_key"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "dd9f3c11-ba4b-4963-bc02-23cd7670bf94",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "📈 Отчеты"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "key"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "01ce11f5-1553-4366-af64-b031f9889a59",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "command"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "55a6c122-0bea-4867-95a1-957623bfeeb2",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6b97f270-151d-4fd6-9baa-7449816e5739",
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "voice"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7d2b61fc-6759-448c-b34c-485b8c886df2",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        -1232,
+        1168
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {},
+      "id": "af901284-2467-46e5-b872-f8a2a0d19494",
+      "name": "text",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        -880,
+        1728
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "fa393ede-8c0b-41af-80cf-7c6644bc1dec",
+      "name": "voice",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        -880,
+        1888
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "174c5fce-a4ba-41fe-935a-b4d5541ed598"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1f426258-186a-4c53-9910-62eef9e3c8da",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -880,
+        1504
+      ],
+      "id": "e6bd0d0c-4ef7-402e-97f0-a10b110040be",
+      "name": "Определение команды"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "Отчеты",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📈 Отчеты",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -656,
+        1488
+      ],
+      "id": "619c9c1e-0649-4d78-ade9-4458c180b899",
+      "name": "start",
+      "webhookId": "9f534039-81ba-4071-8ae9-5ccc323cdd0c",
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "Выберите отчет",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📅 Сегодняшние показатели",
+                    "additionalFields": {
+                      "callback_data": "today"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📊 Отчет по всем кампаниям",
+                    "additionalFields": {
+                      "callback_data": "all_campaign"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -880,
+        1312
+      ],
+      "id": "98dbc38d-432c-4207-bb58-e8f4ffbc0d65",
+      "name": "Вывод списка отчетов",
+      "webhookId": "6b2d1573-159e-4030-8ee6-40ac53afaf30",
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "message.document.file_id, message.document.file_name, message.caption",
+        "options": {}
+      },
+      "id": "cb54e0aa-8525-43fb-8029-3e534de757b8",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        -880,
+        656
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41cf616c-c640-4f61-a2ba-49715aa1bf2a",
+              "name": "file_id",
+              "type": "string",
+              "value": "={{$json.message.document.file_id}}"
+            },
+            {
+              "id": "22fcf53f-ebd5-4294-9fd8-7a485b8293f2",
+              "name": "file_name",
+              "type": "string",
+              "value": "={{$json.message.document.file_name}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f66475e3-5f06-4944-b422-9d88a7c4f719",
+      "name": "Get Attachment Only",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -880,
+        848
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41cf616c-c640-4f61-a2ba-49715aa1bf2a",
+              "name": "file_id",
+              "type": "string",
+              "value": "={{ $json['message.document.file_id'] }}"
+            },
+            {
+              "id": "22fcf53f-ebd5-4294-9fd8-7a485b8293f2",
+              "name": "file_name",
+              "type": "string",
+              "value": "={{ $json['message.document.file_name'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "42f244f0-c2c9-4b4e-80d1-51bcb3a7b4e6",
+      "name": "Get Attachment",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -640,
+        656
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {},
+      "id": "fca4bfc9-86bf-46f5-a722-e4ca517ecff9",
+      "name": "Next Step !",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        -432,
+        464
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "92a42200-3a38-4889-a46d-751eef2c67fe",
+      "name": "Next Step !  ",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        -432,
+        848
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8de49002-38ba-43fe-ba48-18e8c85241a2",
+              "name": "chat_message_content",
+              "type": "string",
+              "value": "={{ $json['message.caption'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "469e2e0c-7743-4d56-9c51-9b296e433efa",
+      "name": "Get Chat Message Content",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -640,
+        464
+      ],
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-16T21:27:00.125Z",
+      "createdAt": "2026-04-16T21:27:00.125Z",
+      "role": "workflow:owner",
+      "workflowId": "R_X7L7-r_A0-rCJVb1BjF",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-16T22:06:27.696Z",
+  "versionId": "6f7c645a-cb5c-4d57-a181-57d91aaab167"
+}
