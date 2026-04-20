@@ -251,7 +251,7 @@
           "parameters": [
             {
               "name": "keys",
-              "value": "*llm*, db_user, one"
+              "value": "*llm*, db_user, one, Мой_умный_дом_yandex_API"
             }
           ]
         },
@@ -311,6 +311,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-02-05T22:12:15.145Z",
-  "versionId": "e26b79f3-b641-4f21-a4da-67d7315f3b47"
+  "updatedAt": "2026-04-18T15:38:21.246Z",
+  "versionId": "b6bf29e6-5d52-4cc4-833e-49691e7d3ed4"
 }
