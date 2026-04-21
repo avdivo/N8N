@@ -1,0 +1,68 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2026-04-20T12:04:55.006Z",
+  "id": "wDaoVbcoKI2eTzEYqLX25",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "85ab267a-7ef8-451c-831b-74e185dd70be",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "command": "ffmpeg -version"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        272,
+        32
+      ],
+      "id": "43c5029f-e5d2-4537-8911-50daf635dd49",
+      "name": "Execute Command"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-04-20T12:04:55.006Z",
+      "createdAt": "2026-04-20T12:04:55.006Z",
+      "role": "workflow:owner",
+      "workflowId": "wDaoVbcoKI2eTzEYqLX25",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-04-20T20:50:50.299Z",
+  "versionId": "12a0f0a7-864b-4234-a156-155aa0817002"
+}
