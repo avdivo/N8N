@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-04-04T09:03:55.583Z",
-    "createdAt": "2026-04-04T09:03:05.370Z",
-    "versionId": "47314553-ee96-43e9-87ca-ba364c8b8d94",
+    "updatedAt": "2026-04-21T19:23:24.093Z",
+    "createdAt": "2026-04-21T19:23:19.624Z",
+    "versionId": "19427874-f1b5-4f78-a0d7-a8312f5c18ca",
     "workflowId": "p4sqhV2_N6w2fIttucaSX",
     "nodes": [
       {
@@ -656,7 +656,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// 1. Словарь чатов (объект JS)\nconst chatsName = {\n  \"249503190\": \"Проверка\",\n  \"-1002209929376\": \"Замковая гора 2\",\n  \"-1003878473296\": \"Замковая гора\"\n};\n\n// 2. Берем первый элемент из входящей ноды\nconst item = $input.first().json;\n\n// 3. Извлекаем данные (аналог вашего chat_id и name)\nconst chatId = item.chat_id;\n\n// Аналог вашего name с цепочкой проверок\nconst name = item.first_name \n          || item.username\n          || \"\";\n\n// 4. Возвращаем результат в формате n8n\nreturn [{\n  json: {\n    // Вместо .get() в JS используем логическое ИЛИ для дефолта\n    file_name: chatsName[chatId], \n    chat_id: chatId,\n    name: name,\n    text: item.text\n  }\n}];\n"
+          "jsCode": "// 1. Словарь чатов (объект JS)\nconst chatsName = {\n  \"249503190\": \"Проверка\",\n  \"-1002209929376\": \"Опросник AlexLenaAI\",\n  \"-1003878473296\": \"Замковая гора\"\n};\n\n// 2. Берем первый элемент из входящей ноды\nconst item = $input.first().json;\n\n// 3. Извлекаем данные (аналог вашего chat_id и name)\nconst chatId = item.chat_id;\n\n// Аналог вашего name с цепочкой проверок\nconst name = item.first_name \n          || item.username\n          || \"\";\n\n// 4. Возвращаем результат в формате n8n\nreturn [{\n  json: {\n    // Вместо .get() в JS используем логическое ИЛИ для дефолта\n    file_name: chatsName[chatId], \n    chat_id: chatId,\n    name: name,\n    text: item.text\n  }\n}];\n"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -825,7 +825,7 @@
               {
                 "id": "a3789dda-831e-4c5a-b48a-c5d2328b4cc9",
                 "name": "first_name",
-                "value": "=\n{{ $('Telegram Trigger').item.json.message.from.first_name || \"\" }}",
+                "value": "={{ $('Telegram Trigger').item.json.message.from.first_name || \"\" }}",
                 "type": "string"
               },
               {
@@ -1286,11 +1286,11 @@
       }
     },
     "authors": "Алексей К",
-    "name": "Version 47314553",
+    "name": "Version 19427874",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "47314553-ee96-43e9-87ca-ba364c8b8d94",
+  "activeVersionId": "19427874-f1b5-4f78-a0d7-a8312f5c18ca",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -2307,7 +2307,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// 1. Словарь чатов (объект JS)\nconst chatsName = {\n  \"249503190\": \"Проверка\",\n  \"-1002209929376\": \"Замковая гора 2\",\n  \"-1003878473296\": \"Замковая гора\"\n};\n\n// 2. Берем первый элемент из входящей ноды\nconst item = $input.first().json;\n\n// 3. Извлекаем данные (аналог вашего chat_id и name)\nconst chatId = item.chat_id;\n\n// Аналог вашего name с цепочкой проверок\nconst name = item.first_name \n          || item.username\n          || \"\";\n\n// 4. Возвращаем результат в формате n8n\nreturn [{\n  json: {\n    // Вместо .get() в JS используем логическое ИЛИ для дефолта\n    file_name: chatsName[chatId], \n    chat_id: chatId,\n    name: name,\n    text: item.text\n  }\n}];\n"
+        "jsCode": "// 1. Словарь чатов (объект JS)\nconst chatsName = {\n  \"249503190\": \"Проверка\",\n  \"-1002209929376\": \"Опросник AlexLenaAI\",\n  \"-1003878473296\": \"Замковая гора\"\n};\n\n// 2. Берем первый элемент из входящей ноды\nconst item = $input.first().json;\n\n// 3. Извлекаем данные (аналог вашего chat_id и name)\nconst chatId = item.chat_id;\n\n// Аналог вашего name с цепочкой проверок\nconst name = item.first_name \n          || item.username\n          || \"\";\n\n// 4. Возвращаем результат в формате n8n\nreturn [{\n  json: {\n    // Вместо .get() в JS используем логическое ИЛИ для дефолта\n    file_name: chatsName[chatId], \n    chat_id: chatId,\n    name: name,\n    text: item.text\n  }\n}];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -2602,6 +2602,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-04-05T07:55:17.657Z",
-  "versionId": "e5b07e29-0e33-446e-b180-ea9b00e10de2"
+  "updatedAt": "2026-04-21T19:23:19.622Z",
+  "versionId": "19427874-f1b5-4f78-a0d7-a8312f5c18ca"
 }
