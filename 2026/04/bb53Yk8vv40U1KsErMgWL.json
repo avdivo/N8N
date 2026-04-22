@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-04-18T21:56:55.646Z",
-    "createdAt": "2026-04-18T21:56:50.753Z",
-    "versionId": "6330c3b9-1f49-482c-8f1c-ed0833caf8e6",
+    "updatedAt": "2026-04-21T22:06:33.253Z",
+    "createdAt": "2026-04-21T22:06:26.519Z",
+    "versionId": "5eeb6208-abdc-44fd-aa41-4543fd041c8b",
     "workflowId": "bb53Yk8vv40U1KsErMgWL",
     "nodes": [
       {
@@ -147,7 +147,7 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
         "typeVersion": 1,
         "position": [
-          1184,
+          1408,
           400
         ],
         "id": "bcec0304-0cd4-4cad-a737-12adbfe092bc",
@@ -167,7 +167,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1008,
+          1232,
           224
         ],
         "id": "c1eb39ac-8554-453f-9a50-1c6e89e43fdb",
@@ -225,7 +225,7 @@
         "type": "@n8n/n8n-nodes-langchain.chainLlm",
         "typeVersion": 1.7,
         "position": [
-          1184,
+          1408,
           224
         ],
         "id": "ab02c8b4-05cc-43ee-b124-0730132cf430",
@@ -243,7 +243,7 @@
         "name": "Return",
         "type": "n8n-nodes-base.set",
         "position": [
-          1840,
+          2080,
           224
         ],
         "typeVersion": 3.3
@@ -260,8 +260,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2032,
-          112
+          2352,
+          464
         ],
         "id": "77b20e27-b3ae-41e4-bc66-181f3a46ca08",
         "name": "Мне",
@@ -285,8 +285,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2032,
-          320
+          2048,
+          464
         ],
         "id": "53c40af9-be2d-4c02-9c8f-1754f2c4349b",
         "name": "Лене",
@@ -305,7 +305,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1504,
+          1728,
           224
         ],
         "id": "b259a4b3-517f-4b3c-95c8-57c2e7a1e899",
@@ -318,11 +318,43 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1664,
+          1888,
           224
         ],
         "id": "866113f7-be4f-4706-912b-2cc332fde936",
         "name": "md to html"
+      },
+      {
+        "parameters": {
+          "jsCode": "// 1. Получаем данные\nconst statsItems = $('Статистика по кампании').all();\nconst leadsItems = $('Лиды по дням').all();\n\nconst stats = statsItems.map(i => i.json);\nconst leads = leadsItems.map(i => i.json);\n\n// 2. Твоя сортировка (без изменений)\nstats.sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date)));\n\n// 3. Формируем только 3 массива для графика\nconst labels = [];\nconst budgetData = [];\nconst leadsData = [];\n\nstats.forEach(item => {\n  // Число месяца из даты\n  labels.push(new Date(item.date).getDate());\n  \n  // Бюджет\n  budgetData.push(parseFloat(item.spend) || 0);\n  \n  // Лиды по дате\n  const dateKey = item.date.split('T')[0];\n  const leadEntry = leads.find(l => l.lead_date?.startsWith(dateKey));\n  leadsData.push(leadEntry ? parseInt(leadEntry.leads_count) || 0 : 0);\n});\n\n// 4. Возвращаем только массивы — всё\nreturn { labels, budgetData, leadsData };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1024,
+          224
+        ],
+        "id": "7737dc11-d7cd-497c-89c0-9ce17524d46c",
+        "name": "Для графика",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "labelsMode": "array",
+          "labelsArray": "={{ [3,4,5,6,7] }}",
+          "data": "={\n  \"datasets\": [\n    {\n      \"label\": \"Бюджет\",\n      \"data\": [30.1,29.9,37.5,22.24,36.91],\n      \"type\": \"bar\",\n      \"yAxisID\": \"y\",\n      \"backgroundColor\": \"rgba(54, 162, 235, 0.6)\"\n    }\n  ],\n  \"options\": {\n    \"responsive\": true,\n    \"scales\": {\n      \"y\": {\n        \"min\": 0,\n        \"max\": 40,\n        \"ticks\": { \"stepSize\": 5 },\n        \"title\": { \"display\": true, \"text\": \"Бюджет ($)\" }\n      },\n      \"x\": {\n        \"title\": { \"display\": true, \"text\": \"Число месяца\" }\n      }\n    }\n  }\n}",
+          "chartOptions": {},
+          "datasetOptions": {}
+        },
+        "type": "n8n-nodes-base.quickChart",
+        "typeVersion": 1,
+        "position": [
+          1232,
+          32
+        ],
+        "id": "8b7b1f8e-a34c-48f8-b51f-0ac608cb8013",
+        "name": "QuickChart",
+        "disabled": true
       }
     ],
     "connections": {
@@ -396,7 +428,7 @@
         "main": [
           [
             {
-              "node": "Подготовка данных для модели",
+              "node": "Для графика",
               "type": "main",
               "index": 0
             }
@@ -484,14 +516,30 @@
             }
           ]
         ]
+      },
+      "Для графика": {
+        "main": [
+          [
+            {
+              "node": "Подготовка данных для модели",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "QuickChart",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version 6330c3b9",
+    "name": "Version 5eeb6208",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "6330c3b9-1f49-482c-8f1c-ed0833caf8e6",
+  "activeVersionId": "5eeb6208-abdc-44fd-aa41-4543fd041c8b",
   "connections": {
     "When clicking ‘Execute workflow’": {
       "main": [
@@ -563,7 +611,7 @@
       "main": [
         [
           {
-            "node": "Подготовка данных для модели",
+            "node": "Для графика",
             "type": "main",
             "index": 0
           }
@@ -646,6 +694,22 @@
         [
           {
             "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Для графика": {
+      "main": [
+        [
+          {
+            "node": "Подготовка данных для модели",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "QuickChart",
             "type": "main",
             "index": 0
           }
@@ -802,7 +866,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        1184,
+        1408,
         400
       ],
       "id": "bcec0304-0cd4-4cad-a737-12adbfe092bc",
@@ -822,7 +886,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1008,
+        1232,
         224
       ],
       "id": "c1eb39ac-8554-453f-9a50-1c6e89e43fdb",
@@ -880,7 +944,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1184,
+        1408,
         224
       ],
       "id": "ab02c8b4-05cc-43ee-b124-0730132cf430",
@@ -898,7 +962,7 @@
       "name": "Return",
       "type": "n8n-nodes-base.set",
       "position": [
-        1840,
+        2080,
         224
       ],
       "typeVersion": 3.3
@@ -915,8 +979,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2032,
-        112
+        2352,
+        464
       ],
       "id": "77b20e27-b3ae-41e4-bc66-181f3a46ca08",
       "name": "Мне",
@@ -940,8 +1004,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2032,
-        320
+        2048,
+        464
       ],
       "id": "53c40af9-be2d-4c02-9c8f-1754f2c4349b",
       "name": "Лене",
@@ -960,7 +1024,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1504,
+        1728,
         224
       ],
       "id": "b259a4b3-517f-4b3c-95c8-57c2e7a1e899",
@@ -973,14 +1037,116 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1664,
+        1888,
         224
       ],
       "id": "866113f7-be4f-4706-912b-2cc332fde936",
       "name": "md to html"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Получаем данные\nconst statsItems = $('Статистика по кампании').all();\nconst leadsItems = $('Лиды по дням').all();\n\nconst stats = statsItems.map(i => i.json);\nconst leads = leadsItems.map(i => i.json);\n\n// 2. Твоя сортировка (без изменений)\nstats.sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date)));\n\n// 3. Формируем только 3 массива для графика\nconst labels = [];\nconst budgetData = [];\nconst leadsData = [];\n\nstats.forEach(item => {\n  // Число месяца из даты\n  labels.push(new Date(item.date).getDate());\n  \n  // Бюджет\n  budgetData.push(parseFloat(item.spend) || 0);\n  \n  // Лиды по дате\n  const dateKey = item.date.split('T')[0];\n  const leadEntry = leads.find(l => l.lead_date?.startsWith(dateKey));\n  leadsData.push(leadEntry ? parseInt(leadEntry.leads_count) || 0 : 0);\n});\n\n// 4. Возвращаем только массивы — всё\nreturn { labels, budgetData, leadsData };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        224
+      ],
+      "id": "7737dc11-d7cd-497c-89c0-9ce17524d46c",
+      "name": "Для графика",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "labelsMode": "array",
+        "labelsArray": "={{ [3,4,5,6,7] }}",
+        "data": "={\n  \"datasets\": [\n    {\n      \"label\": \"Бюджет\",\n      \"data\": [30.1,29.9,37.5,22.24,36.91],\n      \"type\": \"bar\",\n      \"yAxisID\": \"y\",\n      \"backgroundColor\": \"rgba(54, 162, 235, 0.6)\"\n    }\n  ],\n  \"options\": {\n    \"responsive\": true,\n    \"scales\": {\n      \"y\": {\n        \"min\": 0,\n        \"max\": 40,\n        \"ticks\": { \"stepSize\": 5 },\n        \"title\": { \"display\": true, \"text\": \"Бюджет ($)\" }\n      },\n      \"x\": {\n        \"title\": { \"display\": true, \"text\": \"Число месяца\" }\n      }\n    }\n  }\n}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        32
+      ],
+      "id": "8b7b1f8e-a34c-48f8-b51f-0ac608cb8013",
+      "name": "QuickChart",
+      "disabled": true
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Для графика": [
+      {
+        "json": {
+          "labels": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "budgetData": [
+            30.1,
+            29.9,
+            37.5,
+            22.24,
+            36.91,
+            27.69,
+            20,
+            37.5,
+            31,
+            21.73,
+            38.75,
+            22.86,
+            37.17,
+            38.75,
+            34.8,
+            22.94,
+            32.3,
+            37.67,
+            29.81
+          ],
+          "leadsData": [
+            7,
+            3,
+            9,
+            3,
+            9,
+            7,
+            3,
+            6,
+            5,
+            1,
+            8,
+            2,
+            3,
+            5,
+            8,
+            3,
+            3,
+            5,
+            5
+          ]
+        }
+      }
+    ]
+  },
   "repo_name": "N8N",
   "repo_owner": "avdivo",
   "repo_path": "",
@@ -1001,6 +1167,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-04-18T21:56:50.748Z",
-  "versionId": "6330c3b9-1f49-482c-8f1c-ed0833caf8e6"
+  "updatedAt": "2026-04-21T22:06:26.518Z",
+  "versionId": "5eeb6208-abdc-44fd-aa41-4543fd041c8b"
 }
