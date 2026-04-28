@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-04-21T19:23:24.093Z",
-    "createdAt": "2026-04-21T19:23:19.624Z",
-    "versionId": "19427874-f1b5-4f78-a0d7-a8312f5c18ca",
+    "updatedAt": "2026-04-27T12:48:08.398Z",
+    "createdAt": "2026-04-27T12:48:01.382Z",
+    "versionId": "704bd74e-6196-4eeb-915a-330c41c558a7",
     "workflowId": "p4sqhV2_N6w2fIttucaSX",
     "nodes": [
       {
@@ -307,6 +307,7 @@
         "id": "ffe8cbe5-6d8b-454c-9eda-e71d3fbfc95f",
         "name": "OpenRouter Chat Model",
         "retryOnFail": true,
+        "waitBetweenTries": 5000,
         "credentials": {
           "openRouterApi": {
             "id": "BepcWMXnZ8a1V6Ge",
@@ -1286,11 +1287,11 @@
       }
     },
     "authors": "Алексей К",
-    "name": "Version 19427874",
+    "name": "Version 704bd74e",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "19427874-f1b5-4f78-a0d7-a8312f5c18ca",
+  "activeVersionId": "704bd74e-6196-4eeb-915a-330c41c558a7",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -1958,6 +1959,7 @@
       "id": "ffe8cbe5-6d8b-454c-9eda-e71d3fbfc95f",
       "name": "OpenRouter Chat Model",
       "retryOnFail": true,
+      "waitBetweenTries": 5000,
       "credentials": {
         "openRouterApi": {
           "id": "BepcWMXnZ8a1V6Ge",
@@ -2602,6 +2604,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-04-21T19:23:19.622Z",
-  "versionId": "19427874-f1b5-4f78-a0d7-a8312f5c18ca"
+  "updatedAt": "2026-04-27T12:48:01.379Z",
+  "versionId": "704bd74e-6196-4eeb-915a-330c41c558a7"
 }
