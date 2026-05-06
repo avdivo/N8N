@@ -1,0 +1,231 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Бот назначен Админом канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Бот назначен Админом канала": {
+      "main": [
+        [
+          {
+            "node": "Запрос E-Mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-05-05T10:18:50.424Z",
+  "id": "4NBpOUrsoYJ0Qmlkgz8W6",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Превратник Телеграм канала",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Бот Превратник\n\n### Функции\n- Один бот для всех каналов и пользователей\n- Проверяет подписку в канале\n- Регистрирует подписчика в канале, если он не зарегистрирован\n- Отправляет подписчика на нужный пост в канале\n- При входе принимает параметр *Start*,  который определяет пост на который будет отправлен подписчик\n- Записывает данные подписчиков в БД\n- Находит адрес поста по переданному ключевому слову в параметре **Start**, для чего использует гугл таблицу которую редактирует пользователь.  \n\n\\* Пользователь - владелец канала, для кого работает программа\n\\* Подписчик - клиент пользователя\n\n",
+        "height": 368,
+        "width": 720
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        -784
+      ],
+      "typeVersion": 1,
+      "id": "59e08ed6-1df5-4db1-ac85-baa652fa0924",
+      "name": "Sticky Note",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Устройство\n\n### Каналы\n- В БД в схеме atgate таблица Channel в которой переписаны все каналы для которых работает бот:\n  - **id** - идентификатор записи\n  - **channel_name** - произвольное название канала\n  - **channel_id** - идентификатор канала\n  - **e-mail** - адрес пользователя для доступа к файлу со ссылками на подарки\n\n\n### Пользователи\n- В БД в схеме Public таблица AtGateUser содержит данные пользователей вошедших в бота-превратника (для всех пользователей - это лог, чтобы не потерять):\n  - **user_id** - идентификатор записи\n  - **channel_id** - идентификатор канала\n  - **user_id** - идентификатор пользователя в ТГ\n  - **username** - логин\n  - **first_name** - фамилия\n  - **last_name** - имя\n  - **invite** - ко какому слову пришел\n  - **toDateTime** - когда пришел\n\n### Акции (подарки)\n- В БД в схеме Public таблица AtGateLinks для каждого канала с именем - channel_name. Доступ для редактирования выдается только пользователю по e-mail:\n  - **channel_id** - связь с таблицей AtGateChannel\n  - **Кодовое слово** - слово, по которому пользователь получает подарок в инсте но латиницей и без пробелов\n  - **Ссылка** - ссылка на пост в канале с нужным подарком",
+        "height": 720,
+        "width": 720
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "b8cca60c-ee4d-49ce-b016-01b6ace4c4a4",
+      "name": "Sticky Note1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Описание работы\n\n### Инстаграм\n- Пользователь пишет в комментарии кодовое слово\n- Платформа автоматизации (например chatplace) проверяет подписку в инстаграме и выдает пользователю ссылку на подарок по кодовому слову\n- Подарок нужно забрать в ТГ канале, куда и ведет ссылка вида: https://t.me/bot?start=n_word\n  - https://t.me/bot - ссылка на бота\n  - n - номер канала в таблице AtGateChannel\n  - word - кодовое слово сопоставленное со ссылкой в гугл документе для этого канала.\n\n`Кодовое слово которое набирает пользователь в инстаграмме не то что передается тут. Оно переводится в латиницу и в нем остаются только буквы, цыфры, тире.`\n\n\n### Бот\n- переданный параметр разбирается на составные части разделенные \"_\" - `n` и `word`\n- `n` - это id в таблице AtGateChannel, извлекаем эти данные\n- `word` - это кодовое слово (в латинице) по которому пришел пользователь\n- используя эти данные и данные тг проверяем есть ли пользователь с этим каналом в таблице AtGateUser и если нет - добавляем\n- проверяем, подписан ли пользователь на канал, если нет просим подать заявку (кнопкой), автоматически одобряем заявку\n- находим файл таблицу для канала в папке channels\n- находим в таблице ссылку на подарок в тг канале соответствующий кодовому слову\n- предлагаем пользователю перейти по ссылке, чтобы получить подарок\n",
+        "height": 1120,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        -784
+      ],
+      "typeVersion": 1,
+      "id": "d0f2be06-1c42-4eb5-b072-b9667aee810b",
+      "name": "Sticky Note2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Добавлеие канала\n- при добавлении бота в канал администратором он автоматически регистрирует себя превратником этого канала, создавая новую запись в таблице AtGateChannel. Но перед этим он запрашивает e-mail пользователя, которому будет разрешено регистрировать новые акции (подарки)\n\n\n",
+        "height": 640,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        480
+      ],
+      "typeVersion": 1,
+      "id": "1b09d792-528a-4106-90f3-58ddad94104c",
+      "name": "Sticky Note3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        1120
+      ],
+      "id": "a4f36631-ff6e-4927-9201-b21c744b2043",
+      "name": "Telegram Trigger",
+      "webhookId": "878e64d4-bc00-4234-9162-9eed07f37e0c",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ffde17fd-17aa-4155-a8fa-0ff4052dc2a3",
+              "leftValue": "={{ $json[\"my_chat_member\"][\"old_chat_member\"][\"status\"] }}",
+              "rightValue": "left",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "0224f14e-5b8a-490c-86b9-3aba934accd9",
+              "leftValue": "={{ $json[\"my_chat_member\"][\"new_chat_member\"][\"status\"] }}",
+              "rightValue": "administrator",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        880
+      ],
+      "id": "4c98938a-197d-4441-bc38-a33ab8f3fb68",
+      "name": "Бот назначен Админом канала"
+    },
+    {
+      "parameters": {
+        "content": "## Подготовка диска и БД\nВоркфлоу подготовки проверяет и создает в случае их отсутствия:\n- папку channels в корне выбранного гугл диска\n- таблицы в БД в схеме Public:\n  - AtGateChannel\n  - AtGateUser",
+        "height": 208,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "604b67aa-0f7e-4cf5-838b-2084d5a98f1d",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.my_chat_member.from.id }}",
+        "text": "=📢 Вы добавили Бота-превратника администратором в канал {{ $json.my_chat_member.chat.title }}.\n\n✅ Бот будет предлагать подписку на канал посетителям и автоматически принимать заявку. После чего пересылать подписчика на указанный ресурс (пост) в канале.\n\n🎁 Для завершения регистрации укажите электронный адрес пользователя, для получения доступа на редактирование таблицы акций (подарков).\n\n👉 ОТПРАВЬТЕ E-MAIL:",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        880
+      ],
+      "id": "6bfbced1-99bd-4ccc-904c-c580433a8662",
+      "name": "Запрос E-Mail",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-05-05T10:18:50.424Z",
+      "createdAt": "2026-05-05T10:18:50.424Z",
+      "role": "workflow:owner",
+      "workflowId": "4NBpOUrsoYJ0Qmlkgz8W6",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-05-05T21:28:04.271Z",
+  "versionId": "33d8d54d-b045-4ea8-ba09-5a6bb6d0f1d7"
+}
