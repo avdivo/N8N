@@ -7,7 +7,7 @@
       "main": [
         [
           {
-            "node": "Бот назначен Админом канала",
+            "node": "Тип сообщения",
             "type": "main",
             "index": 0
           }
@@ -18,7 +18,133 @@
       "main": [
         [
           {
-            "node": "Запрос E-Mail",
+            "node": "Все админы канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Тип сообщения": {
+      "main": [
+        [
+          {
+            "node": "Тип чата",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "node": "Бот назначен Админом канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Все админы канала": {
+      "main": [
+        [
+          {
+            "node": "Формирование записи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Формирование записи": {
+      "main": [
+        [
+          {
+            "node": "Добавление канала в БД",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Тип чата": {
+      "main": [
+        [
+          {
+            "node": "Личное сообщение",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Личное сообщение": {
+      "main": [
+        [
+          {
+            "node": "Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Это админ?": {
+      "main": [
+        [
+          {
+            "node": "Определение команды",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Подготовка полей записи лога",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Это админ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка полей записи лога": {
+      "main": [
+        [
+          {
+            "node": "Лид?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Лид?": {
+      "main": [
+        [
+          {
+            "node": "Поиск канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Поиск канала": {
+      "main": [
+        [
+          {
+            "node": "Поиск слова",
             "type": "main",
             "index": 0
           }
@@ -36,7 +162,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Бот Превратник\n\n### Функции\n- Один бот для всех каналов и пользователей\n- Проверяет подписку в канале\n- Регистрирует подписчика в канале, если он не зарегистрирован\n- Отправляет подписчика на нужный пост в канале\n- При входе принимает параметр *Start*,  который определяет пост на который будет отправлен подписчик\n- Записывает данные подписчиков в БД\n- Находит адрес поста по переданному ключевому слову в параметре **Start**, для чего использует гугл таблицу которую редактирует пользователь.  \n\n\\* Пользователь - владелец канала, для кого работает программа\n\\* Подписчик - клиент пользователя\n\n",
+        "content": "## Бот Превратник\nПока не реализованы права на доступ. Любой, кто добавит бота в канал может использовать его.\n\n### Функции\n- Один бот для всех каналов и пользователей\n- Проверяет подписку в канале\n- Регистрирует подписчика в канале, если он не зарегистрирован\n- Отправляет подписчика на нужный пост в канале\n- При входе принимает параметр *Start*,  который определяет пост на который будет отправлен подписчик\n- Записывает данные подписчиков в БД\n- Находит адрес поста по переданному ключевому слову в параметре **Start**, для чего использует гугл таблицу которую редактирует пользователь.  \n\n\\* Пользователь - владелец канала, для кого работает программа\n\\* Подписчик - клиент пользователя",
         "height": 368,
         "width": 720
       },
@@ -52,7 +178,7 @@
     },
     {
       "parameters": {
-        "content": "## Устройство\n\n### Каналы\n- В БД в схеме atgate таблица Channel в которой переписаны все каналы для которых работает бот:\n  - **id** - идентификатор записи\n  - **channel_name** - произвольное название канала\n  - **channel_id** - идентификатор канала\n  - **e-mail** - адрес пользователя для доступа к файлу со ссылками на подарки\n\n\n### Пользователи\n- В БД в схеме Public таблица AtGateUser содержит данные пользователей вошедших в бота-превратника (для всех пользователей - это лог, чтобы не потерять):\n  - **user_id** - идентификатор записи\n  - **channel_id** - идентификатор канала\n  - **user_id** - идентификатор пользователя в ТГ\n  - **username** - логин\n  - **first_name** - фамилия\n  - **last_name** - имя\n  - **invite** - ко какому слову пришел\n  - **toDateTime** - когда пришел\n\n### Акции (подарки)\n- В БД в схеме Public таблица AtGateLinks для каждого канала с именем - channel_name. Доступ для редактирования выдается только пользователю по e-mail:\n  - **channel_id** - связь с таблицей AtGateChannel\n  - **Кодовое слово** - слово, по которому пользователь получает подарок в инсте но латиницей и без пробелов\n  - **Ссылка** - ссылка на пост в канале с нужным подарком",
+        "content": "## Устройство\n\n### Каналы\n- В БД в схеме `atgate` таблица `Channel` в которой переписаны все каналы для которых работает бот:\n  - **id** - идентификатор записи\n  - **channel_name** - произвольное название канала\n  - **channel_id** - идентификатор канала\n  - **admins** - список администраторов канала (JSONB)\n\n\n### Пользователи\n- В БД в схеме `atgate` таблица `AtGateUser` содержит данные пользователей вошедших в бота-превратника (для всех пользователей - это лог, чтобы не потерять):\n  - **id** - идентификатор записи\n  - **channel_id** - идентификатор канала\n  - **user_id** - идентификатор пользователя в ТГ\n  - **username** - логин\n  - **first_name** - имя\n  - **last_name** - фамилия\n  -------------------------- **invite** - ко какому слову пришел\n  - **state** - состояние (JSONB)\n  - **toDateTime** - когда пришел\n\n### Акции (подарки)\n- В БД в схеме `atgate` таблица `AtGateLinks` для каждого канала. Доступ для редактирования выдается только администраторам:\n  - **channel_id** - связь с таблицей AtGateChannel\n  - **code_word** - слово, по которому пользователь получает подарок в инсте, но латиницей и без пробелов\n  - **link** - ссылка на пост в канале с нужным подарком",
         "height": 720,
         "width": 720
       },
@@ -68,13 +194,13 @@
     },
     {
       "parameters": {
-        "content": "## Описание работы\n\n### Инстаграм\n- Пользователь пишет в комментарии кодовое слово\n- Платформа автоматизации (например chatplace) проверяет подписку в инстаграме и выдает пользователю ссылку на подарок по кодовому слову\n- Подарок нужно забрать в ТГ канале, куда и ведет ссылка вида: https://t.me/bot?start=n_word\n  - https://t.me/bot - ссылка на бота\n  - n - номер канала в таблице AtGateChannel\n  - word - кодовое слово сопоставленное со ссылкой в гугл документе для этого канала.\n\n`Кодовое слово которое набирает пользователь в инстаграмме не то что передается тут. Оно переводится в латиницу и в нем остаются только буквы, цыфры, тире.`\n\n\n### Бот\n- переданный параметр разбирается на составные части разделенные \"_\" - `n` и `word`\n- `n` - это id в таблице AtGateChannel, извлекаем эти данные\n- `word` - это кодовое слово (в латинице) по которому пришел пользователь\n- используя эти данные и данные тг проверяем есть ли пользователь с этим каналом в таблице AtGateUser и если нет - добавляем\n- проверяем, подписан ли пользователь на канал, если нет просим подать заявку (кнопкой), автоматически одобряем заявку\n- находим файл таблицу для канала в папке channels\n- находим в таблице ссылку на подарок в тг канале соответствующий кодовому слову\n- предлагаем пользователю перейти по ссылке, чтобы получить подарок\n",
+        "content": "## Выдача подарков\n\n### Инстаграм\n- Пользователь пишет в комментарии кодовое слово\n- Платформа автоматизации (например chatplace) проверяет подписку в инстаграме и выдает пользователю ссылку на подарок по кодовому слову\n- Подарок нужно забрать в ТГ канале, куда и ведет ссылка вида: https://t.me/bot?start=n_word\n  - https://t.me/bot - ссылка на бота\n  - n - номер канала в таблице AtGateChannel\n  - word - кодовое слово сопоставленное со ссылкой в гугл документе для этого канала.\n\n`Кодовое слово которое набирает пользователь в инстаграмме не то что передается тут. Оно переводится в латиницу и в нем остаются только буквы, цыфры, тире.`\n\n\n### Бот\n- переданный параметр разбирается на составные части разделенные \"_\" - `n` и `word`\n- `n` - это id в таблице AtGateChannel, извлекаем эти данные\n- `word` - это кодовое слово (в латинице) по которому пришел пользователь\n- используя эти данные и данные тг проверяем есть ли пользователь с этим каналом в таблице AtGateUser и если нет - добавляем\n- проверяем, подписан ли пользователь на канал, если нет просим подать заявку (кнопкой), автоматически одобряем заявку\n- находим файл таблицу для канала в папке channels\n- находим в таблице ссылку на подарок в тг канале соответствующий кодовому слову\n- предлагаем пользователю перейти по ссылке, чтобы получить подарок\n",
         "height": 1120,
         "width": 496
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        800,
+        1408,
         -784
       ],
       "typeVersion": 1,
@@ -84,14 +210,14 @@
     },
     {
       "parameters": {
-        "content": "## Добавлеие канала\n- при добавлении бота в канал администратором он автоматически регистрирует себя превратником этого канала, создавая новую запись в таблице AtGateChannel. Но перед этим он запрашивает e-mail пользователя, которому будет разрешено регистрировать новые акции (подарки)\n\n\n",
-        "height": 640,
-        "width": 400
+        "content": "## Добавлеие канала\n- при добавлении бота в канал администратором он автоматически регистрирует себя превратником этого канала, создавая новую запись в таблице AtGateChannel\n- получает всех администраторов канала и добавляет их в список управляющих превратником (они получают право просматривать список акций канала и добавлять новые)\n`список обновляется при добавлении бота в канал, поэтому для обновления списка нужно удалить бота из канала и добавить снова`\n\n\n",
+        "height": 368,
+        "width": 592
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        864,
-        480
+        768,
+        -784
       ],
       "typeVersion": 1,
       "id": "1b09d792-528a-4106-90f3-58ddad94104c",
@@ -159,15 +285,15 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        304,
-        880
+        512,
+        1232
       ],
       "id": "4c98938a-197d-4441-bc38-a33ab8f3fb68",
       "name": "Бот назначен Админом канала"
     },
     {
       "parameters": {
-        "content": "## Подготовка диска и БД\nВоркфлоу подготовки проверяет и создает в случае их отсутствия:\n- папку channels в корне выбранного гугл диска\n- таблицы в БД в схеме Public:\n  - AtGateChannel\n  - AtGateUser",
+        "content": "## Подготовка БД\nВоркфлоу подготовки проверяет и создает в случае их отсутствия:\n- папку channels в корне выбранного гугл диска\n- таблицы в БД в схеме Public:\n  - AtGateChannel\n  - AtGateUser",
         "height": 208,
         "width": 320
       },
@@ -182,27 +308,721 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $json.my_chat_member.from.id }}",
-        "text": "=📢 Вы добавили Бота-превратника администратором в канал {{ $json.my_chat_member.chat.title }}.\n\n✅ Бот будет предлагать подписку на канал посетителям и автоматически принимать заявку. После чего пересылать подписчика на указанный ресурс (пост) в канале.\n\n🎁 Для завершения регистрации укажите электронный адрес пользователя, для получения доступа на редактирование таблицы акций (подарков).\n\n👉 ОТПРАВЬТЕ E-MAIL:",
-        "additionalFields": {
-          "appendAttribution": false
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ Object.keys($json).find(key => key !== 'update_id') }}",
+                    "rightValue": "message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "98510581-4624-4e4f-a6f3-9093413ae133"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Обычное сообщение"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f8d8c04c-88ea-4e14-9558-d81dce3441ea",
+                    "leftValue": "={{ Object.keys($json).find(key => key !== 'update_id') }}",
+                    "rightValue": "callback_query",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Нажатие кнопок"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "28249f35-9dc3-4395-9060-0255fb96b447",
+                    "leftValue": "={{ Object.keys($json).find(key => key !== 'update_id') }}",
+                    "rightValue": "channel_post",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Посты в каналах"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "da3ce845-6190-49bd-9b28-657c2713c1bb",
+                    "leftValue": "={{ Object.keys($json).find(key => key !== 'update_id') }}",
+                    "rightValue": "my_chat_member",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Права бота"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        1088
+      ],
+      "id": "cdf2485c-4eba-4f50-a9f2-c87c2285c810",
+      "name": "Тип сообщения"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.chat.type }}",
+                    "rightValue": "private",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0ba0db0e-9b06-4f8e-8b9a-2ec6e3ec82ee"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Личные сообщения"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "19c98bab-f8d0-4031-ae32-f5bfe48beac7",
+                    "leftValue": "={{ $json.message.chat.type }}",
+                    "rightValue": "channel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Сообщения в каналах"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b73348cf-fce4-48d0-9fed-3e506b4c73b1",
+                    "leftValue": "={{ $json.message.chat.type }}",
+                    "rightValue": "group",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Сообщения в группах"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "670681f4-5b35-4621-8f32-f27688dec21e",
+                    "leftValue": "={{ $json.message.chat.type }}",
+                    "rightValue": "supergroup",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Сообщения в супергруппах"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        864
+      ],
+      "id": "dea6c7ea-2afe-46a1-b0ea-02025e951440",
+      "name": "Тип чата"
+    },
+    {
+      "parameters": {
+        "content": "## Просмотр акций (подарков)\n\n- это делается в личном чате с ботом\n- команда `/channels` выводит список каналов (в виде инлин кнопок) добавленных в систему и админом которых является пользователь\n- выбрав канал пользователь получает список: кодовое слово - ссылка на пост\n\n## Добавление акции (подарка)\n- подарок добавляется в канал который был просмотрен последним (если таких нет - будет ошибка)\n- команда для добавления: `/add word link`\n  -  `word` - кодовое слово (латинские буквы, цыфры, тире)\n  - `link` - ссылка на пост (в контекстном меню поста выбрать Копировать ссылку на сообщение\n\n\n",
+        "height": 720,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "da9bc5ad-1bec-4c25-926a-76fcec73aae6",
+      "name": "Sticky Note5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- 1. Создание схемы\nCREATE SCHEMA IF NOT EXISTS atgate;\n\n-- 2. Таблица Каналы (схема atgate)\nCREATE TABLE IF NOT EXISTS atgate.\"Channel\" (\n    id SERIAL PRIMARY KEY,\n    channel_name TEXT,\n    channel_id BIGINT UNIQUE,\n    admins JSONB DEFAULT '[]'\n);\n\n-- 3. Таблица Пользователи (схема public)\n-- Используем TIMESTAMPTZ для учета часового пояса (+3)\nCREATE TABLE IF NOT EXISTS atgate.\"AtGateUser\" (\n    id SERIAL PRIMARY KEY,\n    channel_id BIGINT,\n    user_id BIGINT,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    invite TEXT,\n    state JSONB DEFAULT '{}',\n    \"toDateTime\" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 4. Таблица Акции (схема public)\nCREATE TABLE IF NOT EXISTS atgate.\"AtGateLinks\" (\n    id SERIAL PRIMARY KEY,\n    channel_id BIGINT REFERENCES atgate.\"Channel\"(channel_id) ON DELETE CASCADE,\n    code_word TEXT,\n    link TEXT\n);\n\n-- Индексы для ускорения поиска (рекомендовано)\nCREATE INDEX IF NOT EXISTS idx_user_id ON atgate.\"AtGateUser\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_links_channel ON atgate.\"AtGateLinks\"(channel_id);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        432,
+        448
+      ],
+      "id": "9d6a7ab1-48b6-495c-a162-4280879f57b2",
+      "name": "Подготовка БД",
+      "retryOnFail": true,
+      "executeOnce": false,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
         }
+      },
+      "notes": "Создает схему для пользователя, если ее нет и добавляет таблицы в БД для работы форкфлоу."
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Channel",
+          "mode": "list",
+          "cachedResultName": "Channel"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "id": 0,
+            "channel_id": 0
+          },
+          "matchingColumns": [
+            "channel_id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "channel_name",
+              "displayName": "channel_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "channel_id",
+              "displayName": "channel_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "admins",
+              "displayName": "admins",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1168,
+        1232
+      ],
+      "id": "52f0f3ff-a247-40b8-b556-5f2be0e2733d",
+      "name": "Добавление канала в БД",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "administrators",
+        "chatId": "={{ $('Бот назначен Админом канала').item.json.my_chat_member.chat.id }}"
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        528,
-        880
+        752,
+        1232
       ],
-      "id": "6bfbced1-99bd-4ccc-904c-c580433a8662",
-      "name": "Запрос E-Mail",
-      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "id": "a82650b7-8b41-48ef-995c-c0f15183ff6b",
+      "name": "Все админы канала",
+      "webhookId": "e0a301f6-5305-4db6-8e57-590b9d0daf2e",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Получаем массив всех админов из конкретной ноды\nconst adminsArray = $('Все админы канала').all();\n\n// 2. Получаем данные о канале из триггерной ноды\nconst channelInfo = $('Бот назначен Админом канала').first().json.my_chat_member;\n\n// 3. Собираем ID только людей (не ботов)\nconst adminIds = adminsArray\n  .filter(item => !item.json.user.is_bot)\n  .map(item => item.json.user.id);\n\n// 4. Итоговый объект для Postgres\nreturn {\n  channel_name: channelInfo.chat.title,\n  channel_id: channelInfo.chat.id,\n  admins: JSON.stringify(adminIds)\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        1232
+      ],
+      "id": "4ac273ff-7d3e-4e3a-a18e-7600888d67d0",
+      "name": "Формирование записи"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "c9a8aa38-5e7f-43d8-a8d6-fab00c531db9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Команда"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        704
+      ],
+      "id": "4f2f911a-c315-4a3a-a058-cbecbb5ff6eb",
+      "name": "Личное сообщение"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
+                    "rightValue": "/c",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "9e45e50c-4055-4791-9801-7edba851ce7f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Выбор канала"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3a7b795c-45b9-45a8-8297-c78e540583e7",
+                    "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
+                    "rightValue": "/a",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Добавить подарок"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "29872fb1-a0e5-45ef-87c3-098ebfb68d15",
+                    "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Старт"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1696,
+        624
+      ],
+      "id": "8fb5c1e1-8d9f-4ec1-8655-0f2d508c25df",
+      "name": "Определение команды"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * \nFROM atgate.\"Channel\" \nWHERE admins @> jsonb_build_array({{ $json.message.from.id }}::bigint);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1312,
+        656
+      ],
+      "id": "36e3118c-2b42-42cc-ba6e-71c0af534291",
+      "name": "Это админ?",
+      "retryOnFail": false,
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      },
+      "notes": "Получает записи каналов в которых пользователь является админом. Если таких нет - то команд пользователь давать не может"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8971d2d9-ca02-40f8-9908-d57dd0637b95",
+              "leftValue": "={{ $json.message.text }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1040,
+        592
+      ],
+      "id": "f8904ebd-89cc-494d-a3ed-2a87fd48351f",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $(\"Личное сообщение\").first().json.message;\nconst text = msg.text || \"\";\nconst parts = text.split(\" \");\n\nlet channel_id = 0;\nlet invite = null;\n\n// Если после /start что-то есть\nif (parts.length > 1) {\n  const param = parts[1]; // берем n_word\n  \n  // Регулярка: число, потом подчеркивание, потом слово (буквы, цифры, тире)\n  const match = param.match(/^(\\d+)_([a-zA-Z0-9-]+)$/);\n  \n  if (match) {\n    channel_id = parseInt(match[1], 10);\n    invite = match[2];\n  } else {\n    // Если параметр есть, но не по формату — вызываем ошибку\n    throw new Error(`Invalid start parameter format: ${param}. Expected n_word (eПоиск канала1.g. 123_promo-code)`);\n  }\n}\n\nreturn {\n  channel_id: channel_id,\n  user_id: msg.from.id,\n  username: msg.from.username || \"\",\n  first_name: msg.from.first_name || \"\",\n  last_name: msg.from.last_name || \"\",\n  invite: invite || \"\",\n  state: {} // для JSONB в PostgreSQL\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        480
+      ],
+      "id": "6965071a-c6c4-47cd-a33d-dec5c3fb632d",
+      "name": "Подготовка полей записи лога",
+      "retryOnFail": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Channel",
+          "mode": "list",
+          "cachedResultName": "Channel"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "id",
+              "value": "={{ $json.channel_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1776,
+        368
+      ],
+      "id": "f58102bd-eb2d-40f3-a411-d6acd3b6a9f8",
+      "name": "Поиск канала",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      },
+      "notes": "Если канала не найден - выполнение прекратится"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "41d0d882-3765-45a0-a7d4-4f373cc2b1b3",
+              "leftValue": "={{ $json.channel_id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1552,
+        464
+      ],
+      "id": "7fc382cc-5cd1-4c5f-9c9f-017a4b0b72eb",
+      "name": "Лид?",
+      "notes": "Тут лидом считаем того, кто пришел из соцсети по ссылке в канал. Для него будет указан id канала в системе"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateLinks",
+          "mode": "list",
+          "cachedResultName": "AtGateLinks"
+        },
+        "limit": 1,
+        "where": {
+          "values": [
+            {
+              "column": "code_word",
+              "value": "={{ $('Лид?').item.json.invite }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1952,
+        368
+      ],
+      "id": "687c4555-59a2-4701-b1a7-e92cfcd65bda",
+      "name": "Поиск слова",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      },
+      "notes": "Если кодовое слово не найдено - выполнение прекратится"
     }
   ],
   "pinData": {},
@@ -226,6 +1046,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-05T21:28:04.271Z",
-  "versionId": "33d8d54d-b045-4ea8-ba09-5a6bb6d0f1d7"
+  "updatedAt": "2026-05-06T22:33:36.651Z",
+  "versionId": "dc6cc796-ac47-4b83-8ef4-4695645e9a03"
 }
