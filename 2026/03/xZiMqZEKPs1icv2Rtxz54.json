@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-01T09:12:30.983Z",
-    "createdAt": "2026-05-01T09:12:03.858Z",
-    "versionId": "ac0a3036-61d8-4c68-893f-023a1dff9c60",
+    "updatedAt": "2026-05-10T19:03:06.433Z",
+    "createdAt": "2026-05-10T19:02:41.777Z",
+    "versionId": "a579c538-30a2-4823-b764-ecc95f7c308e",
     "workflowId": "xZiMqZEKPs1icv2Rtxz54",
     "nodes": [
       {
@@ -345,17 +345,6 @@
         "webhookId": "7a34da02-7776-4316-949c-fe64b91c204f"
       },
       {
-        "parameters": {},
-        "type": "n8n-nodes-base.noOp",
-        "typeVersion": 1,
-        "position": [
-          -224,
-          368
-        ],
-        "id": "45e12a90-5cb7-445e-8adf-8541f11a117a",
-        "name": "Лид"
-      },
-      {
         "parameters": {
           "jsCode": "// Функция для безопасной вставки текста в HTML\nconst esc = (str) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n\n// 1. Получаем данные из нод\nconst leadInfo = $('Подготовка записи в БД').first().json;\nconst summary = $('Сводка').first().json.report; // Тут уже могут быть <b> или *\n\n// 2. Извлекаем и СРАЗУ экранируем только \"грязные\" данные\nconst source = esc(leadInfo.source_name || 'не определен');\nconst phone = esc(leadInfo.phone || 'нет номера');\nconst content = esc(leadInfo.content_name || 'не указано');\n\n// 3. Формируем заголовок (теги <b> пишем ПРЯМО, не экранируя их)\nconst leadHeader = `<b>Лид из ${source}</b>\n<b>Телефон</b>: ${phone}\n<b>Объявление</b>: ${content}`;\n\n// 4. Обрабатываем сводку (если там остались звездочки, меняем их на <b>)\nconst cleanSummary = summary.replace(/\\*(.*?)\\*/g, '<b>$1</b>');\n\nreturn {\n  report: `${leadHeader}\\n\\n${cleanSummary}`\n};\n"
         },
@@ -452,6 +441,40 @@
         "typeVersion": 1,
         "id": "61c2aac6-f063-484c-bcfe-6a9c89eba5ca",
         "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "36638465-e26a-4846-b2d4-326d2d4d4828",
+                "leftValue": "={{ $json.body.phone }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          -240,
+          368
+        ],
+        "id": "524fd5a6-9e6b-407b-95c5-aabba732700d",
+        "name": "Лид"
       }
     ],
     "connections": {
@@ -554,17 +577,6 @@
           ]
         ]
       },
-      "Лид": {
-        "main": [
-          [
-            {
-              "node": "Определение клиента 1",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
       "Расчет": {
         "main": [
           [
@@ -591,14 +603,25 @@
             }
           ]
         ]
+      },
+      "Лид": {
+        "main": [
+          [
+            {
+              "node": "Определение клиента 1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version ac0a3036",
+    "name": "Version a579c538",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "ac0a3036-61d8-4c68-893f-023a1dff9c60",
+  "activeVersionId": "a579c538-30a2-4823-b764-ecc95f7c308e",
   "connections": {
     "Определение клиента": {
       "main": [
@@ -699,17 +722,6 @@
         ]
       ]
     },
-    "Лид": {
-      "main": [
-        [
-          {
-            "node": "Определение клиента 1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Расчет": {
       "main": [
         [
@@ -731,6 +743,17 @@
         [
           {
             "node": "Расчет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Лид": {
+      "main": [
+        [
+          {
+            "node": "Определение клиента 1",
             "type": "main",
             "index": 0
           }
@@ -1085,17 +1108,6 @@
       "webhookId": "7a34da02-7776-4316-949c-fe64b91c204f"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        -224,
-        368
-      ],
-      "id": "45e12a90-5cb7-445e-8adf-8541f11a117a",
-      "name": "Лид"
-    },
-    {
       "parameters": {
         "jsCode": "// Функция для безопасной вставки текста в HTML\nconst esc = (str) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\n\n// 1. Получаем данные из нод\nconst leadInfo = $('Подготовка записи в БД').first().json;\nconst summary = $('Сводка').first().json.report; // Тут уже могут быть <b> или *\n\n// 2. Извлекаем и СРАЗУ экранируем только \"грязные\" данные\nconst source = esc(leadInfo.source_name || 'не определен');\nconst phone = esc(leadInfo.phone || 'нет номера');\nconst content = esc(leadInfo.content_name || 'не указано');\n\n// 3. Формируем заголовок (теги <b> пишем ПРЯМО, не экранируя их)\nconst leadHeader = `<b>Лид из ${source}</b>\n<b>Телефон</b>: ${phone}\n<b>Объявление</b>: ${content}`;\n\n// 4. Обрабатываем сводку (если там остались звездочки, меняем их на <b>)\nconst cleanSummary = summary.replace(/\\*(.*?)\\*/g, '<b>$1</b>');\n\nreturn {\n  report: `${leadHeader}\\n\\n${cleanSummary}`\n};\n"
       },
@@ -1192,6 +1204,40 @@
       "typeVersion": 1,
       "id": "61c2aac6-f063-484c-bcfe-6a9c89eba5ca",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "36638465-e26a-4846-b2d4-326d2d4d4828",
+              "leftValue": "={{ $json.body.phone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -240,
+        368
+      ],
+      "id": "524fd5a6-9e6b-407b-95c5-aabba732700d",
+      "name": "Лид"
     }
   ],
   "pinData": {},
@@ -1218,6 +1264,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-05-01T09:12:03.852Z",
-  "versionId": "ac0a3036-61d8-4c68-893f-023a1dff9c60"
+  "updatedAt": "2026-05-10T19:02:41.773Z",
+  "versionId": "a579c538-30a2-4823-b764-ecc95f7c308e"
 }
