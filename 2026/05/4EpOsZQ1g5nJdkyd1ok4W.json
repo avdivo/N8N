@@ -1,0 +1,173 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Список адресатов",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Список адресатов": {
+      "main": [
+        [
+          {
+            "node": "Цикл",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Цикл": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Пауза",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Отправка сообщения": {
+      "main": [
+        [
+          {
+            "node": "Цикл",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Пауза": {
+      "main": [
+        [
+          {
+            "node": "Отправка сообщения",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-05-15T21:26:33.279Z",
+  "id": "4EpOsZQ1g5nJdkyd1ok4W",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Рассылка в ТГ",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d7196b84-b3a2-4151-bdd3-c51bbb6b61a4",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Этот код содержит все извлеченные ID из вашего списка\nconst targetIds = [\n  527603784, 6815434786, 1199261952, 5748282745, 6486110528, \n  899504928, 1535854369, 1411998946, 658621827, 1797224576, \n  663260692, 6692993697, 525835203, 985683996, 339496209, \n  1789371216, 5451887750, 1733063219, 1367522864, 533072610, \n  6307593977, 809162357, 6794409069, 1445327875, 1704706077, \n  6000957389, 1113407750, 2028723180, 6601564520, 7161025364, \n  625626502, 771677270, 5374882088, 5103901095, 5040140736, \n  609492475, 5234835909, 7113278723, 6391426025, 6587617469, \n  7786357498, 7171936534, 6553660596, 5052014507, 1217456798, \n  7686987146, 7136351749, 6849124948, 5775852898, 1808940522, \n  6631406716, 7626908492, 6743340881, 7713846112, 8025621206, \n  5645886808, 6718348376, 5859624746, 1909901620, 5152835491, \n  5797447698, 827817167, 914840261, 6821949021, 7933665740, \n  5461919627, 1324653218, 1019953326, 5494721302, 6099056030, \n  1351325003, 717040351, 1047662433, 151792841, 8056931407, \n  7387496843, 5753174363, 326830581, 6437179097, 2051654385, \n  249503190\n];\n\n// Форматируем массив под стандарт n8n: [ { json: { id: XXXXX } }, ... ]\nreturn targetIds.map(userId => {\n  return {\n    json: {\n      id: userId\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fd7d9377-0c97-40e2-a57e-21293dc69382",
+      "name": "Список адресатов"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "018781d0-5fa2-42ad-b561-617e7d650b07",
+      "name": "Цикл"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.id }}",
+        "text": "Здравствуйте.\nВ приложении временно не работал бот из-за блокировок Телеграм в России. Сейчас эта проблема устранена, приложением можно пользоваться. (для обновления выполните /start)\nКак и раньше, можно использовать навык Алисы \"Слуцкие автобусы\".\nВопросы пишите сюда:\n@avdivos",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        16
+      ],
+      "id": "79dccf06-868f-4a3c-b5d7-c3cd0da0f096",
+      "name": "Отправка сообщения",
+      "webhookId": "5ec94774-0ba3-4f31-b40c-f5dc494f7094",
+      "retryOnFail": false,
+      "executeOnce": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "IQJLoP9sNTnsVVqS",
+          "name": "AlexLenaBot"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 0.2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        688,
+        16
+      ],
+      "id": "d7dad670-e311-4769-b917-36bff5267a05",
+      "name": "Пауза",
+      "webhookId": "bb3ae3c1-ea98-439b-85cd-733090510601"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-05-15T21:26:33.279Z",
+      "createdAt": "2026-05-15T21:26:33.279Z",
+      "role": "workflow:owner",
+      "workflowId": "4EpOsZQ1g5nJdkyd1ok4W",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-05-15T21:43:12.214Z",
+  "versionId": "0b0e9c31-0080-4da4-b76c-bc7dde403400"
+}
