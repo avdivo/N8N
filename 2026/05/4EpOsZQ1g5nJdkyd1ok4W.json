@@ -41,7 +41,7 @@
       "main": [
         [
           {
-            "node": "Цикл",
+            "node": "Insert row",
             "type": "main",
             "index": 0
           }
@@ -53,6 +53,17 @@
         [
           {
             "node": "Отправка сообщения",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Цикл",
             "type": "main",
             "index": 0
           }
@@ -126,8 +137,8 @@
       "executeOnce": false,
       "credentials": {
         "telegramApi": {
-          "id": "IQJLoP9sNTnsVVqS",
-          "name": "AlexLenaBot"
+          "id": "itgrP8pB5IVdRQ9p",
+          "name": "Ближайший автобус"
         }
       },
       "onError": "continueRegularOutput"
@@ -145,6 +156,58 @@
       "id": "d7dad670-e311-4769-b917-36bff5267a05",
       "name": "Пауза",
       "webhookId": "bb3ae3c1-ea98-439b-85cd-733090510601"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "7Ec7KaKbeEStHFwi",
+          "mode": "list",
+          "cachedResultName": "Рассылки",
+          "cachedResultUrl": "/projects/ILcfmLBZn60jlfes/datatables/7Ec7KaKbeEStHFwi"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "={{ $json.error ? 'Fail' : 'Success' }}",
+            "telegram_id": "={{ $('Пауза').item.json.id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "telegram_id",
+              "displayName": "telegram_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        16
+      ],
+      "id": "300d74c9-db52-4956-bbbc-066cdc001e59",
+      "name": "Insert row"
     }
   ],
   "pinData": {},
@@ -168,6 +231,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-15T21:43:12.214Z",
-  "versionId": "0b0e9c31-0080-4da4-b76c-bc7dde403400"
+  "updatedAt": "2026-05-16T09:50:59.214Z",
+  "versionId": "7717dd46-5dce-4c94-81a1-5e154f98652f"
 }
