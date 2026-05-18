@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-03-30T08:56:37.414Z",
-    "createdAt": "2026-03-30T08:56:27.530Z",
-    "versionId": "9cca4283-dd74-45b8-b779-19e0aa5908bb",
+    "updatedAt": "2026-05-17T13:08:31.753Z",
+    "createdAt": "2026-05-17T13:08:28.002Z",
+    "versionId": "44539e69-8db0-4b8d-a54d-07acf05517bf",
     "workflowId": "nFxpYKvzzbzJlARR",
     "nodes": [
       {
@@ -74,23 +74,15 @@
       },
       {
         "parameters": {
-          "assignments": {
-            "assignments": [
-              {
-                "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
-                "name": "answer",
-                "type": "string",
-                "value": "=Ошибка при выполнении операции: {{ $json.execution.error.message }}."
-              }
-            ]
-          },
+          "mode": "raw",
+          "jsonOutput": "{\n  \"success\": false,\n  \"error\": {\n    \"status\": \"fatal_error\",\n    \"message\": \"Системная ошибка калькулятора\"\n  }\n}",
           "options": {}
         },
         "id": "7db16d6e-0e82-43be-9b75-d263923a9ae0",
         "name": "Return1",
         "type": "n8n-nodes-base.set",
         "position": [
-          -80,
+          -64,
           256
         ],
         "typeVersion": 3.3
@@ -107,6 +99,31 @@
         ],
         "id": "87632a99-6981-43ff-8ccc-f75db98867de",
         "name": "Рассчет"
+      },
+      {
+        "parameters": {
+          "chatId": "=249503190",
+          "text": "=Ошибка в функции калькулятора (\"sub_расчет цены грядки\") приложения \"Калькулятор грядок\"",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -64,
+          432
+        ],
+        "id": "46e459f6-e398-4736-881d-33a912b0e234",
+        "name": "В бот ошибок",
+        "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "credentials": {
+          "telegramApi": {
+            "id": "8cXUYDeWkHWKbQ8T",
+            "name": "Ошибки приложений"
+          }
+        }
       }
     ],
     "connections": {
@@ -124,6 +141,11 @@
       "Error Trigger": {
         "main": [
           [
+            {
+              "node": "В бот ошибок",
+              "type": "main",
+              "index": 0
+            },
             {
               "node": "Return1",
               "type": "main",
@@ -145,11 +167,11 @@
       }
     },
     "authors": "Алексей К",
-    "name": "Version 9cca4283",
+    "name": "Version 44539e69",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "9cca4283-dd74-45b8-b779-19e0aa5908bb",
+  "activeVersionId": "44539e69-8db0-4b8d-a54d-07acf05517bf",
   "connections": {
     "Подпрограмма": {
       "main": [
@@ -165,6 +187,11 @@
     "Error Trigger": {
       "main": [
         [
+          {
+            "node": "В бот ошибок",
+            "type": "main",
+            "index": 0
+          },
           {
             "node": "Return1",
             "type": "main",
@@ -261,23 +288,15 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "8d513345-6484-431f-afb7-7cf045c90f4f",
-              "name": "answer",
-              "type": "string",
-              "value": "=Ошибка при выполнении операции: {{ $json.execution.error.message }}."
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "{\n  \"success\": false,\n  \"error\": {\n    \"status\": \"fatal_error\",\n    \"message\": \"Системная ошибка калькулятора\"\n  }\n}",
         "options": {}
       },
       "id": "7db16d6e-0e82-43be-9b75-d263923a9ae0",
       "name": "Return1",
       "type": "n8n-nodes-base.set",
       "position": [
-        -80,
+        -64,
         256
       ],
       "typeVersion": 3.3
@@ -294,6 +313,31 @@
       ],
       "id": "87632a99-6981-43ff-8ccc-f75db98867de",
       "name": "Рассчет"
+    },
+    {
+      "parameters": {
+        "chatId": "=249503190",
+        "text": "=Ошибка в функции калькулятора (\"sub_расчет цены грядки\") приложения \"Калькулятор грядок\"",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        432
+      ],
+      "id": "46e459f6-e398-4736-881d-33a912b0e234",
+      "name": "В бот ошибок",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "credentials": {
+        "telegramApi": {
+          "id": "8cXUYDeWkHWKbQ8T",
+          "name": "Ошибки приложений"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -317,6 +361,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-03-30T08:56:27.525Z",
-  "versionId": "9cca4283-dd74-45b8-b779-19e0aa5908bb"
+  "updatedAt": "2026-05-17T13:08:27.999Z",
+  "versionId": "44539e69-8db0-4b8d-a54d-07acf05517bf"
 }
