@@ -1,0 +1,422 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Функция": {
+      "main": [
+        [
+          {
+            "node": "Проверка пользователя",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Проверка канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка пользователя": {
+      "main": [
+        [
+          {
+            "node": "Проверка блокировки пользователя",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Пользователь не передан",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Проверка пользователя",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Проверка канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка канала": {
+      "main": [
+        [
+          {
+            "node": "Проверка блокировки канала",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Канал не передан",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Пользователь не передан": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка блокировки пользователя": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Проверка блокировки канала": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Канал не передан": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-05-17T18:15:13.239Z",
+  "id": "XKAoEAKfto_5tIo2bZb5s",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_проверка прав",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Функция Проверка прав\n- канал не заблокирован\n- пользователь не заблокирован\n- пользователь является админом канала \n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n\n## Возвращает\nJSON:\n- `user` - true/false/null (если не передан или не найден)\n- `channel` - true/false/null (если не передан или не найден)\n- `admin` - true/false/null (если не передан канал или пользователь или не найден)\n- `result` - true/false - логическое И значений user, channel, admin если все имеют вычисляемое логическое значение или null\n- `report` - ошибки текстом:\n  - \"Пользователь не имеет прав на это действие\"\n  - \"Канал заблокирован\"\n  - \"Пользователь не является администратором канала\"",
+        "height": 560,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        32,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "31b4400f-6005-4439-af6d-e2c80cc603d3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "user"
+            },
+            {
+              "name": "channel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        16,
+        1152
+      ],
+      "id": "43fd0afa-0ac3-44b9-a316-01145100682b",
+      "name": "Функция"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3994a47c-0da6-46db-8197-e9196c697348",
+              "leftValue": "={{ $json.user }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        384,
+        944
+      ],
+      "id": "a0eab9d0-25e6-4146-bc38-c500eb2bacde",
+      "name": "Проверка пользователя"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        16,
+        944
+      ],
+      "id": "7cd237c6-78a5-4b93-9cf7-d070dce1a211",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "943b5099-8ee7-4a62-9ced-f3007af7c0b5",
+              "name": "user",
+              "value": "249503190",
+              "type": "string"
+            },
+            {
+              "id": "93961d51-d9ef-4084-9707-4d170e84e3a4",
+              "name": "channel",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        944
+      ],
+      "id": "41135300-9bb4-42d6-ada8-52a813e82bb3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  true as user_exists,\n  is_blocked as user_blocked\nFROM atgate.\"AtGateAdmins\" \nWHERE user_id = {{ $json.user }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        592,
+        848
+      ],
+      "id": "c152021e-d1af-435f-913b-a844b6affe6c",
+      "name": "Проверка блокировки пользователя",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e208c78d-6acc-4fb1-9a94-fcff2e4ba59b",
+              "name": "user_exists",
+              "value": "={{ null }}",
+              "type": "string"
+            },
+            {
+              "id": "6d1a5d9b-b10b-4ceb-b45a-dcff239c2c69",
+              "name": "user_blocked",
+              "value": "={{ null }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        1040
+      ],
+      "id": "515da2dd-d3ff-4266-bc72-01117f9442d3",
+      "name": "Пользователь не передан"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3994a47c-0da6-46db-8197-e9196c697348",
+              "leftValue": "={{ $json.channel }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        384,
+        1376
+      ],
+      "id": "9c1d9e24-7e11-4be1-8437-789b89ee7735",
+      "name": "Проверка канала"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  true as channel_exists,\n  is_blocked as channel_blocked\nFROM atgate.\"AtGateChannel\" \nWHERE channel_id = {{ $json.channel }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        592,
+        1280
+      ],
+      "id": "e535f4ae-7df0-417c-9d2c-21ea1df9de53",
+      "name": "Проверка блокировки канала",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e208c78d-6acc-4fb1-9a94-fcff2e4ba59b",
+              "name": "channel_exists",
+              "value": "={{ null }}",
+              "type": "string"
+            },
+            {
+              "id": "6d1a5d9b-b10b-4ceb-b45a-dcff239c2c69",
+              "name": "channel_blocked",
+              "value": "={{ null }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        1504
+      ],
+      "id": "6528b150-3a7c-4cd0-84f0-e6a816a947f3",
+      "name": "Канал не передан"
+    },
+    {
+      "parameters": {
+        "jsCode": "function getNodeData(nodeName) {\n  try {\n    const items = $(nodeName).all();\n    if (!items || items.length === 0) return null;\n    return items[0].json; // берем чистый первый элемент\n  } catch (e) {\n    return null;\n  }\n}\n\n// 1. Сбор данных\nconst userCheck = getNodeData('Проверка блокировки пользователя');\nconst userNotSent = getNodeData('Пользователь не передан');\nconst channelCheck = getNodeData('Проверка блокировки канала');\nconst channelNotSent = getNodeData('Канал не передан');\n\nlet userStatus = null;\nlet channelStatus = null;\nlet adminStatus = null;\nlet reports = [];\nlet needTelegramCheck = false;\n\n// --- АНАЛИЗ ПОЛЬЗОВАТЕЛЯ ---\n// Если в ноде \"Пользователь не передан\" есть данные или в БД пусто по всем фронтам\nif (userNotSent && Object.keys(userNotSent).length > 0) {\n  userStatus = null;\n} else if (!userCheck || Object.keys(userCheck).length === 0) {\n  userStatus = null; // Пользователь передан, но не найден в БД -> null\n} else if (userCheck.user_blocked === true) {\n  userStatus = false;\n  reports.push(\"Пользователь не имеет прав на это действие\");\n} else if (userCheck.user_blocked === false || userCheck.user_exists === true) {\n  userStatus = true;\n}\n\n// --- АНАЛИЗ КАНАЛА ---\nif (channelNotSent && Object.keys(channelNotSent).length > 0) {\n  channelStatus = null;\n} else if (!channelCheck || Object.keys(channelCheck).length === 0) {\n  channelStatus = null; // Канал передан, но не найден в БД -> null\n} else if (channelCheck.channel_blocked === true) {\n  channelStatus = false;\n  reports.push(\"Канал заблокирован\");\n} else if (channelCheck.channel_blocked === false || channelCheck.channel_exists === true) {\n  channelStatus = true;\n}\n\n// --- ОПРЕДЕЛЕНИЕ СТАТУСА АДМИНА И НЕОБХОДИМОСТИ ТГ ---\nif (userStatus === true && channelStatus === true) {\n  needTelegramCheck = true; \n} else if (userStatus === false || channelStatus === false) {\n  adminStatus = false;\n  reports.push(\"Пользователь не является администратором канала\");\n} else {\n  adminStatus = null;\n}\n\n// --- ВЫЧИСЛЕНИЕ РЕЗУЛЬТАТА (ЛОГИЧЕСКОЕ И) ---\nlet resultStatus = null;\nif (userStatus === false || channelStatus === false || adminStatus === false) {\n  resultStatus = false;\n} else if (userStatus === true && channelStatus === true && adminStatus === true) {\n  resultStatus = true;\n} else {\n  resultStatus = null;\n}\n\nreturn [{\n  json: {\n    user: userStatus,\n    channel: channelStatus,\n    admin: adminStatus,\n    result: resultStatus,\n    report: reports.length > 0 ? reports.join(\", \") : null,\n    _need_tg_check: needTelegramCheck\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        1168
+      ],
+      "id": "c850cbea-13bf-45c9-a53c-d3dc4bd0156f",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-05-17T18:15:13.239Z",
+      "createdAt": "2026-05-17T18:15:13.239Z",
+      "role": "workflow:owner",
+      "workflowId": "XKAoEAKfto_5tIo2bZb5s",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-05-17T22:40:26.886Z",
+  "versionId": "779618aa-bcf8-408b-aab8-c209f8a0cb91"
+}
