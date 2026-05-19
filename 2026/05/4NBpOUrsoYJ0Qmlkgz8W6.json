@@ -18,7 +18,7 @@
       "main": [
         [
           {
-            "node": "Все админы канала",
+            "node": "Получение разрешений",
             "type": "main",
             "index": 0
           }
@@ -179,6 +179,74 @@
           }
         ]
       ]
+    },
+    "Получение разрешений": {
+      "main": [
+        [
+          {
+            "node": "Админ с правами?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Админ с правами?": {
+      "main": [
+        [
+          {
+            "node": "Канал разблокирован?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Админ не имеет прав",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Удаление бота из канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Канал разблокирован?": {
+      "main": [
+        [
+          {
+            "node": "Все админы канала",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Канал заблокирован",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Удаление бота из канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Добавление канала в БД": {
+      "main": [
+        [
+          {
+            "node": "Бот добавлен в канал",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-05-05T10:18:50.424Z",
@@ -187,11 +255,11 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "Превратник Телеграм канала",
+  "name": "Привратник Телеграм канала",
   "nodes": [
     {
       "parameters": {
-        "content": "## Бот Превратник\nПока не реализованы права на доступ. Любой, кто добавит бота в канал может использовать его.\n\n### Функции\n- Один бот для всех каналов и пользователей\n- Проверяет подписку в канале\n- Регистрирует подписчика в канале, если он не зарегистрирован\n- Отправляет подписчика на нужный пост в канале\n- При входе принимает параметр *Start*,  который определяет пост на который будет отправлен подписчик\n- Записывает данные подписчиков в БД\n\n\\* Пользователь - владелец канала, для кого работает программа\n\\* Подписчик - клиент пользователя",
+        "content": "## Бот Привратник\nПока не реализованы права на доступ. Любой, кто добавит бота в канал может использовать его.\n\n### Функции\n- Один бот для всех каналов и пользователей\n- Проверяет подписку в канале\n- Регистрирует подписчика в канале, если он не зарегистрирован\n- Отправляет подписчика на нужный пост в канале\n- При входе принимает параметр *Start*,  который определяет пост на который будет отправлен подписчик\n- Записывает данные подписчиков в БД\n\n\\* Пользователь - владелец канала, для кого работает программа\n\\* Подписчик - клиент пользователя",
         "height": 368,
         "width": 720
       },
@@ -238,7 +306,7 @@
     },
     {
       "parameters": {
-        "content": "## Добавление администратора \nКоманда `/start` без параметров.\nЛюбой пользователь стартонувший личный чат с ботом добавляется в таблицу администраторов `AtGateAdmins`. По умолчанию он заблокирован и никаких действий выполнять не может. Разблокировать его может суперадминистратор, установив поле `is_blocked` = false.\nПри выходе он не удаляется, поэтому при повторном добавлении очищается поле `status`, обновляется `username`.\n\n## Действия администратора\n### Добавление канала\n- бота может добавить в канал его админ через стандартный интерфейс ТГ, при этом должны быть соблюдены условия: \n  - канала нет в списке `AtGateChannel`, а если есть он не заблокирован.\n  - админ канала зарегистрирован в боте и разблокирован\n  - если любое условие не соблюдается - бот отписывается от канала\n- при добавлении бота в канал администратором, бот автоматически регистрирует себя превратником этого канала, создавая новую запись в таблице `AtGateChannel`\n- получает всех администраторов канала и добавляет их в список управляющих превратником (они получают право просматривать список акций канала и добавлять новые)\n- список обновляется при добавлении бота в канал, поэтому для обновления списка нужно удалить бота из канала и добавить снова\n- при удалении бота из канала он не удаляется из списка\n\n### Просмотр акций (подарков)\n- это делается админом (не заблокированным, с проверкой прав админа в канале) в личном чате с ботом\n- команда `/channels` выводит список каналов (в виде инлин кнопок) добавленных в систему и админом которых является пользователь и которые не заблокированы\n- выбрав канал пользователь получает список: кодовое слово - ссылка на пост\n- в поле `status` админа в таблице `AtGateAdmins` добавляется параметр `last_channel` с `channel_id` канала \n\n### Добавление акции (подарка)\n- подарок может добавить не заблокированный админ (права админа в канале проверяются)\n- получаем идентификатор канала в поле `status` админа в таблице `AtGateAdmins` в параметр `last_channel`\n- при его отсутствии: \n  - если канал у админа один его `channel_id`  добавляется в поле `status` админа в таблице `AtGateAdmins` в параметр `last_channel`  и используем его\n  - если не один, предлагаем выбрать канал командой `/channels` и повторить команду\n- подарок добавляется в канал - запись в таблицу `AtGateTarget`, если такое слово для этого канала используется - перезаписываем\n- команда для добавления: `/add word link`\n  -  `word` - кодовое слово (латинские буквы, цыфры, тире)\n  - `link` - ссылка на пост (в контекстном меню поста выбрать Копировать ссылку на сообщение\n",
+        "content": "## Добавление администратора \nКоманда `/start` без параметров.\nЛюбой пользователь стартонувший личный чат с ботом добавляется в таблицу администраторов `AtGateAdmins`. По умолчанию он заблокирован и никаких действий выполнять не может. Разблокировать его может суперадминистратор, установив поле `is_blocked` = false.\nПри выходе он не удаляется, поэтому при повторном добавлении очищается поле `status`, обновляется `username`.\n\n## Действия администратора\n### Добавление канала\n- бота может добавить в канал его админ через стандартный интерфейс ТГ, при этом должны быть соблюдены условия: \n  - канала нет в списке `AtGateChannel`, а если есть он не заблокирован.\n  - админ канала зарегистрирован в боте и разблокирован\n  - если любое условие не соблюдается - бот отписывается от канала\n- при добавлении бота в канал администратором, бот автоматически регистрирует себя привратником этого канала, создавая новую запись в таблице `AtGateChannel`\n- получает всех администраторов канала и добавляет их в список управляющих привратником\n- список обновляется при добавлении бота в канал, поэтому для обновления списка нужно удалить бота из канала и добавить снова\n- при удалении бота из канала он не удаляется из списка\n\n### Просмотр акций (подарков)\n- это делается админом (не заблокированным, с проверкой прав админа в канале) в личном чате с ботом\n- команда `/channels` выводит список каналов (в виде инлин кнопок) добавленных в систему и админом которых является пользователь и которые не заблокированы\n- выбрав канал пользователь получает список: кодовое слово - ссылка на пост\n- в поле `status` админа в таблице `AtGateAdmins` добавляется параметр `last_channel` с `channel_id` канала \n\n### Добавление акции (подарка)\n- подарок может добавить не заблокированный админ (права админа в канале проверяются)\n- получаем идентификатор канала в поле `status` админа в таблице `AtGateAdmins` в параметре `last_channel`\n- при его отсутствии: \n  - если канал у админа один его `channel_id`  добавляется в поле `status` админа в таблице `AtGateAdmins` в параметр `last_channel`  и используем его\n  - если не один, предлагаем выбрать канал командой `/channels` и повторить команду\n- подарок добавляется в канал - запись в таблицу `AtGateTarget`, если такое слово для этого канала используется - перезаписываем\n- команда для добавления: `/add word link`\n  -  `word` - кодовое слово (латинские буквы, цыфры, тире)\n  - `link` - ссылка на пост (в контекстном меню поста выбрать Копировать ссылку на сообщение\n",
         "height": 1136,
         "width": 640
       },
@@ -312,8 +380,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        512,
-        1232
+        560,
+        1296
       ],
       "id": "4c98938a-197d-4441-bc38-a33ab8f3fb68",
       "name": "Бот назначен Админом канала"
@@ -600,25 +668,24 @@
         },
         "table": {
           "__rl": true,
-          "value": "Channel",
+          "value": "AtGateChannel",
           "mode": "list",
-          "cachedResultName": "Channel"
+          "cachedResultName": "AtGateChannel"
         },
         "columns": {
           "mappingMode": "autoMapInputData",
           "value": {
-            "id": 0,
-            "channel_id": 0
+            "is_blocked": false
           },
           "matchingColumns": [
             "channel_id"
           ],
           "schema": [
             {
-              "id": "id",
-              "displayName": "id",
-              "required": false,
-              "defaultMatch": true,
+              "id": "channel_id",
+              "displayName": "channel_id",
+              "required": true,
+              "defaultMatch": false,
               "display": true,
               "type": "number",
               "canBeUsedToMatch": true,
@@ -627,21 +694,11 @@
             {
               "id": "channel_name",
               "displayName": "channel_name",
-              "required": false,
+              "required": true,
               "defaultMatch": false,
               "display": true,
               "type": "string",
               "canBeUsedToMatch": false
-            },
-            {
-              "id": "channel_id",
-              "displayName": "channel_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "removed": false
             },
             {
               "id": "admins",
@@ -650,6 +707,15 @@
               "defaultMatch": false,
               "display": true,
               "type": "object",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "is_blocked",
+              "displayName": "is_blocked",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
               "canBeUsedToMatch": false
             }
           ],
@@ -661,8 +727,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1168,
-        1232
+        1872,
+        1296
       ],
       "id": "52f0f3ff-a247-40b8-b556-5f2be0e2733d",
       "name": "Добавление канала в БД",
@@ -682,8 +748,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        752,
-        1232
+        1488,
+        1296
       ],
       "id": "a82650b7-8b41-48ef-995c-c0f15183ff6b",
       "name": "Все админы канала",
@@ -703,8 +769,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        960,
-        1216
+        1680,
+        1296
       ],
       "id": "4ac273ff-7d3e-4e3a-a18e-7600888d67d0",
       "name": "Формирование записи"
@@ -1146,7 +1212,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Получаем значение поля is_blocked из входящего элемента\nconst isBlocked = $input.first().json.is_blocked;\nlet message = \"\";\n\nif (isBlocked === true) {\n  // Текст, если пользователь НЕ заблокирован\n  message = `🔑 Вы запросили права на управление ботом **Превратником**.\n⏳ После одобрения администратором, вы сможете добавлять бота в 📢 каналы и создавать 📝 задания.`;\n} else {\n  // Текст, если пользователь заблокирован (is_blocked равен true или поле отсутствует)\n  message = `🔑 Вы можете управление ботом Превратником.`;\n}\n\n// Возвращаем результат в формате n8n\nreturn {\n  json: {\n    text: message\n  }\n};\n"
+        "jsCode": "// Получаем значение поля is_blocked из входящего элемента\nconst isBlocked = $input.first().json.is_blocked;\nlet message = \"\";\n\nif (isBlocked === true) {\n  // Текст, если пользователь НЕ заблокирован\n  message = `🔑 Вы запросили права на управление ботом **Привратником**.\n⏳ После одобрения администратором, вы сможете добавлять бота в 📢 каналы и создавать 📝 задания.`;\n} else {\n  // Текст, если пользователь заблокирован (is_blocked равен true или поле отсутствует)\n  message = `🔑 Вы можете управление ботом Привратником.`;\n}\n\n// Возвращаем результат в формате n8n\nreturn {\n  json: {\n    text: message\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1156,6 +1222,246 @@
       ],
       "id": "5978a58c-ea1f-413c-95b2-69640a10bc71",
       "name": "Подготовка приветствия"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "XKAoEAKfto_5tIo2bZb5s",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/XKAoEAKfto_5tIo2bZb5s",
+          "cachedResultName": "sub_проверка прав"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user": "={{ $json.my_chat_member.from.id.toString()}}",
+            "channel": "={{ $json.my_chat_member.chat.id.toString() }}",
+            "bot": "={{ $json.my_chat_member.new_chat_member.user.id.toString() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user",
+              "displayName": "user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "bot",
+              "displayName": "bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        1296
+      ],
+      "id": "37131a4e-a03a-4874-b58d-4a259be565ec",
+      "name": "Получение разрешений"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cb4881e7-5629-4dc2-a676-28166ddd7533",
+              "leftValue": "={{ $json[\"check:user_is_active\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        992,
+        1296
+      ],
+      "id": "aaec184a-61a4-41eb-8da2-04c417f32f07",
+      "name": "Админ с правами?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.my_chat_member.from.id }}",
+        "text": "=❌ У вас нет прав для добавления бота в канал! Обратитесь к администратору.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        1456
+      ],
+      "id": "f430457e-b58e-4ec7-a02f-a397024ee8dc",
+      "name": "Админ не имеет прав",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "leave",
+        "chatId": "={{ $('Telegram Trigger').item.json.my_chat_member.chat.id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1488,
+        1616
+      ],
+      "id": "e299b0a5-ae74-4a5c-9835-fc6c8467cb08",
+      "name": "Удаление бота из канала",
+      "webhookId": "a1da5cf4-3fc7-4288-b2a4-5b43ee2cbff0",
+      "retryOnFail": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "47fc9bcc-4171-4d41-b36b-84bd34cdd79b",
+              "leftValue": "={{ $json[\"check:channel_is_active\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "84e21b0a-7a30-4329-8f71-b0410853e601",
+              "leftValue": "={{ $json[\"check:channel_found\"] }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1232,
+        1296
+      ],
+      "id": "5ddb74b8-11ba-4ddf-b05f-daa5a724f41e",
+      "name": "Канал разблокирован?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.my_chat_member.from.id }}",
+        "text": "=❌ Канал заблокирован, обратитесь к администратору.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1488,
+        1456
+      ],
+      "id": "53ebea50-924e-4091-9988-7d882231a45d",
+      "name": "Канал заблокирован",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').first().json.my_chat_member.from.id }}",
+        "text": "=🤖🚪 Бот-привратник добавлен в канал {{ $('Telegram Trigger').first().json.my_chat_member.chat.title }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2064,
+        1296
+      ],
+      "id": "dadce432-586e-44b0-8837-2fe0b6ee8a1d",
+      "name": "Бот добавлен в канал",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      },
+      "onError": "continueRegularOutput"
     }
   ],
   "pinData": {},
@@ -1179,6 +1485,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-18T02:35:02.491Z",
-  "versionId": "cc87c4e2-cb43-412c-86f7-a2dbd112d538"
+  "updatedAt": "2026-05-18T21:37:54.934Z",
+  "versionId": "b23a49ac-af06-48dc-9e14-f80127433ee7"
 }
