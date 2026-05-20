@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-18T19:20:34.574Z",
-    "createdAt": "2026-05-18T19:20:28.134Z",
-    "versionId": "cb07aca6-a512-4807-badd-19d524adfe8a",
+    "updatedAt": "2026-05-20T04:13:11.179Z",
+    "createdAt": "2026-05-20T04:13:04.710Z",
+    "versionId": "b0b93210-ef3d-4639-acd8-44a36485e7e9",
     "workflowId": "XKAoEAKfto_5tIo2bZb5s",
     "nodes": [
       {
@@ -15,9 +15,6 @@
               },
               {
                 "name": "channel"
-              },
-              {
-                "name": "bot"
               }
             ]
           }
@@ -56,12 +53,6 @@
                 "id": "93961d51-d9ef-4084-9707-4d170e84e3a4",
                 "name": "channel",
                 "value": "-1003411040779",
-                "type": "string"
-              },
-              {
-                "id": "77457897-8c88-45d1-8882-55c40940e560",
-                "name": "bot",
-                "value": "8631709948",
                 "type": "string"
               }
             ]
@@ -120,22 +111,11 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          1008,
+          1232,
           944
         ],
         "id": "a0eab9d0-25e6-4146-bc38-c500eb2bacde",
         "name": "Пользователь запрошен?"
-      },
-      {
-        "parameters": {},
-        "type": "n8n-nodes-base.noOp",
-        "typeVersion": 1,
-        "position": [
-          480,
-          944
-        ],
-        "id": "592dbd51-3951-481b-b76a-af935b19c8f8",
-        "name": "Вход"
       },
       {
         "parameters": {
@@ -146,7 +126,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          800,
+          1024,
           944
         ],
         "id": "e58a424d-a463-478c-bcdb-8fe7381f5fae",
@@ -165,7 +145,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          640,
+          864,
           944
         ],
         "id": "d4f25f7a-ad6f-40b9-bb42-3aa0737acd8a",
@@ -230,7 +210,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          1232,
+          1456,
           848
         ],
         "id": "02aead88-44ad-4afd-b438-9bff62e05fac",
@@ -252,7 +232,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          1584,
+          1808,
           848
         ],
         "id": "3cc0f02e-f5ec-422f-9fd4-424b6c36a22d",
@@ -273,7 +253,7 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1408,
+          1632,
           848
         ],
         "id": "c152021e-d1af-435f-913b-a844b6affe6c",
@@ -296,7 +276,7 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1760,
+          1984,
           848
         ],
         "id": "a84382b0-0a4f-411d-ae86-3c9a69c5af31",
@@ -338,7 +318,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2128,
+          2352,
           944
         ],
         "id": "384a5a00-17bd-4c76-8f4a-a9e1465587ad",
@@ -354,7 +334,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          1936,
+          2160,
           848
         ],
         "id": "e6827402-f7be-427d-9c80-d1ef50717824",
@@ -375,7 +355,7 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          2368,
+          2592,
           944
         ],
         "id": "8207fefa-1660-479f-8861-890b2a6b72af",
@@ -399,7 +379,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          2576,
+          2800,
           1056
         ],
         "id": "a537a547-6611-46ea-8bd9-29f739d5552b",
@@ -420,7 +400,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          688,
+          912,
           1472
         ],
         "id": "9d702540-b3a2-456f-9030-925d24d14b00",
@@ -460,7 +440,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          464,
+          688,
           1568
         ],
         "id": "da631f08-8b8b-4f74-a42a-d35297ade475",
@@ -475,7 +455,7 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          880,
+          1104,
           1472
         ],
         "id": "833b7d0d-67c6-424b-be1b-519006306dee",
@@ -499,7 +479,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          1056,
+          1280,
           1472
         ],
         "id": "80a3fc37-b465-4c48-98f0-bdb8becdc155",
@@ -539,7 +519,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          1232,
+          1456,
           1472
         ],
         "id": "9793d681-ae9c-44d9-8e20-a630101f3097",
@@ -555,7 +535,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          1616,
+          1840,
           1392
         ],
         "id": "5f159105-bd1d-4f59-8d37-81ea64ac0c9b",
@@ -576,7 +556,7 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1440,
+          1664,
           1392
         ],
         "id": "65844ab4-cbe3-4ada-b1a5-8f84ef25585b",
@@ -600,7 +580,7 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1792,
+          2016,
           1392
         ],
         "id": "c04a33ce-29de-41b0-824b-38061e6aa157",
@@ -624,7 +604,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          1968,
+          2192,
           1392
         ],
         "id": "618ac029-e2fc-4674-aca1-51749405a1ed",
@@ -663,7 +643,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2144,
+          2368,
           1392
         ],
         "id": "58822f54-20fd-439a-82ab-0fd975817761",
@@ -679,7 +659,7 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2352,
+          2576,
           1296
         ],
         "id": "a47340b4-3cbe-4f34-be56-d32c7bee7c14",
@@ -703,7 +683,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          2544,
+          2768,
           1296
         ],
         "id": "bbd9a7fe-bfb0-44b3-8144-e10326cb11dd",
@@ -725,7 +705,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          2992,
+          3216,
           1216
         ],
         "id": "133efef9-9b82-43e3-919a-bbe1a6b1c5e7",
@@ -764,7 +744,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2736,
+          2960,
           1296
         ],
         "id": "1d1e9e83-d16d-4595-bfea-d9aaae33d4b3",
@@ -780,7 +760,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          3168,
+          3392,
           1312
         ],
         "id": "dce388b2-b563-41e5-84c8-4880edec2442",
@@ -800,7 +780,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          3904,
+          4128,
           1760
         ],
         "id": "f371d89d-5a17-4120-b302-0f0b339a170c",
@@ -821,11 +801,61 @@
         "name": "Return",
         "type": "n8n-nodes-base.set",
         "position": [
-          4128,
+          4352,
           1760
         ],
         "typeVersion": 3.3,
         "executeOnce": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3fcd6641-ce23-4762-83d7-c41f566aec14",
+                "name": "user",
+                "value": "={{ $json.user }}",
+                "type": "string"
+              },
+              {
+                "id": "e88eaa82-2528-4549-bc42-8cd263aa10e6",
+                "name": "channel",
+                "value": "={{ $json.channel }}",
+                "type": "string"
+              },
+              {
+                "id": "d6fec304-b661-4bd9-b1c5-503ffffb1117",
+                "name": "bot",
+                "value": "8631709948",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          592,
+          944
+        ],
+        "id": "0ca06aa8-1d57-4edc-9b6f-ef0b46c21375",
+        "name": "Вход"
+      },
+      {
+        "parameters": {
+          "content": "### Указать id бота",
+          "height": 192,
+          "width": 160
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          560,
+          896
+        ],
+        "typeVersion": 1,
+        "id": "28bc9a13-dac2-4734-aec9-999457187145",
+        "name": "Sticky Note2"
       }
     ],
     "connections": {
@@ -874,17 +904,6 @@
           [
             {
               "node": "Канал запрошен?",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Вход": {
-        "main": [
-          [
-            {
-              "node": "Переменные",
               "type": "main",
               "index": 0
             }
@@ -1227,14 +1246,25 @@
             }
           ]
         ]
+      },
+      "Вход": {
+        "main": [
+          [
+            {
+              "node": "Переменные",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version cb07aca6",
+    "name": "Version b0b93210",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "cb07aca6-a512-4807-badd-19d524adfe8a",
+  "activeVersionId": "b0b93210-ef3d-4639-acd8-44a36485e7e9",
   "connections": {
     "Функция": {
       "main": [
@@ -1281,17 +1311,6 @@
         [
           {
             "node": "Канал запрошен?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Вход": {
-      "main": [
-        [
-          {
-            "node": "Переменные",
             "type": "main",
             "index": 0
           }
@@ -1634,6 +1653,17 @@
           }
         ]
       ]
+    },
+    "Вход": {
+      "main": [
+        [
+          {
+            "node": "Переменные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-05-17T18:15:13.239Z",
@@ -1653,9 +1683,6 @@
             },
             {
               "name": "channel"
-            },
-            {
-              "name": "bot"
             }
           ]
         }
@@ -1694,12 +1721,6 @@
               "id": "93961d51-d9ef-4084-9707-4d170e84e3a4",
               "name": "channel",
               "value": "-1003411040779",
-              "type": "string"
-            },
-            {
-              "id": "77457897-8c88-45d1-8882-55c40940e560",
-              "name": "bot",
-              "value": "8631709948",
               "type": "string"
             }
           ]
@@ -1758,22 +1779,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1008,
+        1232,
         944
       ],
       "id": "a0eab9d0-25e6-4146-bc38-c500eb2bacde",
       "name": "Пользователь запрошен?"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        480,
-        944
-      ],
-      "id": "592dbd51-3951-481b-b76a-af935b19c8f8",
-      "name": "Вход"
     },
     {
       "parameters": {
@@ -1784,7 +1794,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        800,
+        1024,
         944
       ],
       "id": "e58a424d-a463-478c-bcdb-8fe7381f5fae",
@@ -1803,7 +1813,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        640,
+        864,
         944
       ],
       "id": "d4f25f7a-ad6f-40b9-bb42-3aa0737acd8a",
@@ -1868,7 +1878,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1232,
+        1456,
         848
       ],
       "id": "02aead88-44ad-4afd-b438-9bff62e05fac",
@@ -1890,7 +1900,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1584,
+        1808,
         848
       ],
       "id": "3cc0f02e-f5ec-422f-9fd4-424b6c36a22d",
@@ -1911,7 +1921,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1408,
+        1632,
         848
       ],
       "id": "c152021e-d1af-435f-913b-a844b6affe6c",
@@ -1934,7 +1944,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1760,
+        1984,
         848
       ],
       "id": "a84382b0-0a4f-411d-ae86-3c9a69c5af31",
@@ -1976,7 +1986,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2128,
+        2352,
         944
       ],
       "id": "384a5a00-17bd-4c76-8f4a-a9e1465587ad",
@@ -1992,7 +2002,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1936,
+        2160,
         848
       ],
       "id": "e6827402-f7be-427d-9c80-d1ef50717824",
@@ -2013,7 +2023,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2368,
+        2592,
         944
       ],
       "id": "8207fefa-1660-479f-8861-890b2a6b72af",
@@ -2037,7 +2047,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2576,
+        2800,
         1056
       ],
       "id": "a537a547-6611-46ea-8bd9-29f739d5552b",
@@ -2058,7 +2068,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        688,
+        912,
         1472
       ],
       "id": "9d702540-b3a2-456f-9030-925d24d14b00",
@@ -2098,7 +2108,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        464,
+        688,
         1568
       ],
       "id": "da631f08-8b8b-4f74-a42a-d35297ade475",
@@ -2113,7 +2123,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        880,
+        1104,
         1472
       ],
       "id": "833b7d0d-67c6-424b-be1b-519006306dee",
@@ -2137,7 +2147,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1056,
+        1280,
         1472
       ],
       "id": "80a3fc37-b465-4c48-98f0-bdb8becdc155",
@@ -2177,7 +2187,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1232,
+        1456,
         1472
       ],
       "id": "9793d681-ae9c-44d9-8e20-a630101f3097",
@@ -2193,7 +2203,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1616,
+        1840,
         1392
       ],
       "id": "5f159105-bd1d-4f59-8d37-81ea64ac0c9b",
@@ -2214,7 +2224,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1440,
+        1664,
         1392
       ],
       "id": "65844ab4-cbe3-4ada-b1a5-8f84ef25585b",
@@ -2238,7 +2248,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1792,
+        2016,
         1392
       ],
       "id": "c04a33ce-29de-41b0-824b-38061e6aa157",
@@ -2262,7 +2272,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1968,
+        2192,
         1392
       ],
       "id": "618ac029-e2fc-4674-aca1-51749405a1ed",
@@ -2301,7 +2311,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2144,
+        2368,
         1392
       ],
       "id": "58822f54-20fd-439a-82ab-0fd975817761",
@@ -2317,7 +2327,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2352,
+        2576,
         1296
       ],
       "id": "a47340b4-3cbe-4f34-be56-d32c7bee7c14",
@@ -2341,7 +2351,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2544,
+        2768,
         1296
       ],
       "id": "bbd9a7fe-bfb0-44b3-8144-e10326cb11dd",
@@ -2363,7 +2373,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2992,
+        3216,
         1216
       ],
       "id": "133efef9-9b82-43e3-919a-bbe1a6b1c5e7",
@@ -2402,7 +2412,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2736,
+        2960,
         1296
       ],
       "id": "1d1e9e83-d16d-4595-bfea-d9aaae33d4b3",
@@ -2418,7 +2428,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        3168,
+        3392,
         1312
       ],
       "id": "dce388b2-b563-41e5-84c8-4880edec2442",
@@ -2438,7 +2448,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        3904,
+        4128,
         1760
       ],
       "id": "f371d89d-5a17-4120-b302-0f0b339a170c",
@@ -2459,11 +2469,61 @@
       "name": "Return",
       "type": "n8n-nodes-base.set",
       "position": [
-        4128,
+        4352,
         1760
       ],
       "typeVersion": 3.3,
       "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3fcd6641-ce23-4762-83d7-c41f566aec14",
+              "name": "user",
+              "value": "={{ $json.user }}",
+              "type": "string"
+            },
+            {
+              "id": "e88eaa82-2528-4549-bc42-8cd263aa10e6",
+              "name": "channel",
+              "value": "={{ $json.channel }}",
+              "type": "string"
+            },
+            {
+              "id": "d6fec304-b661-4bd9-b1c5-503ffffb1117",
+              "name": "bot",
+              "value": "8631709948",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        944
+      ],
+      "id": "0ca06aa8-1d57-4edc-9b6f-ef0b46c21375",
+      "name": "Вход"
+    },
+    {
+      "parameters": {
+        "content": "### Указать id бота",
+        "height": 192,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        896
+      ],
+      "typeVersion": 1,
+      "id": "28bc9a13-dac2-4734-aec9-999457187145",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -2487,6 +2547,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-18T19:20:28.131Z",
-  "versionId": "cb07aca6-a512-4807-badd-19d524adfe8a"
+  "updatedAt": "2026-05-20T04:13:04.708Z",
+  "versionId": "b0b93210-ef3d-4639-acd8-44a36485e7e9"
 }
