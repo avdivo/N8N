@@ -389,6 +389,24 @@
           }
         ]
       ]
+    },
+    "Добавление цели": {
+      "main": [
+        [
+          {
+            "node": "Сообщение со ссылкой",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Данные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-05-05T10:18:50.424Z",
@@ -417,7 +435,7 @@
     },
     {
       "parameters": {
-        "content": "## Устройство\n\n### Каналы\n- `AtGateChannel` в схеме `atgate`. В ней переписаны все каналы для которых работает бот:\n  - **channel_name** - произвольное название канала\n  - **channel_id** - идентификатор канала (уникальное)\n  - **admins** - список администраторов канала (JSONB)\n  - **is_blocked** - заблокирован (по умолчанию FALSE)\n\n### Администраторы\n- `AtGateAdmins` в схеме `atgate`. Пользователи которым разрешено управлять регистрацией каналов и подарками\n  - **user_id** - идентификатор пользователя в ТГ (уникальное)\n  - **username** - логин в ТГ\n  - **status** - текущее состояние. Поле в формате JSONB\n  - **is_blocked** - заблокирован (по умолчанию TRUE)\n\n### Пользователи\n- `AtGateUser` в схеме `atgate`. Содержит данные пользователей вошедших в бота:\n  - **user_id** - идентификатор пользователя в ТГ (уникальное)\n  - **username** - логин\n  - **first_name** - имя\n  - **last_name** - фамилия\n  - **toDateTime** - когда пришел\n\n### Взаимодействия\n- `AtGateInteraction` в схеме `atgate`. Одна запись о каждом посещении бота пользователем. Указывает на каком этапе пользователь и параметры сервиса откуда пришел и его цель: \n  - **id** - идентификатор записи о взаимодействии\n  - **user_id** - связь с таблицей `AtGateUser`\n  - **source** - параметры источника - набор полей в JSONB (например user id Инстаграмм)\n  - **report** - отчет о достижении цели в формате JSONB. Включает поля сопоставленной цели и поле invite_link ссылка-заявка в канал по которой можно искать взаимодействие.\n  - **status** - текущее состояние JSONB\n  - **updated_at** - дата и время взаимодействия (обновляется при изменении)\n\n### Цели\n- `AtGateTarget` в схеме `atgate`. Сопоставление кодового слова с лид-магнитом (подарком):\n  - **channel_id** - связь с таблицей `AtGateChannel`\n  - **type_target** - тип цели (сейчас: \"подписка на тг канал\")\n  - **parameters** - параметры - набор полей в JSONB\n  - **code_word** - слово, по которому пользователь получает подарок в инсте, но латиницей и без пробелов (уникальное в сочетании с `channel_id`)\n  - **link_target** - ссылка на пост в канале с нужным подарком",
+        "content": "## Устройство\n\n### Каналы\n- `AtGateChannel` в схеме `atgate`. В ней переписаны все каналы для которых работает бот:\n  - **channel_name** - произвольное название канала\n  - **channel_id** - идентификатор канала (уникальное)\n  - **admins** - список администраторов канала (JSONB)\n  - **is_blocked** - заблокирован (по умолчанию FALSE)\n\n### Администраторы\n- `AtGateAdmins` в схеме `atgate`. Пользователи которым разрешено управлять регистрацией каналов и подарками\n  - **user_id** - идентификатор пользователя в ТГ (уникальное)\n  - **username** - логин в ТГ\n  - **status** - текущее состояние. Поле в формате JSONB\n  - **is_blocked** - заблокирован (по умолчанию TRUE)\n\n### Пользователи\n- `AtGateUser` в схеме `atgate`. Содержит данные пользователей вошедших в бота:\n  - **user_id** - идентификатор пользователя в ТГ (уникальное)\n  - **username** - логин\n  - **first_name** - имя\n  - **last_name** - фамилия\n  - **toDateTime** - когда пришел\n\n### Взаимодействия\n- `AtGateInteraction` в схеме `atgate`. Одна запись о каждом посещении бота пользователем. Указывает на каком этапе пользователь и параметры сервиса откуда пришел и его цель: \n  - **id** - идентификатор записи о взаимодействии\n  - **user_id** - связь с таблицей `AtGateUser`\n  - **source** - параметры источника - набор полей в JSONB (например user id Инстаграмм)\n  - **report** - отчет о достижении цели в формате JSONB. Включает поля сопоставленной цели и поле invite_link ссылка-заявка в канал по которой можно искать взаимодействие.\n  - **status** - текущее состояние JSONB\n  - **updated_at** - дата и время взаимодействия (обновляется при изменении)\n\n### Цели\n- `AtGateTarget` в схеме `atgate`. Сопоставление кодового слова с лид-магнитом (подарком):\n  - **channel_id** - связь с таблицей `AtGateChannel`\n  - **type_target** - тип цели (сейчас: \"подписка на тг канал\")\n  - **parameters** - параметры - набор полей в JSONB\n  - **code_word** - слово, по которому пользователь получает подарок в инсте\n  - **code** - код для стартового параметра бота (уникальное)\n  - **link_target** - ссылка на пост в канале с нужным подарком",
         "height": 1088,
         "width": 672
       },
@@ -448,7 +466,7 @@
     },
     {
       "parameters": {
-        "content": "## Добавление администратора \nКоманда `/start` без параметров.\nЛюбой пользователь стартонувший личный чат с ботом добавляется в таблицу администраторов `AtGateAdmins`. По умолчанию он заблокирован и никаких действий выполнять не может. Разблокировать его может суперадминистратор, установив поле `is_blocked` = false.\nПри выходе он не удаляется, поэтому при повторном добавлении очищается поле `status`, обновляется `username`.\n\n## Действия администратора\n### Добавление канала\n- бота может добавить в канал его админ через стандартный интерфейс ТГ, при этом должны быть соблюдены условия: \n  - канала нет в списке `AtGateChannel`, а если есть он не заблокирован.\n  - админ канала зарегистрирован в боте и разблокирован\n  - если любое условие не соблюдается - бот отписывается от канала\n- при добавлении бота в канал администратором, бот автоматически регистрирует себя привратником этого канала, создавая новую запись в таблице `AtGateChannel`\n- получает всех администраторов канала и добавляет их в список управляющих привратником\n- список обновляется при добавлении бота в канал, поэтому для обновления списка нужно удалить бота из канала и добавить снова\n- при удалении бота из канала он не удаляется из списка\n\n### Просмотр акций (подарков)\n Команда `/channels` \n- это делается админом (не заблокированным, с проверкой прав админа в канале) в личном чате с ботом\n- команда `/channels` выводит список каналов (в виде инлин кнопок) добавленных в систему и админом которых является пользователь и которые не заблокированы\n- выбрав канал пользователь получает список: кодовое слово - ссылка на пост\n- в поле `status` админа в таблице `AtGateAdmins` добавляется параметр `last_channel` с `channel_id` канала \n\n### Добавление акции (подарка)\nКоманда `/add`\n- команда для добавления: `/add word link`\n  -  `word` - кодовое слово (латинские буквы, цыфры, тире)\n  - `link` - ссылка на пост (в контекстном меню поста выбрать Копировать ссылку на сообщение\n- получаем идентификатор канала из ссылки. Пример: https://t.me/c/3411040779/29\n  - \"-100\" + \"3411040779\" = \"-1003411040779\" - это он и есть\n- проверяем, чтобы канал был в системе, не был заблокирован, пользователь приславший ссылку был активен и был админом канала\n- добавляем новую запись в таблицу `AtGateTarget`. Пр добавлении запись обновляется если такое слово уже есть в этом канале.",
+        "content": "## Добавление администратора \nКоманда `/start` без параметров.\nЛюбой пользователь стартонувший личный чат с ботом добавляется в таблицу администраторов `AtGateAdmins`. По умолчанию он заблокирован и никаких действий выполнять не может. Разблокировать его может суперадминистратор, установив поле `is_blocked` = false.\nПри выходе он не удаляется, поэтому при повторном добавлении очищается поле `status`, обновляется `username`.\n\n## Действия администратора\n### Добавление канала\n- бота может добавить в канал его админ через стандартный интерфейс ТГ, при этом должны быть соблюдены условия: \n  - канала нет в списке `AtGateChannel`, а если есть он не заблокирован.\n  - админ канала зарегистрирован в боте и разблокирован\n  - если любое условие не соблюдается - бот отписывается от канала\n- при добавлении бота в канал администратором, бот автоматически регистрирует себя привратником этого канала, создавая новую запись в таблице `AtGateChannel`\n- получает всех администраторов канала и добавляет их в список управляющих привратником\n- список обновляется при добавлении бота в канал, поэтому для обновления списка нужно удалить бота из канала и добавить снова\n- при удалении бота из канала он не удаляется из списка\n\n### Просмотр акций (подарков)\n Команда `/channels` \n- это делается админом (не заблокированным, с проверкой прав админа в канале) в личном чате с ботом\n- команда `/channels` выводит список каналов (в виде инлин кнопок) добавленных в систему и админом которых является пользователь и которые не заблокированы\n- выбрав канал пользователь получает список: кодовое слово - ссылка на пост\n- в поле `status` админа в таблице `AtGateAdmins` добавляется параметр `last_channel` с `channel_id` канала \n\n### Добавление акции (подарка)\nКоманда `/add`\n- команда для добавления: `/add word link`\n  -  `word` - кодовое слово любые буквы, тире, цифры\n  - `link` - ссылка на пост (в контекстном меню поста выбрать Копировать ссылку на сообщение\n- создаем уникальный код из 5 латинских букв и цифр, убеждаемся что его нет в таблице `AtGateTarget` в поле `code`\n- получаем идентификатор канала из ссылки `link`. Пример: https://t.me/c/3411040779/29\n  - \"-100\" + \"3411040779\" = \"-1003411040779\" - это он и есть\n- проверяем, чтобы канал был в системе, не был заблокирован, пользователь приславший ссылку был активен и был админом канала\n- добавляем новую запись в таблицу `AtGateTarget`\n- возвращаем сообщение о добавлении слова и ссылку на тг бот в кодом в параметре старта",
         "height": 1136,
         "width": 656
       },
@@ -778,7 +796,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "-- 1. Настройка схемы\nCREATE SCHEMA IF NOT EXISTS atgate;\nSET search_path TO atgate;\n\n-- 2. Таблица Каналы\nCREATE TABLE IF NOT EXISTS \"AtGateChannel\" (\n    channel_id BIGINT PRIMARY KEY,\n    channel_name TEXT NOT NULL,\n    admins JSONB DEFAULT '[]',\n    is_blocked BOOLEAN DEFAULT FALSE\n);\n\n-- 3. Таблица Администраторы\nCREATE TABLE IF NOT EXISTS \"AtGateAdmins\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    status JSONB DEFAULT '{}',\n    is_blocked BOOLEAN DEFAULT TRUE\n);\n\n-- 4. Таблица Пользователи\nCREATE TABLE IF NOT EXISTS \"AtGateUser\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    \"toDateTime\" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 5. Таблица Взаимодействия\nCREATE TABLE IF NOT EXISTS \"AtGateInteraction\" (\n    id SERIAL PRIMARY KEY,\n    user_id BIGINT REFERENCES \"AtGateUser\"(user_id) ON DELETE CASCADE,\n    source JSONB DEFAULT '{}',\n    report JSONB DEFAULT '{}',\n    status JSONB DEFAULT '{}',\n    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 6. Таблица Цели\nCREATE TABLE IF NOT EXISTS atgate.\"AtGateTarget\" (\n    channel_id BIGINT REFERENCES atgate.\"AtGateChannel\"(channel_id) ON DELETE CASCADE,\n    type_target TEXT DEFAULT 'подписка на тг канал',\n    parameters JSONB DEFAULT '{}',\n    code_word TEXT NOT NULL,\n    link_target TEXT NOT NULL,\n    \n    -- Добавили составную уникальность в конец\n    CONSTRAINT \"uq_channel_code_word\" UNIQUE (channel_id, code_word)\n);\n\n\n-- 7. Индексы для оптимизации поиска и n8n-воркфлоу\nCREATE INDEX IF NOT EXISTS idx_interaction_user ON \"AtGateInteraction\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_interaction_report_link ON \"AtGateInteraction\" USING gin (report);\n",
+        "query": "-- 1. Настройка схемы\nCREATE SCHEMA IF NOT EXISTS atgate;\nSET search_path TO atgate;\n\n-- 2. Таблица Каналы\nCREATE TABLE IF NOT EXISTS \"AtGateChannel\" (\n    channel_id BIGINT PRIMARY KEY,\n    channel_name TEXT NOT NULL,\n    admins JSONB DEFAULT '[]',\n    is_blocked BOOLEAN DEFAULT FALSE\n);\n\n-- 3. Таблица Администраторы\nCREATE TABLE IF NOT EXISTS \"AtGateAdmins\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    status JSONB DEFAULT '{}',\n    is_blocked BOOLEAN DEFAULT TRUE\n);\n\n-- 4. Таблица Пользователи\nCREATE TABLE IF NOT EXISTS \"AtGateUser\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    \"toDateTime\" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 5. Таблица Взаимодействия\nCREATE TABLE IF NOT EXISTS \"AtGateInteraction\" (\n    id SERIAL PRIMARY KEY,\n    user_id BIGINT REFERENCES \"AtGateUser\"(user_id) ON DELETE CASCADE,\n    source JSONB DEFAULT '{}',\n    report JSONB DEFAULT '{}',\n    status JSONB DEFAULT '{}',\n    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 6. Таблица Цели\nCREATE TABLE IF NOT EXISTS atgate.\"AtGateTarget\" (\n    channel_id BIGINT REFERENCES atgate.\"AtGateChannel\"(channel_id) ON DELETE CASCADE,\n    type_target TEXT DEFAULT 'подписка на тг канал',\n    parameters JSONB DEFAULT '{}',\n    code_word TEXT NOT NULL,\n    code CHAR(5) NOT NULL UNIQUE, -- Строго 5 символов, весит минимум, ищется мгновенно\n    link_target TEXT NOT NULL\n);\n\n\n-- 7. Индексы для оптимизации поиска и n8n-воркфлоу\nCREATE INDEX IF NOT EXISTS idx_interaction_user ON \"AtGateInteraction\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_interaction_report_link ON \"AtGateInteraction\" USING gin (report);\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -1659,7 +1677,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const input = $('/start').first().json.message.text || \"\";\n// Код для Code node в n8n\n\n// 1. Парсинг команды\nconst commandMatch = input.match(/^\\/(add|a)\\s+(\\S+)\\s+(\\S+)$/i);\nif (!commandMatch) {\n  return { json: { error: '❌ Не правильный формат команды' } };\n}\n\nconst [, , codeWord, link] = commandMatch;\n\n// 2. Валидация code_word\nif (!/^[a-zA-Zа-яА-Я0-9-]+$/.test(codeWord)) {\n  return { json: { error: '❌ Не правильное кодовое слово' } };\n}\n\n// 3. Валидация ссылки\nconst linkRegex = /^https:\\/\\/t\\.me\\/c\\/(\\d+)\\/\\d+$/;\nif (!linkRegex.test(link)) {\n  return { json: { error: '❌ Не правильный формат ссылки' } };\n}\n\n// 4. Сборка channel_id\nconst channelId = `-100${link.match(linkRegex)[1]}`;\n\n// 5. Успешный результат\nreturn {\n  json: {\n    channel_id: channelId,\n    type_target: 'подписка на тг канал',\n    parameters: {},\n    code_word: codeWord,\n    link_target: link\n  }\n};"
+        "jsCode": "const input = $('/start').first().json.message.text || \"\";\n// Код для Code node в n8n\n\n// 1. Парсинг команды\nconst commandMatch = input.match(/^\\/(add|a)\\s+([^\\s]+)\\s+([^\\s]+)$/i);\nif (!commandMatch) {\n  return { json: { error: '❌ Не правильный формат команды' } };\n}\n\nconst [, , codeWord, link] = commandMatch;\n\n// 2. Валидация code_word\nif (!/^[a-zA-Zа-яА-ЯёЁ0-9-]+$/.test(codeWord)) {\n  return { json: { error: '❌ Не правильное кодовое слово' } };\n}\n\n// 3. Валидация ссылки\nconst linkRegex = /^https:\\/\\/t\\.me\\/c\\/(\\d+)\\/\\d+$/;\nif (!linkRegex.test(link)) {\n  return { json: { error: '❌ Не правильный формат ссылки' } };\n}\n\n// 4. Сборка channel_id\nconst channelId = `-100${link.match(linkRegex)[1]}`;\n\n// 5. Успешный результат\nreturn {\n  json: {\n    channel_id: channelId,\n    type_target: 'подписка на тг канал',\n    parameters: {},\n    code_word: codeWord,\n    link_target: link\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1987,20 +2005,19 @@
     },
     {
       "parameters": {
-        "jsCode": "return $('Проверка команды').all()"
+        "jsCode": "// Передача данных и генерация уникального кода\nreturn $('Проверка команды').all().map(item => {\n  item.json.code = Math.random().toString(36).substring(2, 7);\n  return item;\n});"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3280,
-        528
+        3440,
+        512
       ],
       "id": "a6fa7e26-7b4d-4147-8df6-d42c5dcf8e2b",
       "name": "Данные"
     },
     {
       "parameters": {
-        "operation": "upsert",
         "schema": {
           "__rl": true,
           "value": "atgate",
@@ -2015,11 +2032,10 @@
         },
         "columns": {
           "mappingMode": "autoMapInputData",
-          "value": {},
-          "matchingColumns": [
-            "channel_id",
-            "code_word"
-          ],
+          "value": {
+            "channel_id": 0
+          },
+          "matchingColumns": [],
           "schema": [
             {
               "id": "channel_id",
@@ -2028,8 +2044,7 @@
               "defaultMatch": false,
               "display": true,
               "type": "number",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
               "id": "type_target",
@@ -2038,8 +2053,7 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": false,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
               "id": "parameters",
@@ -2048,8 +2062,7 @@
               "defaultMatch": false,
               "display": true,
               "type": "object",
-              "canBeUsedToMatch": false,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
               "id": "code_word",
@@ -2058,8 +2071,16 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "code",
+              "displayName": "code",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             },
             {
               "id": "link_target",
@@ -2068,8 +2089,7 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": false,
-              "removed": false
+              "canBeUsedToMatch": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -2080,15 +2100,58 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3456,
-        528
+        3584,
+        512
       ],
       "id": "992f631e-e839-421a-8425-8ac160440809",
       "name": "Добавление цели",
+      "retryOnFail": false,
       "credentials": {
         "postgres": {
           "id": "xe5rl8ApMEn9rCCd",
           "name": "Postgres account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Таблица транслитерации\n\nGOST_TG_MAP = {\n    'а': 'a',   'б': 'b',   'в': 'v',   'г': 'g',   'д': 'd', \n    'е': 'e',   'ё': 'yo',  'ж': 'zh',  'з': 'z',   'и': 'i', \n    'й': 'j',   'к': 'k',   'л': 'l',   'м': 'm',   'н': 'n', \n    'о': 'o',   'п': 'p',   'р': 'r',   'с': 's',   'т': 't', \n    'у': 'u',   'ф': 'f',   'х': 'h',   'ц': 'cz',  'ч': 'ch', \n    'ш': 'sh',  'щ': 'shch', 'ы': 'y',\n    \n    # Нюансы адаптации знаков под правила Telegram:\n    'ъ': '--',  # В ГОСТе `` -> заменено на двойной дефис\n    'ь': '-',   # В ГОСТе `  -> заменено на одиночный дефис\n    'э': 'e-',  # В ГОСТе e` -> заменено на e- (четкое отличие от 'е')\n  \n}\n",
+        "height": 368,
+        "width": 704,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1248,
+        -1488
+      ],
+      "typeVersion": 1,
+      "id": "7caca661-55fc-4377-82f2-c9c9f581c3f1",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('/start').item.json.message.chat.id }}",
+        "text": "=🎉 Ваша ссылка для выдачи подарка готова. \n\nСкопируйте её и отправьте пользователю:\n<code>t.me/AtGate_bot?start={{ $json.code }}</code>\n\n🔗 При переходе по ссылке бот автоматически поймет, что нужно выдать подарок за слово «{{ $json.code_word }}».\n",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3808,
+        512
+      ],
+      "id": "5f99c4c0-dde2-4221-8fb3-16149d52a753",
+      "name": "Сообщение со ссылкой",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
         }
       }
     }
@@ -2114,6 +2177,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-20T05:18:21.574Z",
-  "versionId": "82516597-4617-4eff-bfb0-77fd2f7b9055"
+  "updatedAt": "2026-05-20T22:33:01.006Z",
+  "versionId": "4775e829-4683-4880-96d6-4dc9d91f8ff2"
 }
