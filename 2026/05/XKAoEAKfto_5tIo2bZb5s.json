@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-20T04:13:11.179Z",
-    "createdAt": "2026-05-20T04:13:04.710Z",
-    "versionId": "b0b93210-ef3d-4639-acd8-44a36485e7e9",
+    "updatedAt": "2026-05-22T16:01:12.789Z",
+    "createdAt": "2026-05-22T16:00:57.723Z",
+    "versionId": "ef193d1a-76ff-4d95-807d-48cc93f7a919",
     "workflowId": "XKAoEAKfto_5tIo2bZb5s",
     "nodes": [
       {
@@ -70,7 +70,7 @@
       },
       {
         "parameters": {
-          "content": "## Функция Проверка прав\nСобирает всю информацию о запрошенном пользователе и канале и возвращает в виде списка флагов.\n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n- `bot` идентификатор бота\n\n## Возвращает\nПлоский JSON со значениями для каждого флага: `null`, `true`, `false` . Уровни для наглядности. Если для любого поля значение не определено `null` - то и все нижестоящие поля не определяются.\n\n* `check:user_id_provided` — пользователь запрошен.\n  * `check:user_is_lead` — пользователь является лидом.\n  * `check:user_is_admin` — пользователь является админом.\n    * `check:user_is_active` — пользователь разблокирован.\n\n\n* `check:channel_id_provided` — канал запрошен.\n  * `check:channel_found` — канал зарегистрирован.\n    * `check:channel_is_active` — канал разблокирован.\n      * `check:bot_is_member` — бот находится в канале.\n        * `check:user_is_channel_admin` — пользователь является админом канала.\n        * `check:user_is_subscribed` — пользователь подписан.\n",
+          "content": "## Функция Проверка прав\nСобирает всю информацию о запрошенном пользователе и канале и возвращает в виде списка флагов.\n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n- `bot` идентификатор бота\n\n## Возвращает\nПлоский JSON со значениями для каждого флага: `null`, `true`, `false` . Уровни для наглядности. Если для любого поля значение не определено `null` - то и все нижестоящие поля не определяются.\n\n* `check:user_id_provided` — пользователь запрошен.\n  * `check:user_is_lead` — пользователь является лидом.\n  * `check:user_is_admin` — пользователь является админом.\n    * `check:user_is_active` — пользователь разблокирован.\n\n\n* `check:channel_id_provided` — канал запрошен.\n  * `check:channel_found` — канал зарегистрирован.\n    * `check:channel_is_active` — канал разблокирован.\n      * `check:bot_is_member` — бот находится в канале.\n        * `check:user_is_channel_admin` — пользователь является админом канала.\n        * `check:user_is_subscribed` — пользователь подписан.\n        * `check:channel_name`  — название канала\n",
           "height": 656,
           "width": 592
         },
@@ -140,7 +140,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null      // пользователь подписан\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
+          "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null,     // пользователь подписан\n  \"check:channel_name\": null            // название канала\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -604,8 +604,8 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          2192,
-          1392
+          2864,
+          1376
         ],
         "id": "618ac029-e2fc-4674-aca1-51749405a1ed",
         "name": "check:bot_is_member",
@@ -643,8 +643,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2368,
-          1392
+          3040,
+          1376
         ],
         "id": "58822f54-20fd-439a-82ab-0fd975817761",
         "name": "Бот - админ?"
@@ -659,8 +659,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2576,
-          1296
+          3248,
+          1280
         ],
         "id": "a47340b4-3cbe-4f34-be56-d32c7bee7c14",
         "name": "Кто пользователь в канале",
@@ -677,14 +677,14 @@
         "parameters": {
           "operation": "set",
           "key": "check:user_is_channel_admin",
-          "value": "={{ $json.result?.status === 'administrator' ? 'true' : 'false' }}",
+          "value": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
           "keyType": "string"
         },
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          2768,
-          1296
+          3440,
+          1280
         ],
         "id": "bbd9a7fe-bfb0-44b3-8144-e10326cb11dd",
         "name": "check:user_is_channel_admin",
@@ -705,8 +705,8 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          3216,
-          1216
+          3888,
+          1200
         ],
         "id": "133efef9-9b82-43e3-919a-bbe1a6b1c5e7",
         "name": "check:user_is_subscribed",
@@ -729,7 +729,7 @@
             "conditions": [
               {
                 "id": "6a569ef3-b8be-4720-a346-f36e91912dcb",
-                "leftValue": "={{ $json.result?.status === 'administrator' ? 'true' : 'false' }}",
+                "leftValue": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
                 "rightValue": "true",
                 "operator": {
                   "type": "string",
@@ -744,8 +744,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2960,
-          1296
+          3632,
+          1280
         ],
         "id": "1d1e9e83-d16d-4595-bfea-d9aaae33d4b3",
         "name": "Пользователь админ канала?"
@@ -760,8 +760,8 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          3392,
-          1312
+          4064,
+          1296
         ],
         "id": "dce388b2-b563-41e5-84c8-4880edec2442",
         "name": "check:user_is_subscribed1",
@@ -780,8 +780,8 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          4128,
-          1760
+          4656,
+          1568
         ],
         "id": "f371d89d-5a17-4120-b302-0f0b339a170c",
         "name": "Все флаги",
@@ -791,21 +791,6 @@
             "name": "Redis account"
           }
         }
-      },
-      {
-        "parameters": {
-          "includeOtherFields": true,
-          "options": {}
-        },
-        "id": "f25be7ff-a030-441d-804f-615fd91e5a4c",
-        "name": "Return",
-        "type": "n8n-nodes-base.set",
-        "position": [
-          4352,
-          1760
-        ],
-        "typeVersion": 3.3,
-        "executeOnce": true
       },
       {
         "parameters": {
@@ -856,6 +841,82 @@
         "typeVersion": 1,
         "id": "28bc9a13-dac2-4734-aec9-999457187145",
         "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "1c672ec7-cd1f-4264-958b-63a43fd8a19a",
+                "leftValue": "={{ $json.error ? 'false' : 'true' }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2240,
+          1296
+        ],
+        "id": "995a1c90-a8be-41fe-835e-c70add065c5a",
+        "name": "В канале?"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:channel_name",
+          "value": "={{ $json.result.title }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          2624,
+          1296
+        ],
+        "id": "2f43ea23-4bfd-494c-8a6a-315bbb1420d6",
+        "name": "check:channel_name",
+        "credentials": {
+          "redis": {
+            "id": "b5sd4CQ59tgLeFqu",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "chat",
+          "chatId": "={{ $('Вход').item.json.channel }}"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2448,
+          1296
+        ],
+        "id": "357a195b-2051-4d13-87e5-ffade7009d46",
+        "name": "Название канала",
+        "webhookId": "deb82648-a4bf-45e6-b931-df64ee873c59",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
       }
     ],
     "connections": {
@@ -1133,7 +1194,7 @@
         "main": [
           [
             {
-              "node": "check:bot_is_member",
+              "node": "В канале?",
               "type": "main",
               "index": 0
             }
@@ -1238,13 +1299,7 @@
       },
       "Все флаги": {
         "main": [
-          [
-            {
-              "node": "Return",
-              "type": "main",
-              "index": 0
-            }
-          ]
+          []
         ]
       },
       "Вход": {
@@ -1257,14 +1312,47 @@
             }
           ]
         ]
+      },
+      "В канале?": {
+        "main": [
+          [
+            {
+              "node": "Название канала",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Название канала": {
+        "main": [
+          [
+            {
+              "node": "check:channel_name",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:channel_name": {
+        "main": [
+          [
+            {
+              "node": "check:bot_is_member",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version b0b93210",
+    "name": "Version ef193d1a",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "b0b93210-ef3d-4639-acd8-44a36485e7e9",
+  "activeVersionId": "ef193d1a-76ff-4d95-807d-48cc93f7a919",
   "connections": {
     "Функция": {
       "main": [
@@ -1540,7 +1628,7 @@
       "main": [
         [
           {
-            "node": "check:bot_is_member",
+            "node": "В канале?",
             "type": "main",
             "index": 0
           }
@@ -1645,13 +1733,7 @@
     },
     "Все флаги": {
       "main": [
-        [
-          {
-            "node": "Return",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Вход": {
@@ -1659,6 +1741,39 @@
         [
           {
             "node": "Переменные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "В канале?": {
+      "main": [
+        [
+          {
+            "node": "Название канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Название канала": {
+      "main": [
+        [
+          {
+            "node": "check:channel_name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:channel_name": {
+      "main": [
+        [
+          {
+            "node": "check:bot_is_member",
             "type": "main",
             "index": 0
           }
@@ -1738,7 +1853,7 @@
     },
     {
       "parameters": {
-        "content": "## Функция Проверка прав\nСобирает всю информацию о запрошенном пользователе и канале и возвращает в виде списка флагов.\n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n- `bot` идентификатор бота\n\n## Возвращает\nПлоский JSON со значениями для каждого флага: `null`, `true`, `false` . Уровни для наглядности. Если для любого поля значение не определено `null` - то и все нижестоящие поля не определяются.\n\n* `check:user_id_provided` — пользователь запрошен.\n  * `check:user_is_lead` — пользователь является лидом.\n  * `check:user_is_admin` — пользователь является админом.\n    * `check:user_is_active` — пользователь разблокирован.\n\n\n* `check:channel_id_provided` — канал запрошен.\n  * `check:channel_found` — канал зарегистрирован.\n    * `check:channel_is_active` — канал разблокирован.\n      * `check:bot_is_member` — бот находится в канале.\n        * `check:user_is_channel_admin` — пользователь является админом канала.\n        * `check:user_is_subscribed` — пользователь подписан.\n",
+        "content": "## Функция Проверка прав\nСобирает всю информацию о запрошенном пользователе и канале и возвращает в виде списка флагов.\n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n- `bot` идентификатор бота\n\n## Возвращает\nПлоский JSON со значениями для каждого флага: `null`, `true`, `false` . Уровни для наглядности. Если для любого поля значение не определено `null` - то и все нижестоящие поля не определяются.\n\n* `check:user_id_provided` — пользователь запрошен.\n  * `check:user_is_lead` — пользователь является лидом.\n  * `check:user_is_admin` — пользователь является админом.\n    * `check:user_is_active` — пользователь разблокирован.\n\n\n* `check:channel_id_provided` — канал запрошен.\n  * `check:channel_found` — канал зарегистрирован.\n    * `check:channel_is_active` — канал разблокирован.\n      * `check:bot_is_member` — бот находится в канале.\n        * `check:user_is_channel_admin` — пользователь является админом канала.\n        * `check:user_is_subscribed` — пользователь подписан.\n        * `check:channel_name`  — название канала\n",
         "height": 656,
         "width": 592
       },
@@ -1808,7 +1923,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null      // пользователь подписан\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
+        "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null,     // пользователь подписан\n  \"check:channel_name\": null            // название канала\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -2272,8 +2387,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2192,
-        1392
+        2864,
+        1376
       ],
       "id": "618ac029-e2fc-4674-aca1-51749405a1ed",
       "name": "check:bot_is_member",
@@ -2311,8 +2426,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2368,
-        1392
+        3040,
+        1376
       ],
       "id": "58822f54-20fd-439a-82ab-0fd975817761",
       "name": "Бот - админ?"
@@ -2327,8 +2442,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2576,
-        1296
+        3248,
+        1280
       ],
       "id": "a47340b4-3cbe-4f34-be56-d32c7bee7c14",
       "name": "Кто пользователь в канале",
@@ -2345,14 +2460,14 @@
       "parameters": {
         "operation": "set",
         "key": "check:user_is_channel_admin",
-        "value": "={{ $json.result?.status === 'administrator' ? 'true' : 'false' }}",
+        "value": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
         "keyType": "string"
       },
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2768,
-        1296
+        3440,
+        1280
       ],
       "id": "bbd9a7fe-bfb0-44b3-8144-e10326cb11dd",
       "name": "check:user_is_channel_admin",
@@ -2373,8 +2488,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        3216,
-        1216
+        3888,
+        1200
       ],
       "id": "133efef9-9b82-43e3-919a-bbe1a6b1c5e7",
       "name": "check:user_is_subscribed",
@@ -2397,7 +2512,7 @@
           "conditions": [
             {
               "id": "6a569ef3-b8be-4720-a346-f36e91912dcb",
-              "leftValue": "={{ $json.result?.status === 'administrator' ? 'true' : 'false' }}",
+              "leftValue": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
               "rightValue": "true",
               "operator": {
                 "type": "string",
@@ -2412,8 +2527,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2960,
-        1296
+        3632,
+        1280
       ],
       "id": "1d1e9e83-d16d-4595-bfea-d9aaae33d4b3",
       "name": "Пользователь админ канала?"
@@ -2428,8 +2543,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        3392,
-        1312
+        4064,
+        1296
       ],
       "id": "dce388b2-b563-41e5-84c8-4880edec2442",
       "name": "check:user_is_subscribed1",
@@ -2448,8 +2563,8 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        4128,
-        1760
+        4656,
+        1568
       ],
       "id": "f371d89d-5a17-4120-b302-0f0b339a170c",
       "name": "Все флаги",
@@ -2459,21 +2574,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "id": "f25be7ff-a030-441d-804f-615fd91e5a4c",
-      "name": "Return",
-      "type": "n8n-nodes-base.set",
-      "position": [
-        4352,
-        1760
-      ],
-      "typeVersion": 3.3,
-      "executeOnce": true
     },
     {
       "parameters": {
@@ -2524,6 +2624,82 @@
       "typeVersion": 1,
       "id": "28bc9a13-dac2-4734-aec9-999457187145",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1c672ec7-cd1f-4264-958b-63a43fd8a19a",
+              "leftValue": "={{ $json.error ? 'false' : 'true' }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        1296
+      ],
+      "id": "995a1c90-a8be-41fe-835e-c70add065c5a",
+      "name": "В канале?"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:channel_name",
+        "value": "={{ $json.result.title }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2624,
+        1296
+      ],
+      "id": "2f43ea23-4bfd-494c-8a6a-315bbb1420d6",
+      "name": "check:channel_name",
+      "credentials": {
+        "redis": {
+          "id": "b5sd4CQ59tgLeFqu",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatId": "={{ $('Вход').item.json.channel }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2448,
+        1296
+      ],
+      "id": "357a195b-2051-4d13-87e5-ffade7009d46",
+      "name": "Название канала",
+      "webhookId": "deb82648-a4bf-45e6-b931-df64ee873c59",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -2547,6 +2723,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-20T04:13:04.708Z",
-  "versionId": "b0b93210-ef3d-4639-acd8-44a36485e7e9"
+  "updatedAt": "2026-05-22T16:00:57.720Z",
+  "versionId": "ef193d1a-76ff-4d95-807d-48cc93f7a919"
 }
