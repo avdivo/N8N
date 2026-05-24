@@ -2709,7 +2709,10 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -2723,6 +2726,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-22T16:00:57.720Z",
+  "updatedAt": "2026-05-23T22:00:36.846Z",
   "versionId": "ef193d1a-76ff-4d95-807d-48cc93f7a919"
 }
