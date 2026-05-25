@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-23T22:03:12.594Z",
-    "createdAt": "2026-05-23T22:03:06.775Z",
-    "versionId": "169ec38c-b862-4160-99a8-3040c67c8e96",
+    "updatedAt": "2026-05-24T22:18:17.504Z",
+    "createdAt": "2026-05-24T22:18:11.770Z",
+    "versionId": "cfc7317c-4c09-4ba6-add1-131fd8ea5e44",
     "workflowId": "4NBpOUrsoYJ0Qmlkgz8W6",
     "nodes": [
       {
@@ -14,8 +14,8 @@
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          16,
-          -1600
+          -768,
+          -1728
         ],
         "typeVersion": 1,
         "id": "59e08ed6-1df5-4db1-ac85-baa652fa0924",
@@ -30,8 +30,8 @@
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          0,
-          -1152
+          -752,
+          -1296
         ],
         "typeVersion": 1,
         "id": "b8cca60c-ee4d-49ce-b016-01b6ace4c4a4",
@@ -45,8 +45,8 @@
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1600,
-          -1152
+          944,
+          -1296
         ],
         "typeVersion": 1,
         "id": "d0f2be06-1c42-4eb5-b072-b9667aee810b",
@@ -61,8 +61,8 @@
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          688,
-          -1152
+          0,
+          -1296
         ],
         "typeVersion": 1,
         "id": "1b09d792-528a-4106-90f3-58ddad94104c",
@@ -78,8 +78,8 @@
         "type": "n8n-nodes-base.telegramTrigger",
         "typeVersion": 1.2,
         "position": [
-          48,
-          1120
+          -672,
+          1728
         ],
         "id": "a4f36631-ff6e-4927-9201-b21c744b2043",
         "name": "Telegram Trigger",
@@ -129,8 +129,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          528,
-          1392
+          688,
+          2864
         ],
         "id": "4c98938a-197d-4441-bc38-a33ab8f3fb68",
         "name": "Бот назначен Админом канала"
@@ -143,8 +143,8 @@
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          -16,
-          272
+          80,
+          -16
         ],
         "typeVersion": 1,
         "id": "604b67aa-0f7e-4cf5-838b-2084d5a98f1d",
@@ -285,8 +285,8 @@
         "type": "n8n-nodes-base.switch",
         "typeVersion": 3.4,
         "position": [
-          256,
-          1088
+          -16,
+          1680
         ],
         "id": "cdf2485c-4eba-4f50-a9f2-c87c2285c810",
         "name": "Тип сообщения"
@@ -401,8 +401,8 @@
         "type": "n8n-nodes-base.switch",
         "typeVersion": 3.4,
         "position": [
-          528,
-          864
+          672,
+          816
         ],
         "id": "dea6c7ea-2afe-46a1-b0ea-02025e951440",
         "name": "Тип чата"
@@ -416,8 +416,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          432,
-          464
+          528,
+          176
         ],
         "id": "9d6a7ab1-48b6-495c-a162-4280879f57b2",
         "name": "Подготовка БД",
@@ -501,8 +501,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1600,
-          1392
+          1760,
+          2864
         ],
         "id": "52f0f3ff-a247-40b8-b556-5f2be0e2733d",
         "name": "Добавление канала в БД",
@@ -520,8 +520,8 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1408,
-          1392
+          1568,
+          2864
         ],
         "id": "4ac273ff-7d3e-4e3a-a18e-7600888d67d0",
         "name": "Формирование записи"
@@ -563,8 +563,8 @@
         "type": "n8n-nodes-base.switch",
         "typeVersion": 3.4,
         "position": [
-          832,
-          640
+          944,
+          624
         ],
         "id": "4f2f911a-c315-4a3a-a058-cbecbb5ff6eb",
         "name": "Личное сообщение"
@@ -584,7 +584,7 @@
                   "conditions": [
                     {
                       "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
-                      "rightValue": "/c",
+                      "rightValue": "/r",
                       "operator": {
                         "type": "string",
                         "operation": "startsWith"
@@ -595,7 +595,7 @@
                   "combinator": "and"
                 },
                 "renameOutput": true,
-                "outputKey": "Выбор канала"
+                "outputKey": "Отчет"
               },
               {
                 "conditions": {
@@ -620,31 +620,6 @@
                 },
                 "renameOutput": true,
                 "outputKey": "Добавить подарок"
-              },
-              {
-                "conditions": {
-                  "options": {
-                    "caseSensitive": true,
-                    "leftValue": "",
-                    "typeValidation": "strict",
-                    "version": 3
-                  },
-                  "conditions": [
-                    {
-                      "id": "29872fb1-a0e5-45ef-87c3-098ebfb68d15",
-                      "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
-                      "rightValue": "/start",
-                      "operator": {
-                        "type": "string",
-                        "operation": "equals",
-                        "name": "filter.operator.equals"
-                      }
-                    }
-                  ],
-                  "combinator": "and"
-                },
-                "renameOutput": true,
-                "outputKey": "Старт"
               }
             ]
           },
@@ -655,8 +630,8 @@
         "type": "n8n-nodes-base.switch",
         "typeVersion": 3.4,
         "position": [
-          1696,
-          512
+          2000,
+          704
         ],
         "id": "8fb5c1e1-8d9f-4ec1-8655-0f2d508c25df",
         "name": "Определение команды"
@@ -673,11 +648,12 @@
             "conditions": [
               {
                 "id": "41d0d882-3765-45a0-a7d4-4f373cc2b1b3",
-                "leftValue": "={{ $json.channel_id }}",
+                "leftValue": "={{ $json.target_code }}",
                 "rightValue": 0,
                 "operator": {
-                  "type": "number",
-                  "operation": "notEquals"
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
                 }
               }
             ],
@@ -688,8 +664,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          1696,
-          160
+          1856,
+          -176
         ],
         "id": "7fc382cc-5cd1-4c5f-9c9f-017a4b0b72eb",
         "name": "Лид?",
@@ -722,8 +698,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          1120,
-          448
+          1296,
+          336
         ],
         "id": "f8904ebd-89cc-494d-a3ed-2a87fd48351f",
         "name": "/start"
@@ -801,8 +777,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          2096,
-          176
+          2496,
+          48
         ],
         "id": "f50a5482-5b0f-4281-9cb2-86f51eae0dbb",
         "name": "Добавление админа",
@@ -811,7 +787,8 @@
             "id": "xe5rl8ApMEn9rCCd",
             "name": "Postgres account"
           }
-        }
+        },
+        "disabled": true
       },
       {
         "parameters": {
@@ -824,8 +801,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2448,
-          176
+          2848,
+          48
         ],
         "id": "72d0803a-a952-44b0-97d0-d85da7604532",
         "name": "Приветствие",
@@ -844,8 +821,8 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          2272,
-          176
+          2672,
+          48
         ],
         "id": "5978a58c-ea1f-413c-95b2-69640a10bc71",
         "name": "Подготовка приветствия"
@@ -906,8 +883,8 @@
         "type": "n8n-nodes-base.executeWorkflow",
         "typeVersion": 1.3,
         "position": [
-          752,
-          1392
+          912,
+          2864
         ],
         "id": "37131a4e-a03a-4874-b58d-4a259be565ec",
         "name": "Получение разрешений"
@@ -939,8 +916,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          960,
-          1392
+          1120,
+          2864
         ],
         "id": "aaec184a-61a4-41eb-8da2-04c417f32f07",
         "name": "Админ с правами?"
@@ -956,8 +933,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1168,
-          1552
+          1328,
+          3024
         ],
         "id": "f430457e-b58e-4ec7-a02f-a397024ee8dc",
         "name": "Админ не имеет прав",
@@ -980,8 +957,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1408,
-          1712
+          1568,
+          3184
         ],
         "id": "e299b0a5-ae74-4a5c-9835-fc6c8467cb08",
         "name": "Удаление бота из канала",
@@ -1031,8 +1008,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          1168,
-          1392
+          1328,
+          2864
         ],
         "id": "5ddb74b8-11ba-4ddf-b05f-daa5a724f41e",
         "name": "Канал разблокирован?"
@@ -1048,8 +1025,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1408,
-          1552
+          1568,
+          3024
         ],
         "id": "53ebea50-924e-4091-9988-7d882231a45d",
         "name": "Канал заблокирован",
@@ -1074,8 +1051,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1792,
-          1392
+          1952,
+          2864
         ],
         "id": "dadce432-586e-44b0-8837-2fe0b6ee8a1d",
         "name": "Бот добавлен в канал",
@@ -1098,8 +1075,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1328,
-          560
+          1632,
+          688
         ],
         "id": "af7c3fde-0b64-41e1-a292-a6c940141bd3",
         "name": "Админ допущен",
@@ -1121,8 +1098,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1696,
-          752
+          2000,
+          944
         ],
         "id": "05e3bbe1-a5c0-4212-a890-1bb390894a90",
         "name": "Нет допуска",
@@ -1161,8 +1138,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          1472,
-          560
+          1792,
+          832
         ],
         "id": "3a16cbb0-ed10-4f5d-857a-f54dc0fb811b",
         "name": "Есть права?"
@@ -1174,8 +1151,8 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          2096,
-          528
+          2464,
+          928
         ],
         "id": "d4d25458-1df0-441a-ae19-d4efd0a43fce",
         "name": "Проверка команды",
@@ -1192,8 +1169,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2272,
-          688
+          2672,
+          1088
         ],
         "id": "1678cbb7-047b-490e-8568-2f601cbd9734",
         "name": "Ошибка команды",
@@ -1261,8 +1238,8 @@
         "type": "n8n-nodes-base.executeWorkflow",
         "typeVersion": 1.3,
         "position": [
-          2272,
-          528
+          2672,
+          928
         ],
         "id": "7d0014a0-0866-4066-8248-fbfec0f073a9",
         "name": "Проверка разрешений"
@@ -1294,8 +1271,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2464,
-          528
+          2864,
+          928
         ],
         "id": "6877590f-3217-45dd-9d2f-1843a0cdb1bf",
         "name": "Канал зарегистрирован?"
@@ -1311,8 +1288,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2656,
-          688
+          3056,
+          1088
         ],
         "id": "7c20a6b8-215a-4a09-8cfa-2f25e6e7cda1",
         "name": "Канал не зарегистрирован",
@@ -1351,8 +1328,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2656,
-          528
+          3056,
+          928
         ],
         "id": "1dddc274-22b0-4928-a853-0ebb6083ddc1",
         "name": "Канал активен?"
@@ -1384,8 +1361,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2864,
-          528
+          3264,
+          928
         ],
         "id": "a6fadf64-d1a0-4644-b412-00523d0b98e9",
         "name": "Бот в канале?"
@@ -1401,8 +1378,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          3072,
-          688
+          3472,
+          1088
         ],
         "id": "c9116d3c-0581-4c20-a496-ecfc6ad717a8",
         "name": "Бот не в канале",
@@ -1441,8 +1418,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          3072,
-          528
+          3472,
+          928
         ],
         "id": "11245fac-0382-48ba-83e2-bc5735dfffe1",
         "name": "Пользователь админ канала?"
@@ -1458,8 +1435,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          3280,
-          688
+          3680,
+          1088
         ],
         "id": "f77e6ed4-b588-47f8-9316-a1db2bb37228",
         "name": "Пользователь не админ канала",
@@ -1482,8 +1459,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2864,
-          688
+          3264,
+          1088
         ],
         "id": "e0ae73b1-e326-435b-8937-9e0a2c953920",
         "name": "Канал заблокирован1",
@@ -1502,8 +1479,8 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          3440,
-          512
+          3840,
+          912
         ],
         "id": "a6fa7e26-7b4d-4147-8df6-d42c5dcf8e2b",
         "name": "Данные"
@@ -1592,8 +1569,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          3584,
-          512
+          3984,
+          912
         ],
         "id": "992f631e-e839-421a-8425-8ac160440809",
         "name": "Добавление цели",
@@ -1618,8 +1595,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          3808,
-          512
+          4208,
+          912
         ],
         "id": "5f99c4c0-dde2-4221-8fb3-16149d52a753",
         "name": "Сообщение со ссылкой",
@@ -1654,8 +1631,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.3,
         "position": [
-          432,
-          272
+          528,
+          -16
         ],
         "id": "cf5e3f8f-de52-4608-84be-4fc46e90ea74",
         "name": "Добавить ключ тг",
@@ -1687,8 +1664,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.3,
         "position": [
-          672,
-          272
+          768,
+          -16
         ],
         "id": "f471eb16-339f-4e26-a309-3da00ec07a38",
         "name": "Показать все секреты",
@@ -1703,14 +1680,14 @@
       },
       {
         "parameters": {
-          "content": "## Формат отчета\nСтроится по таблице взаимодействий, для каждого взаимодействия.\n- `user_id` - идентификатор пользователя в ТГ\n- `username` - логин\n- `first_name` - имя\n- `last_name` - фамилия\n- `registered_at` - когда был зарегистрирован (вообще)\n- `last_name` - кодовое слово взаимодействия\n- `last_name` - фамилия\n- `last_name` - фамилия\n\n\n",
-          "height": 336,
+          "content": "## Формат отчета\nСтроится по таблице взаимодействий, для каждого взаимодействия.\n- `nunber` - порядковый номер\n- `code_word` - слово-триггер\n- `updated_at` - дата и время последнего изменения записи \n- `status` - что ждем или что сделано\n- `invite_link`  - ссылка-заявка в канал\n- `link_target` - ссылка на пост\n- `user_id` - идентификатор пользователя в ТГ\n- `username` - логин\n- `first_name` - имя\n- `last_name` - фамилия\n- `registered_at` - когда был зарегистрирован (вообще)\n- `target_code` - строго 5-значный уникальный код\n- `type_target` - тип цели\n- `created_at` - дата и время создания взаимодействия\n",
+          "height": 400,
           "width": 464
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          768,
-          -1600
+          0,
+          -1728
         ],
         "typeVersion": 1,
         "id": "3f3dc251-f495-474c-9585-9d5ed866ad75",
@@ -1801,8 +1778,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          2096,
-          -96
+          2496,
+          -432
         ],
         "id": "4fb80723-12e2-42f2-b176-e16e0116d1eb",
         "name": "Добавление пользователя",
@@ -1820,8 +1797,8 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1456,
-          176
+          1616,
+          -160
         ],
         "id": "6965071a-c6c4-47cd-a33d-dec5c3fb632d",
         "name": "Подготовка полей",
@@ -1857,8 +1834,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          2272,
-          -96
+          2672,
+          -432
         ],
         "id": "10746566-df2e-4007-87bb-9d870b5b987a",
         "name": "Запрос цели",
@@ -1898,8 +1875,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2448,
-          -96
+          2848,
+          -432
         ],
         "id": "9fc7016f-226b-4fc5-85dd-ebe2cd46f2e9",
         "name": "Цель получена?"
@@ -1915,8 +1892,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1696,
-          320
+          1856,
+          -16
         ],
         "id": "fea42836-4b8b-46f3-b70d-74c460bd2d9d",
         "name": "Ошибка старта",
@@ -1939,8 +1916,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2640,
-          48
+          3040,
+          -288
         ],
         "id": "112c0758-9086-44bf-8c72-f1eaf2a3bbde",
         "name": "Нет такой цели",
@@ -1963,8 +1940,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1856,
-          320
+          2016,
+          -16
         ],
         "id": "a8d40a78-ef68-4778-a58d-8427f227e488",
         "name": "В бот ошибок",
@@ -1987,8 +1964,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          2784,
-          48
+          3184,
+          -288
         ],
         "id": "d282274c-7519-4267-a753-ea1fcfe6b8e5",
         "name": "В бот ошибок1",
@@ -2056,8 +2033,8 @@
         "type": "n8n-nodes-base.executeWorkflow",
         "typeVersion": 1.3,
         "position": [
-          2640,
-          -112
+          3040,
+          -448
         ],
         "id": "27f27e3a-9211-4b08-8540-adeb883c2ce1",
         "name": "Проверка разрешений1"
@@ -2089,8 +2066,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          2848,
-          -112
+          3248,
+          -448
         ],
         "id": "9165036e-9d53-4cb2-a46b-b6d5a7f4abf4",
         "name": "Пользователь подписан на канал?"
@@ -2104,8 +2081,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          3072,
-          -208
+          3472,
+          -544
         ],
         "id": "df368fa1-e42c-4bb0-9a9d-9f5b5365899e",
         "name": "Сколько взаимодействий пользователя",
@@ -2135,8 +2112,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.3,
         "position": [
-          3072,
-          -16
+          3472,
+          -352
         ],
         "id": "14d20cc4-7444-46f8-b8ee-38aec2defb5d",
         "name": "Получить токен бота",
@@ -2161,8 +2138,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
         "position": [
-          3248,
-          -16
+          3648,
+          -352
         ],
         "id": "7cc7d898-37f7-4c41-aaf6-6258425aff0f",
         "name": "Ссылка-заявка в канал"
@@ -2190,8 +2167,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          3424,
-          -208
+          3824,
+          -544
         ],
         "id": "13ffe09a-1272-4213-aff2-3cae1f950ba2",
         "name": "Подготовка 2 полей"
@@ -2219,8 +2196,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          3424,
-          -16
+          3824,
+          -352
         ],
         "id": "1ba4368e-987b-4260-a70e-136b435e5289",
         "name": "Подготовка 2 полей1"
@@ -2255,8 +2232,8 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          3632,
-          -112
+          4032,
+          -448
         ],
         "id": "af675ee5-19c9-4ddf-93ce-1bfd35cba915",
         "name": "Поля для записи"
@@ -2363,8 +2340,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          3808,
-          -112
+          4208,
+          -448
         ],
         "id": "4f527cfc-adc1-4cae-9129-c934d5e8c8fa",
         "name": "Добавление взаимодействия",
@@ -2402,8 +2379,8 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          3984,
-          -112
+          4384,
+          -448
         ],
         "id": "43b406df-6abc-4302-aa1d-0c5a6379ab85",
         "name": "Пользователь подписан?"
@@ -2419,8 +2396,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          4192,
-          -16
+          4592,
+          -352
         ],
         "id": "fce6dd9a-a09c-4574-ae07-65304be9b8df",
         "name": "Подпишись!",
@@ -2451,8 +2428,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.3,
         "position": [
-          528,
-          1216
+          688,
+          2480
         ],
         "id": "14bf8bf7-2b95-432d-a594-8f857c8fe00d",
         "name": "Получить токен бота2",
@@ -2477,8 +2454,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
         "position": [
-          704,
-          1216
+          864,
+          2480
         ],
         "id": "eb64362d-6bcb-4d0e-b44a-06d6c2637093",
         "name": "Одобрение подписки"
@@ -2495,8 +2472,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
         "position": [
-          880,
-          1216
+          1040,
+          2480
         ],
         "id": "09aab28c-ae6f-416a-b864-f72cdf5adcef",
         "name": "Отзыв приглашения"
@@ -2614,8 +2591,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1056,
-          1216
+          1216,
+          2480
         ],
         "id": "63a15de3-04e5-4781-b33f-89eded28acdc",
         "name": "Обновление взаимодействия",
@@ -2629,7 +2606,7 @@
       {
         "parameters": {
           "chatId": "={{ $('Telegram Trigger').item.json.chat_join_request.from.id }}",
-          "text": "=🎉 Спасибо за подписку!\nРады видеть вас в нашем канале!\n\nА вот и ваш обещанный подарок:🎁 \n[СКАЧАТЬ ВАШ ПРИЗ]({{ $json.link_target }})",
+          "text": "=🎉 Спасибо за подписку!\nРады видеть вас в нашем канале!\n\nА вот и ваш обещанный подарок:🎁 \n[ПОЛУЧИТЬ ВАШ ПРИЗ]({{ $json.link_target }})",
           "additionalFields": {
             "appendAttribution": false
           }
@@ -2637,8 +2614,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1408,
-          1216
+          1568,
+          2480
         ],
         "id": "f71533fe-eb75-4ede-8b21-b89c87ed9866",
         "name": "Выдача подарка",
@@ -2679,8 +2656,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          1232,
-          1216
+          1392,
+          2480
         ],
         "id": "0363c869-74a1-410a-9c8a-971f07310cb5",
         "name": "Получение цели",
@@ -2702,8 +2679,8 @@
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          4192,
-          -192
+          4592,
+          -528
         ],
         "id": "15ea0834-71ab-4a20-96bc-6d3025aa31f4",
         "name": "Выдача подарка1",
@@ -2714,6 +2691,874 @@
             "name": "Превратник"
           }
         }
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "fW6Rio93zY9ttrGuzipKI",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/fW6Rio93zY9ttrGuzipKI",
+            "cachedResultName": "sub_каналы пользователя"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "user": "={{ $('/start').item.json.message.from.id.toString() }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "user",
+                "displayName": "user",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "channel",
+                "displayName": "channel",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "bot",
+                "displayName": "bot",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          2480,
+          464
+        ],
+        "id": "3dade050-11f6-41c4-a628-8a44cbc4a3c2",
+        "name": "Каналы админа",
+        "alwaysOutputData": true,
+        "executeOnce": false
+      },
+      {
+        "parameters": {
+          "jsCode": "// Собираем кнопки прямо из входящего массива $json\nconst buttons = $input.all().map(item => [\n  {\n    \"text\": item.json.channel_name,\n    \"callback_data\": `select_channel:${item.json.channel_id}`\n  }\n]);\n\n// Выдаем готовый body для Telegram\nreturn [{\n  json: {\n    \"chat_id\": $('/start').first().json.message.from.id, // Сюда подставьте нужный ID пользователя\n    \"text\": \"📋 *Для какого канала хотите получить отчет:*\",\n    \"parse_mode\": \"MarkdownV2\",\n    \"reply_markup\": {\n      \"inline_keyboard\": buttons\n    }\n  }\n}];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2880,
+          464
+        ],
+        "id": "ca13e458-8a3c-4400-a860-97ea012f0fae",
+        "name": "Подготовка кнопок"
+      },
+      {
+        "parameters": {
+          "url": "http://vault-n8n:8000/api/v1/secrets",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "keys",
+                "value": "Токен_telegram_AtGate_bot"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          3072,
+          464
+        ],
+        "id": "4a6f3be5-3eda-4198-95e6-352169e9c1d3",
+        "name": "Получить токен бота3",
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "fYFnpIika2dCryN4",
+            "name": "VaultN8N"
+          }
+        },
+        "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://api.telegram.org/bot{{ $json.value }}/sendMessage",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ JSON.stringify($('Подготовка кнопок').item.json) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          3264,
+          464
+        ],
+        "id": "48c994dd-5b64-4915-8405-b62fbbdfae21",
+        "name": "Публикация кнопок"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "98186b76-f82e-41ec-b604-c093bb8b4b63",
+                "leftValue": "={{ Object.keys($json).length }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "number",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2688,
+          464
+        ],
+        "id": "e38d3c66-5bfc-490a-b747-c94a9c0a9a13",
+        "name": "Список есть?"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('/start').item.json.message.chat.id }}",
+          "text": "=❌ Нет активных каналов в которых вы являетесь админом и в которые добавлен бот",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2880,
+          624
+        ],
+        "id": "b9138c76-8706-479a-8aff-6072d7b38209",
+        "name": "Нет каналов",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.callback_query.data }}",
+                      "rightValue": "select_channel",
+                      "operator": {
+                        "type": "string",
+                        "operation": "startsWith"
+                      },
+                      "id": "0ba0db0e-9b06-4f8e-8b9a-2ec6e3ec82ee"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Отчет по каналу"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "670681f4-5b35-4621-8f32-f27688dec21e",
+                      "leftValue": "={{ $json.callback_query.data }}",
+                      "rightValue": "csv_report",
+                      "operator": {
+                        "type": "string",
+                        "operation": "startsWith"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Файл отчета"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          384,
+          1696
+        ],
+        "id": "0802b3bb-7493-458f-b996-d5e7d3fcd151",
+        "name": "inline кнопка"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "XKAoEAKfto_5tIo2bZb5s",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/XKAoEAKfto_5tIo2bZb5s",
+            "cachedResultName": "sub_проверка прав"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "user": "={{ $json.callback_query.from.id.toString() }}",
+              "channel": "={{ $json.callback_query.data.split(':')[1] }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "user",
+                "displayName": "user",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "channel",
+                "displayName": "channel",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "bot",
+                "displayName": "bot",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          816,
+          1392
+        ],
+        "id": "bbbf25ac-295f-468b-9843-7f38166f5bb9",
+        "name": "Запрос разрешений"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "234af8f4-524b-4f40-a568-8e56372840f1",
+                "leftValue": "={{ $json[\"check:user_is_active\"] }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "856591a7-c7d9-4b6d-a727-ef0f298cf433",
+                "leftValue": "={{ $json[\"check:user_is_channel_admin\"] }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1024,
+          1392
+        ],
+        "id": "170c56e5-3f4c-4a4c-a243-50cd6cc6fa26",
+        "name": "Админ допущен?"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('inline кнопка').item.json.callback_query.message.chat.id }}",
+          "text": "=❌ Просмотр отчета не возможен по одной из причин:\n   - Пользователь не имеет прав\n   - Пользователь не является админом канала\n   - Канал заблокирован\n   - Бот не является админом канала",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1232,
+          1504
+        ],
+        "id": "1ff8e8b2-8a1f-4f0b-bcb0-fa164b05a971",
+        "name": "Нет допуска1",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "=326830581",
+          "text": "=🎁 Кто-то пришел за подарком!",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2496,
+          -608
+        ],
+        "id": "310470ea-d617-41a9-b5dd-f857f4e3758f",
+        "name": "Лене",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "=249503190",
+          "text": "=🎁 Кто-то пришел за подарком!",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2496,
+          -784
+        ],
+        "id": "0cd88ea1-67d7-4b92-9bc3-89dbe411e98a",
+        "name": "Мне",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "# Новый подписчик",
+          "height": 800,
+          "width": 2512
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2400,
+          -912
+        ],
+        "typeVersion": 1,
+        "id": "80811cdc-6733-422d-9a58-6dfec35a0bd3",
+        "name": "Sticky Note6"
+      },
+      {
+        "parameters": {
+          "content": "# Новый админ",
+          "height": 352,
+          "width": 656
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2400,
+          -80
+        ],
+        "typeVersion": 1,
+        "id": "d2479997-f5d7-4934-8283-532e117de95e",
+        "name": "Sticky Note7"
+      },
+      {
+        "parameters": {
+          "content": "# Start",
+          "height": 400,
+          "width": 720
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1552,
+          -240
+        ],
+        "typeVersion": 1,
+        "id": "e2a204b1-3fc0-4c47-946f-cac299bc5dc8",
+        "name": "Sticky Note8"
+      },
+      {
+        "parameters": {
+          "content": "# Отчет (/report - вывод каналов)",
+          "height": 480,
+          "width": 1136
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2400,
+          320
+        ],
+        "typeVersion": 1,
+        "id": "855479db-d041-4e1b-a761-ed97b19d1070",
+        "name": "Sticky Note9"
+      },
+      {
+        "parameters": {
+          "content": "# Добавление подарка (/add)",
+          "height": 464,
+          "width": 2016
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2400,
+          832
+        ],
+        "typeVersion": 1,
+        "id": "0570251f-ac74-4479-bb96-d1b056b8e258",
+        "name": "Sticky Note10"
+      },
+      {
+        "parameters": {
+          "content": "# / Команды",
+          "height": 576,
+          "width": 736
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1584,
+          560
+        ],
+        "typeVersion": 1,
+        "id": "06f7314a-caec-40dc-9c59-b60fe0596b98",
+        "name": "Sticky Note11"
+      },
+      {
+        "parameters": {
+          "content": "# Сообщения",
+          "height": 576,
+          "width": 896
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          624,
+          560
+        ],
+        "typeVersion": 1,
+        "id": "efbc7796-1b74-45a9-aa29-d6ce1b8ddd04",
+        "name": "Sticky Note12"
+      },
+      {
+        "parameters": {
+          "content": "# Отчет по каналу",
+          "height": 464,
+          "width": 1264
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          624,
+          1216
+        ],
+        "typeVersion": 1,
+        "id": "c9a63110-fbc1-4263-83ea-495eb685bb09",
+        "name": "Sticky Note13"
+      },
+      {
+        "parameters": {
+          "content": "# Выдача подарка после подписка",
+          "height": 336,
+          "width": 1232
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          624,
+          2368
+        ],
+        "typeVersion": 1,
+        "id": "fa80133b-4ccc-415e-b900-7699c5cd8988",
+        "name": "Sticky Note14"
+      },
+      {
+        "parameters": {
+          "content": "# Добавление бота в канал",
+          "height": 640,
+          "width": 1536
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          624,
+          2752
+        ],
+        "typeVersion": 1,
+        "id": "f1ce8557-9b9e-4268-8546-9dd2c7e59a74",
+        "name": "Sticky Note15"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
+          "text": "={{ $('Подготовка отчета').item.json.text }}",
+          "replyMarkup": "inlineKeyboard",
+          "inlineKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Скачать отчет CSV",
+                      "additionalFields": {
+                        "callback_data": "=csv_report:{{ $('inline кнопка').first().json.callback_query.data.split(':')[1] }}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1584,
+          1296
+        ],
+        "id": "9461abdd-15c2-4b68-b881-37a8e35e25c3",
+        "name": "Короткий отчет",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const BOT_USERNAME = 'your_bot'; // ← Замените на юзернейм вашего бота\n\n// Функция экранирования текста для безопасного HTML в Telegram\nconst escape = text => !text ? '' : String(text)\n  .replace(/&/g, '&amp;')\n  .replace(/</g, '&lt;')\n  .replace(/>/g, '&gt;');\n\n// Форматирование одного блока данных\nfunction formatEntry(item) {\n  const data = item.json;\n  const clicks = Number(data.clicks) || 0;\n  const converted = Number(data.subscribed_with_gift) || 0;\n  \n  const linkTarget = data.link_target || '#';\n  // ИСПРАВЛЕНО: Добавлен забытый слэш после t.me/\n  const botLink = data.bot_start_link || `https://t.me{BOT_USERNAME}?start=${data.target_code || ''}`;\n  const codeWord = escape(data.code_word);\n\n  // ИСПРАВЛЕНО: Теперь выводится прямая кликабельная ссылка вместо текста \"открыть ссылку\"\n  return `<b>🔑 Ключ: ${codeWord}</b>\\n` +\n         `🎁 <b>Пост:</b> <a href='${linkTarget}'>${linkTarget}</a>\\n` +\n         `🔗 <b>Бот:</b> <code>${botLink}</code>\\n` +\n         `📊 <b>Статистика:</b> переходы: <b>${clicks}</b> | копирования: <b>${converted}</b>\\n` +\n         `───────────────────`;\n}\n\n// Сборка сообщений с жестким разделением через \\n\nfunction buildMessages(items) {\n  const messages = [];\n  let currentChunk = [];\n  let currentLength = 0;\n\n  for (const item of items) {\n    const block = formatEntry(item);\n    if (currentLength + block.length > 3900 && currentChunk.length > 0) {\n      messages.push(currentChunk.join('\\n\\n')); \n      currentChunk = [];\n      currentLength = 0;\n    }\n    currentChunk.push(block);\n    currentLength += block.length + 2;\n  }\n  \n  if (currentChunk.length > 0) {\n    messages.push(currentChunk.join('\\n\\n'));\n  }\n  return messages;\n}\n\n// === Основная логика ===\nconst rawData = $input.all();\n\nif (!rawData.length) {\n  return [{ json: { text: '📭 Нет данных для отчета' } }];\n}\n\nconst output = buildMessages(rawData).map((text, index) => {\n  // Добавляем заголовок только к самому первому сообщению\n  if (index === 0) {\n    text = `<b>📊 Отчет по каналу \"${$('Запрос разрешений').first().json['check:channel_name']}\"</b>\\n\\n` + text;\n  }\n  return { json: { text } };\n});\n\n// Считаем общую статистику\nconst stats = rawData.reduce((acc, item) => {\n  acc.clicks += Number(item.json.clicks) || 0;\n  acc.converted += Number(item.json.subscribed_with_gift) || 0;\n  acc.totalKeys += 1; // ИСПРАВЛЕНО: Считаем абсолютно все строки (итерации)\n  return acc;\n}, { clicks: 0, converted: 0, totalKeys: 0 });\n\nconst cr = stats.clicks ? Math.round((stats.converted / stats.clicks) * 100) : 0;\n\noutput.push({\n  json: {\n    text: `<b>📈 ИТОГО ПО КАНАЛУ</b>\\n` +\n          `───────────────────\\n` +\n          `🔑 Ключевых слов: <b>${stats.totalKeys}</b>\\n` +\n          `👥 Всего переходов: <b>${stats.clicks}</b>\\n` +\n          `✅ Получили подарок: <b>${stats.converted}</b>\\n\\n` +\n          `🎯 <b>Конверсия:</b> <b>${cr}%</b>`\n  }\n});\n\nreturn output;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1408,
+          1296
+        ],
+        "id": "c3d160db-9791-435f-8a22-0958b3a3af7b",
+        "name": "Подготовка отчета"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "XKAoEAKfto_5tIo2bZb5s",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/XKAoEAKfto_5tIo2bZb5s",
+            "cachedResultName": "sub_проверка прав"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "user": "={{ $json.callback_query.from.id.toString() }}",
+              "channel": "={{ $json.callback_query.data.split(':')[1] }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "user",
+                "displayName": "user",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "channel",
+                "displayName": "channel",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "bot",
+                "displayName": "bot",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          816,
+          1936
+        ],
+        "id": "9ccb9ce1-b226-4009-a7b1-2025bcbc3d36",
+        "name": "Запрос разрешений1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "234af8f4-524b-4f40-a568-8e56372840f1",
+                "leftValue": "={{ $json[\"check:user_is_active\"] }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "856591a7-c7d9-4b6d-a727-ef0f298cf433",
+                "leftValue": "={{ $json[\"check:user_is_channel_admin\"] }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1024,
+          1936
+        ],
+        "id": "795eac6a-ce66-4d96-91b2-dd8e271b0afe",
+        "name": "Админ допущен?1"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('inline кнопка').item.json.callback_query.message.chat.id }}",
+          "text": "=❌ Просмотр отчета не возможен по одной из причин:\n   - Пользователь не имеет прав\n   - Пользователь не является админом канала\n   - Канал заблокирован\n   - Бот не является админом канала",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1232,
+          2048
+        ],
+        "id": "acfc3af1-b6e8-4c1b-b34d-189fe82c0e9c",
+        "name": "Нет допуска2",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "# CSV файл отчета",
+          "height": 464,
+          "width": 1488
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          624,
+          1760
+        ],
+        "typeVersion": 1,
+        "id": "7b4079d4-802e-4ef5-adb0-cbda5a10e382",
+        "name": "Sticky Note16"
+      },
+      {
+        "parameters": {
+          "operation": "sendDocument",
+          "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {
+            "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
+            "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1808,
+          1840
+        ],
+        "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
+        "name": "Короткий отчет1",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Простая защита полей для CSV (если в данных есть запятые или кавычки)\nreturn $input.all().map(item => {\n  const escaped = {};\n  for (const [key, val] of Object.entries(item.json)) {\n    const str = String(val ?? '');\n    // Если есть запятая, кавычка или перенос — оборачиваем в кавычки и экранируем\n    escaped[key] = /[\",\\n]/.test(str) ? `\"${str.replace(/\"/g, '\"\"')}\"` : str;\n  }\n  item.json = escaped;\n  return item;\n});"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1424,
+          1840
+        ],
+        "id": "6fc23672-3cf3-43d2-98b4-6f66f61f3917",
+        "name": "Подготовка отчета1"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT \n    t.code_word,\n    t.link_target,\n    'https://t.me/your_bot?start=' || t.target_code AS bot_start_link,\n    COUNT(i.id) AS clicks,\n    COUNT(CASE WHEN i.status = 'подарок выдан' THEN 1 END) AS subscribed_with_gift\nFROM atgate.\"AtGateTarget\" t\nLEFT JOIN atgate.\"AtGateInteraction\" i ON t.target_code = i.target_code\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nGROUP BY t.code_word, t.link_target, t.target_code\nORDER BY t.code_word;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1232,
+          1296
+        ],
+        "id": "5b9c6cea-cc22-4e6e-a87b-e49c1319178f",
+        "name": "Запрос полей отчета",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1232,
+          1840
+        ],
+        "id": "bca96315-0602-4f6a-89c2-144e7cfc5d8b",
+        "name": "Запрос полей отчета1",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.convertToFile",
+        "typeVersion": 1.1,
+        "position": [
+          1616,
+          1840
+        ],
+        "id": "c848846d-00b5-465e-a7a0-bd24f169199f",
+        "name": "Convert to File"
       }
     ],
     "connections": {
@@ -2748,7 +3593,13 @@
               "index": 0
             }
           ],
-          [],
+          [
+            {
+              "node": "inline кнопка",
+              "type": "main",
+              "index": 0
+            }
+          ],
           [],
           [
             {
@@ -2804,6 +3655,16 @@
           [
             {
               "node": "Добавление пользователя",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Лене",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Мне",
               "type": "main",
               "index": 0
             }
@@ -2956,7 +3817,13 @@
       },
       "Определение команды": {
         "main": [
-          [],
+          [
+            {
+              "node": "Каналы админа",
+              "type": "main",
+              "index": 0
+            }
+          ],
           [
             {
               "node": "Проверка команды",
@@ -3364,14 +4231,196 @@
             }
           ]
         ]
+      },
+      "Каналы админа": {
+        "main": [
+          [
+            {
+              "node": "Список есть?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Получить токен бота3": {
+        "main": [
+          [
+            {
+              "node": "Публикация кнопок",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подготовка кнопок": {
+        "main": [
+          [
+            {
+              "node": "Получить токен бота3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Список есть?": {
+        "main": [
+          [
+            {
+              "node": "Подготовка кнопок",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Нет каналов",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "inline кнопка": {
+        "main": [
+          [
+            {
+              "node": "Запрос разрешений",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Запрос разрешений1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Запрос разрешений": {
+        "main": [
+          [
+            {
+              "node": "Админ допущен?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Админ допущен?": {
+        "main": [
+          [
+            {
+              "node": "Запрос полей отчета",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Нет допуска1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подготовка отчета": {
+        "main": [
+          [
+            {
+              "node": "Короткий отчет",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Запрос разрешений1": {
+        "main": [
+          [
+            {
+              "node": "Админ допущен?1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Админ допущен?1": {
+        "main": [
+          [
+            {
+              "node": "Запрос полей отчета1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Нет допуска2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подготовка отчета1": {
+        "main": [
+          [
+            {
+              "node": "Convert to File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Запрос полей отчета": {
+        "main": [
+          [
+            {
+              "node": "Подготовка отчета",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Запрос полей отчета1": {
+        "main": [
+          [
+            {
+              "node": "Подготовка отчета1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Convert to File": {
+        "main": [
+          [
+            {
+              "node": "Короткий отчет1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version 169ec38c",
+    "name": "Version cfc7317c",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "169ec38c-b862-4160-99a8-3040c67c8e96",
+  "activeVersionId": "cfc7317c-4c09-4ba6-add1-131fd8ea5e44",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -3404,7 +4453,13 @@
             "index": 0
           }
         ],
-        [],
+        [
+          {
+            "node": "inline кнопка",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [],
         [
           {
@@ -3460,6 +4515,16 @@
         [
           {
             "node": "Добавление пользователя",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Лене",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Мне",
             "type": "main",
             "index": 0
           }
@@ -3612,7 +4677,13 @@
     },
     "Определение команды": {
       "main": [
-        [],
+        [
+          {
+            "node": "Каналы админа",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Проверка команды",
@@ -4020,6 +5091,188 @@
           }
         ]
       ]
+    },
+    "Каналы админа": {
+      "main": [
+        [
+          {
+            "node": "Список есть?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получить токен бота3": {
+      "main": [
+        [
+          {
+            "node": "Публикация кнопок",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка кнопок": {
+      "main": [
+        [
+          {
+            "node": "Получить токен бота3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Список есть?": {
+      "main": [
+        [
+          {
+            "node": "Подготовка кнопок",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Нет каналов",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inline кнопка": {
+      "main": [
+        [
+          {
+            "node": "Запрос разрешений",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Запрос разрешений1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запрос разрешений": {
+      "main": [
+        [
+          {
+            "node": "Админ допущен?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Админ допущен?": {
+      "main": [
+        [
+          {
+            "node": "Запрос полей отчета",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Нет допуска1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка отчета": {
+      "main": [
+        [
+          {
+            "node": "Короткий отчет",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запрос разрешений1": {
+      "main": [
+        [
+          {
+            "node": "Админ допущен?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Админ допущен?1": {
+      "main": [
+        [
+          {
+            "node": "Запрос полей отчета1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Нет допуска2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка отчета1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запрос полей отчета": {
+      "main": [
+        [
+          {
+            "node": "Подготовка отчета",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Запрос полей отчета1": {
+      "main": [
+        [
+          {
+            "node": "Подготовка отчета1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Короткий отчет1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-05-05T10:18:50.424Z",
@@ -4038,8 +5291,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        16,
-        -1600
+        -768,
+        -1728
       ],
       "typeVersion": 1,
       "id": "59e08ed6-1df5-4db1-ac85-baa652fa0924",
@@ -4054,8 +5307,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
-        -1152
+        -752,
+        -1296
       ],
       "typeVersion": 1,
       "id": "b8cca60c-ee4d-49ce-b016-01b6ace4c4a4",
@@ -4069,8 +5322,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1600,
-        -1152
+        944,
+        -1296
       ],
       "typeVersion": 1,
       "id": "d0f2be06-1c42-4eb5-b072-b9667aee810b",
@@ -4085,8 +5338,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        688,
-        -1152
+        0,
+        -1296
       ],
       "typeVersion": 1,
       "id": "1b09d792-528a-4106-90f3-58ddad94104c",
@@ -4102,8 +5355,8 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        48,
-        1120
+        -672,
+        1728
       ],
       "id": "a4f36631-ff6e-4927-9201-b21c744b2043",
       "name": "Telegram Trigger",
@@ -4153,8 +5406,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        528,
-        1392
+        688,
+        2864
       ],
       "id": "4c98938a-197d-4441-bc38-a33ab8f3fb68",
       "name": "Бот назначен Админом канала"
@@ -4167,8 +5420,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -16,
-        272
+        80,
+        -16
       ],
       "typeVersion": 1,
       "id": "604b67aa-0f7e-4cf5-838b-2084d5a98f1d",
@@ -4309,8 +5562,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        256,
-        1088
+        -16,
+        1680
       ],
       "id": "cdf2485c-4eba-4f50-a9f2-c87c2285c810",
       "name": "Тип сообщения"
@@ -4425,8 +5678,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        528,
-        864
+        672,
+        816
       ],
       "id": "dea6c7ea-2afe-46a1-b0ea-02025e951440",
       "name": "Тип чата"
@@ -4440,8 +5693,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        432,
-        464
+        528,
+        176
       ],
       "id": "9d6a7ab1-48b6-495c-a162-4280879f57b2",
       "name": "Подготовка БД",
@@ -4525,8 +5778,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1600,
-        1392
+        1760,
+        2864
       ],
       "id": "52f0f3ff-a247-40b8-b556-5f2be0e2733d",
       "name": "Добавление канала в БД",
@@ -4544,8 +5797,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1408,
-        1392
+        1568,
+        2864
       ],
       "id": "4ac273ff-7d3e-4e3a-a18e-7600888d67d0",
       "name": "Формирование записи"
@@ -4587,8 +5840,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        832,
-        640
+        944,
+        624
       ],
       "id": "4f2f911a-c315-4a3a-a058-cbecbb5ff6eb",
       "name": "Личное сообщение"
@@ -4608,7 +5861,7 @@
                 "conditions": [
                   {
                     "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
-                    "rightValue": "/c",
+                    "rightValue": "/r",
                     "operator": {
                       "type": "string",
                       "operation": "startsWith"
@@ -4619,7 +5872,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "Выбор канала"
+              "outputKey": "Отчет"
             },
             {
               "conditions": {
@@ -4644,31 +5897,6 @@
               },
               "renameOutput": true,
               "outputKey": "Добавить подарок"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "29872fb1-a0e5-45ef-87c3-098ebfb68d15",
-                    "leftValue": "={{ $('Личное сообщение').item.json.message.text }}",
-                    "rightValue": "/start",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Старт"
             }
           ]
         },
@@ -4679,8 +5907,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1696,
-        512
+        2000,
+        704
       ],
       "id": "8fb5c1e1-8d9f-4ec1-8655-0f2d508c25df",
       "name": "Определение команды"
@@ -4697,11 +5925,12 @@
           "conditions": [
             {
               "id": "41d0d882-3765-45a0-a7d4-4f373cc2b1b3",
-              "leftValue": "={{ $json.channel_id }}",
+              "leftValue": "={{ $json.target_code }}",
               "rightValue": 0,
               "operator": {
-                "type": "number",
-                "operation": "notEquals"
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
               }
             }
           ],
@@ -4712,8 +5941,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1696,
-        160
+        1856,
+        -176
       ],
       "id": "7fc382cc-5cd1-4c5f-9c9f-017a4b0b72eb",
       "name": "Лид?",
@@ -4746,8 +5975,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1120,
-        448
+        1296,
+        336
       ],
       "id": "f8904ebd-89cc-494d-a3ed-2a87fd48351f",
       "name": "/start"
@@ -4825,8 +6054,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2096,
-        176
+        2496,
+        48
       ],
       "id": "f50a5482-5b0f-4281-9cb2-86f51eae0dbb",
       "name": "Добавление админа",
@@ -4835,7 +6064,8 @@
           "id": "xe5rl8ApMEn9rCCd",
           "name": "Postgres account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -4848,8 +6078,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2448,
-        176
+        2848,
+        48
       ],
       "id": "72d0803a-a952-44b0-97d0-d85da7604532",
       "name": "Приветствие",
@@ -4868,8 +6098,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2272,
-        176
+        2672,
+        48
       ],
       "id": "5978a58c-ea1f-413c-95b2-69640a10bc71",
       "name": "Подготовка приветствия"
@@ -4930,8 +6160,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        752,
-        1392
+        912,
+        2864
       ],
       "id": "37131a4e-a03a-4874-b58d-4a259be565ec",
       "name": "Получение разрешений"
@@ -4963,8 +6193,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        960,
-        1392
+        1120,
+        2864
       ],
       "id": "aaec184a-61a4-41eb-8da2-04c417f32f07",
       "name": "Админ с правами?"
@@ -4980,8 +6210,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1168,
-        1552
+        1328,
+        3024
       ],
       "id": "f430457e-b58e-4ec7-a02f-a397024ee8dc",
       "name": "Админ не имеет прав",
@@ -5004,8 +6234,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1408,
-        1712
+        1568,
+        3184
       ],
       "id": "e299b0a5-ae74-4a5c-9835-fc6c8467cb08",
       "name": "Удаление бота из канала",
@@ -5055,8 +6285,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1168,
-        1392
+        1328,
+        2864
       ],
       "id": "5ddb74b8-11ba-4ddf-b05f-daa5a724f41e",
       "name": "Канал разблокирован?"
@@ -5072,8 +6302,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1408,
-        1552
+        1568,
+        3024
       ],
       "id": "53ebea50-924e-4091-9988-7d882231a45d",
       "name": "Канал заблокирован",
@@ -5098,8 +6328,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1792,
-        1392
+        1952,
+        2864
       ],
       "id": "dadce432-586e-44b0-8837-2fe0b6ee8a1d",
       "name": "Бот добавлен в канал",
@@ -5122,8 +6352,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1328,
-        560
+        1632,
+        688
       ],
       "id": "af7c3fde-0b64-41e1-a292-a6c940141bd3",
       "name": "Админ допущен",
@@ -5145,8 +6375,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1696,
-        752
+        2000,
+        944
       ],
       "id": "05e3bbe1-a5c0-4212-a890-1bb390894a90",
       "name": "Нет допуска",
@@ -5185,8 +6415,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1472,
-        560
+        1792,
+        832
       ],
       "id": "3a16cbb0-ed10-4f5d-857a-f54dc0fb811b",
       "name": "Есть права?"
@@ -5198,8 +6428,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2096,
-        528
+        2464,
+        928
       ],
       "id": "d4d25458-1df0-441a-ae19-d4efd0a43fce",
       "name": "Проверка команды",
@@ -5216,8 +6446,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2272,
-        688
+        2672,
+        1088
       ],
       "id": "1678cbb7-047b-490e-8568-2f601cbd9734",
       "name": "Ошибка команды",
@@ -5285,8 +6515,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2272,
-        528
+        2672,
+        928
       ],
       "id": "7d0014a0-0866-4066-8248-fbfec0f073a9",
       "name": "Проверка разрешений"
@@ -5318,8 +6548,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2464,
-        528
+        2864,
+        928
       ],
       "id": "6877590f-3217-45dd-9d2f-1843a0cdb1bf",
       "name": "Канал зарегистрирован?"
@@ -5335,8 +6565,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2656,
-        688
+        3056,
+        1088
       ],
       "id": "7c20a6b8-215a-4a09-8cfa-2f25e6e7cda1",
       "name": "Канал не зарегистрирован",
@@ -5375,8 +6605,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2656,
-        528
+        3056,
+        928
       ],
       "id": "1dddc274-22b0-4928-a853-0ebb6083ddc1",
       "name": "Канал активен?"
@@ -5408,8 +6638,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2864,
-        528
+        3264,
+        928
       ],
       "id": "a6fadf64-d1a0-4644-b412-00523d0b98e9",
       "name": "Бот в канале?"
@@ -5425,8 +6655,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        3072,
-        688
+        3472,
+        1088
       ],
       "id": "c9116d3c-0581-4c20-a496-ecfc6ad717a8",
       "name": "Бот не в канале",
@@ -5465,8 +6695,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3072,
-        528
+        3472,
+        928
       ],
       "id": "11245fac-0382-48ba-83e2-bc5735dfffe1",
       "name": "Пользователь админ канала?"
@@ -5482,8 +6712,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        3280,
-        688
+        3680,
+        1088
       ],
       "id": "f77e6ed4-b588-47f8-9316-a1db2bb37228",
       "name": "Пользователь не админ канала",
@@ -5506,8 +6736,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2864,
-        688
+        3264,
+        1088
       ],
       "id": "e0ae73b1-e326-435b-8937-9e0a2c953920",
       "name": "Канал заблокирован1",
@@ -5526,8 +6756,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3440,
-        512
+        3840,
+        912
       ],
       "id": "a6fa7e26-7b4d-4147-8df6-d42c5dcf8e2b",
       "name": "Данные"
@@ -5616,8 +6846,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3584,
-        512
+        3984,
+        912
       ],
       "id": "992f631e-e839-421a-8425-8ac160440809",
       "name": "Добавление цели",
@@ -5642,8 +6872,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        3808,
-        512
+        4208,
+        912
       ],
       "id": "5f99c4c0-dde2-4221-8fb3-16149d52a753",
       "name": "Сообщение со ссылкой",
@@ -5678,8 +6908,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        432,
-        272
+        528,
+        -16
       ],
       "id": "cf5e3f8f-de52-4608-84be-4fc46e90ea74",
       "name": "Добавить ключ тг",
@@ -5711,8 +6941,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        672,
-        272
+        768,
+        -16
       ],
       "id": "f471eb16-339f-4e26-a309-3da00ec07a38",
       "name": "Показать все секреты",
@@ -5727,14 +6957,14 @@
     },
     {
       "parameters": {
-        "content": "## Формат отчета\nСтроится по таблице взаимодействий, для каждого взаимодействия.\n- `user_id` - идентификатор пользователя в ТГ\n- `username` - логин\n- `first_name` - имя\n- `last_name` - фамилия\n- `registered_at` - когда был зарегистрирован (вообще)\n- `last_name` - кодовое слово взаимодействия\n- `last_name` - фамилия\n- `last_name` - фамилия\n\n\n",
-        "height": 336,
+        "content": "## Формат отчета\nСтроится по таблице взаимодействий, для каждого взаимодействия.\n- `nunber` - порядковый номер\n- `code_word` - слово-триггер\n- `updated_at` - дата и время последнего изменения записи \n- `status` - что ждем или что сделано\n- `invite_link`  - ссылка-заявка в канал\n- `link_target` - ссылка на пост\n- `user_id` - идентификатор пользователя в ТГ\n- `username` - логин\n- `first_name` - имя\n- `last_name` - фамилия\n- `registered_at` - когда был зарегистрирован (вообще)\n- `target_code` - строго 5-значный уникальный код\n- `type_target` - тип цели\n- `created_at` - дата и время создания взаимодействия\n",
+        "height": 400,
         "width": 464
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        768,
-        -1600
+        0,
+        -1728
       ],
       "typeVersion": 1,
       "id": "3f3dc251-f495-474c-9585-9d5ed866ad75",
@@ -5825,8 +7055,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2096,
-        -96
+        2496,
+        -432
       ],
       "id": "4fb80723-12e2-42f2-b176-e16e0116d1eb",
       "name": "Добавление пользователя",
@@ -5844,8 +7074,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        176
+        1616,
+        -160
       ],
       "id": "6965071a-c6c4-47cd-a33d-dec5c3fb632d",
       "name": "Подготовка полей",
@@ -5881,8 +7111,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2272,
-        -96
+        2672,
+        -432
       ],
       "id": "10746566-df2e-4007-87bb-9d870b5b987a",
       "name": "Запрос цели",
@@ -5922,8 +7152,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2448,
-        -96
+        2848,
+        -432
       ],
       "id": "9fc7016f-226b-4fc5-85dd-ebe2cd46f2e9",
       "name": "Цель получена?"
@@ -5939,8 +7169,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1696,
-        320
+        1856,
+        -16
       ],
       "id": "fea42836-4b8b-46f3-b70d-74c460bd2d9d",
       "name": "Ошибка старта",
@@ -5963,8 +7193,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2640,
-        48
+        3040,
+        -288
       ],
       "id": "112c0758-9086-44bf-8c72-f1eaf2a3bbde",
       "name": "Нет такой цели",
@@ -5987,8 +7217,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1856,
-        320
+        2016,
+        -16
       ],
       "id": "a8d40a78-ef68-4778-a58d-8427f227e488",
       "name": "В бот ошибок",
@@ -6011,8 +7241,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2784,
-        48
+        3184,
+        -288
       ],
       "id": "d282274c-7519-4267-a753-ea1fcfe6b8e5",
       "name": "В бот ошибок1",
@@ -6080,8 +7310,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2640,
-        -112
+        3040,
+        -448
       ],
       "id": "27f27e3a-9211-4b08-8540-adeb883c2ce1",
       "name": "Проверка разрешений1"
@@ -6113,8 +7343,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2848,
-        -112
+        3248,
+        -448
       ],
       "id": "9165036e-9d53-4cb2-a46b-b6d5a7f4abf4",
       "name": "Пользователь подписан на канал?"
@@ -6128,8 +7358,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3072,
-        -208
+        3472,
+        -544
       ],
       "id": "df368fa1-e42c-4bb0-9a9d-9f5b5365899e",
       "name": "Сколько взаимодействий пользователя",
@@ -6159,8 +7389,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        3072,
-        -16
+        3472,
+        -352
       ],
       "id": "14d20cc4-7444-46f8-b8ee-38aec2defb5d",
       "name": "Получить токен бота",
@@ -6185,8 +7415,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        3248,
-        -16
+        3648,
+        -352
       ],
       "id": "7cc7d898-37f7-4c41-aaf6-6258425aff0f",
       "name": "Ссылка-заявка в канал"
@@ -6214,8 +7444,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3424,
-        -208
+        3824,
+        -544
       ],
       "id": "13ffe09a-1272-4213-aff2-3cae1f950ba2",
       "name": "Подготовка 2 полей"
@@ -6243,8 +7473,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3424,
-        -16
+        3824,
+        -352
       ],
       "id": "1ba4368e-987b-4260-a70e-136b435e5289",
       "name": "Подготовка 2 полей1"
@@ -6279,8 +7509,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3632,
-        -112
+        4032,
+        -448
       ],
       "id": "af675ee5-19c9-4ddf-93ce-1bfd35cba915",
       "name": "Поля для записи"
@@ -6387,8 +7617,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3808,
-        -112
+        4208,
+        -448
       ],
       "id": "4f527cfc-adc1-4cae-9129-c934d5e8c8fa",
       "name": "Добавление взаимодействия",
@@ -6426,8 +7656,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3984,
-        -112
+        4384,
+        -448
       ],
       "id": "43b406df-6abc-4302-aa1d-0c5a6379ab85",
       "name": "Пользователь подписан?"
@@ -6443,8 +7673,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        4192,
-        -16
+        4592,
+        -352
       ],
       "id": "fce6dd9a-a09c-4574-ae07-65304be9b8df",
       "name": "Подпишись!",
@@ -6475,8 +7705,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        528,
-        1216
+        688,
+        2480
       ],
       "id": "14bf8bf7-2b95-432d-a594-8f857c8fe00d",
       "name": "Получить токен бота2",
@@ -6501,8 +7731,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        704,
-        1216
+        864,
+        2480
       ],
       "id": "eb64362d-6bcb-4d0e-b44a-06d6c2637093",
       "name": "Одобрение подписки"
@@ -6519,8 +7749,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        880,
-        1216
+        1040,
+        2480
       ],
       "id": "09aab28c-ae6f-416a-b864-f72cdf5adcef",
       "name": "Отзыв приглашения"
@@ -6638,8 +7868,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1056,
-        1216
+        1216,
+        2480
       ],
       "id": "63a15de3-04e5-4781-b33f-89eded28acdc",
       "name": "Обновление взаимодействия",
@@ -6653,7 +7883,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.chat_join_request.from.id }}",
-        "text": "=🎉 Спасибо за подписку!\nРады видеть вас в нашем канале!\n\nА вот и ваш обещанный подарок:🎁 \n[СКАЧАТЬ ВАШ ПРИЗ]({{ $json.link_target }})",
+        "text": "=🎉 Спасибо за подписку!\nРады видеть вас в нашем канале!\n\nА вот и ваш обещанный подарок:🎁 \n[ПОЛУЧИТЬ ВАШ ПРИЗ]({{ $json.link_target }})",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -6661,8 +7891,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1408,
-        1216
+        1568,
+        2480
       ],
       "id": "f71533fe-eb75-4ede-8b21-b89c87ed9866",
       "name": "Выдача подарка",
@@ -6703,8 +7933,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1232,
-        1216
+        1392,
+        2480
       ],
       "id": "0363c869-74a1-410a-9c8a-971f07310cb5",
       "name": "Получение цели",
@@ -6726,8 +7956,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        4192,
-        -192
+        4592,
+        -528
       ],
       "id": "15ea0834-71ab-4a20-96bc-6d3025aa31f4",
       "name": "Выдача подарка1",
@@ -6738,6 +7968,874 @@
           "name": "Превратник"
         }
       }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "fW6Rio93zY9ttrGuzipKI",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/fW6Rio93zY9ttrGuzipKI",
+          "cachedResultName": "sub_каналы пользователя"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user": "={{ $('/start').item.json.message.from.id.toString() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user",
+              "displayName": "user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "bot",
+              "displayName": "bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2480,
+        464
+      ],
+      "id": "3dade050-11f6-41c4-a628-8a44cbc4a3c2",
+      "name": "Каналы админа",
+      "alwaysOutputData": true,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// Собираем кнопки прямо из входящего массива $json\nconst buttons = $input.all().map(item => [\n  {\n    \"text\": item.json.channel_name,\n    \"callback_data\": `select_channel:${item.json.channel_id}`\n  }\n]);\n\n// Выдаем готовый body для Telegram\nreturn [{\n  json: {\n    \"chat_id\": $('/start').first().json.message.from.id, // Сюда подставьте нужный ID пользователя\n    \"text\": \"📋 *Для какого канала хотите получить отчет:*\",\n    \"parse_mode\": \"MarkdownV2\",\n    \"reply_markup\": {\n      \"inline_keyboard\": buttons\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        464
+      ],
+      "id": "ca13e458-8a3c-4400-a860-97ea012f0fae",
+      "name": "Подготовка кнопок"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Токен_telegram_AtGate_bot"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        3072,
+        464
+      ],
+      "id": "4a6f3be5-3eda-4198-95e6-352169e9c1d3",
+      "name": "Получить токен бота3",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "fYFnpIika2dCryN4",
+          "name": "VaultN8N"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $json.value }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($('Подготовка кнопок').item.json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3264,
+        464
+      ],
+      "id": "48c994dd-5b64-4915-8405-b62fbbdfae21",
+      "name": "Публикация кнопок"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "98186b76-f82e-41ec-b604-c093bb8b4b63",
+              "leftValue": "={{ Object.keys($json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2688,
+        464
+      ],
+      "id": "e38d3c66-5bfc-490a-b747-c94a9c0a9a13",
+      "name": "Список есть?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('/start').item.json.message.chat.id }}",
+        "text": "=❌ Нет активных каналов в которых вы являетесь админом и в которые добавлен бот",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2880,
+        624
+      ],
+      "id": "b9138c76-8706-479a-8aff-6072d7b38209",
+      "name": "Нет каналов",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "select_channel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "0ba0db0e-9b06-4f8e-8b9a-2ec6e3ec82ee"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Отчет по каналу"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "670681f4-5b35-4621-8f32-f27688dec21e",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "csv_report",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Файл отчета"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        1696
+      ],
+      "id": "0802b3bb-7493-458f-b996-d5e7d3fcd151",
+      "name": "inline кнопка"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "XKAoEAKfto_5tIo2bZb5s",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/XKAoEAKfto_5tIo2bZb5s",
+          "cachedResultName": "sub_проверка прав"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user": "={{ $json.callback_query.from.id.toString() }}",
+            "channel": "={{ $json.callback_query.data.split(':')[1] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user",
+              "displayName": "user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "bot",
+              "displayName": "bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        1392
+      ],
+      "id": "bbbf25ac-295f-468b-9843-7f38166f5bb9",
+      "name": "Запрос разрешений"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "234af8f4-524b-4f40-a568-8e56372840f1",
+              "leftValue": "={{ $json[\"check:user_is_active\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "856591a7-c7d9-4b6d-a727-ef0f298cf433",
+              "leftValue": "={{ $json[\"check:user_is_channel_admin\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        1392
+      ],
+      "id": "170c56e5-3f4c-4a4c-a243-50cd6cc6fa26",
+      "name": "Админ допущен?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('inline кнопка').item.json.callback_query.message.chat.id }}",
+        "text": "=❌ Просмотр отчета не возможен по одной из причин:\n   - Пользователь не имеет прав\n   - Пользователь не является админом канала\n   - Канал заблокирован\n   - Бот не является админом канала",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        1504
+      ],
+      "id": "1ff8e8b2-8a1f-4f0b-bcb0-fa164b05a971",
+      "name": "Нет допуска1",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=326830581",
+        "text": "=🎁 Кто-то пришел за подарком!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2496,
+        -608
+      ],
+      "id": "310470ea-d617-41a9-b5dd-f857f4e3758f",
+      "name": "Лене",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=249503190",
+        "text": "=🎁 Кто-то пришел за подарком!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2496,
+        -784
+      ],
+      "id": "0cd88ea1-67d7-4b92-9bc3-89dbe411e98a",
+      "name": "Мне",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Новый подписчик",
+        "height": 800,
+        "width": 2512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2400,
+        -912
+      ],
+      "typeVersion": 1,
+      "id": "80811cdc-6733-422d-9a58-6dfec35a0bd3",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Новый админ",
+        "height": 352,
+        "width": 656
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2400,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "d2479997-f5d7-4934-8283-532e117de95e",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "# Start",
+        "height": 400,
+        "width": 720
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1552,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "e2a204b1-3fc0-4c47-946f-cac299bc5dc8",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "# Отчет (/report - вывод каналов)",
+        "height": 480,
+        "width": 1136
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2400,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "855479db-d041-4e1b-a761-ed97b19d1070",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "# Добавление подарка (/add)",
+        "height": 464,
+        "width": 2016
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2400,
+        832
+      ],
+      "typeVersion": 1,
+      "id": "0570251f-ac74-4479-bb96-d1b056b8e258",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "# / Команды",
+        "height": 576,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1584,
+        560
+      ],
+      "typeVersion": 1,
+      "id": "06f7314a-caec-40dc-9c59-b60fe0596b98",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "# Сообщения",
+        "height": 576,
+        "width": 896
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        560
+      ],
+      "typeVersion": 1,
+      "id": "efbc7796-1b74-45a9-aa29-d6ce1b8ddd04",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "# Отчет по каналу",
+        "height": 464,
+        "width": 1264
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        1216
+      ],
+      "typeVersion": 1,
+      "id": "c9a63110-fbc1-4263-83ea-495eb685bb09",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "# Выдача подарка после подписка",
+        "height": 336,
+        "width": 1232
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        2368
+      ],
+      "typeVersion": 1,
+      "id": "fa80133b-4ccc-415e-b900-7699c5cd8988",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "# Добавление бота в канал",
+        "height": 640,
+        "width": 1536
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        2752
+      ],
+      "typeVersion": 1,
+      "id": "f1ce8557-9b9e-4268-8546-9dd2c7e59a74",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
+        "text": "={{ $('Подготовка отчета').item.json.text }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Скачать отчет CSV",
+                    "additionalFields": {
+                      "callback_data": "=csv_report:{{ $('inline кнопка').first().json.callback_query.data.split(':')[1] }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        1296
+      ],
+      "id": "9461abdd-15c2-4b68-b881-37a8e35e25c3",
+      "name": "Короткий отчет",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const BOT_USERNAME = 'your_bot'; // ← Замените на юзернейм вашего бота\n\n// Функция экранирования текста для безопасного HTML в Telegram\nconst escape = text => !text ? '' : String(text)\n  .replace(/&/g, '&amp;')\n  .replace(/</g, '&lt;')\n  .replace(/>/g, '&gt;');\n\n// Форматирование одного блока данных\nfunction formatEntry(item) {\n  const data = item.json;\n  const clicks = Number(data.clicks) || 0;\n  const converted = Number(data.subscribed_with_gift) || 0;\n  \n  const linkTarget = data.link_target || '#';\n  // ИСПРАВЛЕНО: Добавлен забытый слэш после t.me/\n  const botLink = data.bot_start_link || `https://t.me{BOT_USERNAME}?start=${data.target_code || ''}`;\n  const codeWord = escape(data.code_word);\n\n  // ИСПРАВЛЕНО: Теперь выводится прямая кликабельная ссылка вместо текста \"открыть ссылку\"\n  return `<b>🔑 Ключ: ${codeWord}</b>\\n` +\n         `🎁 <b>Пост:</b> <a href='${linkTarget}'>${linkTarget}</a>\\n` +\n         `🔗 <b>Бот:</b> <code>${botLink}</code>\\n` +\n         `📊 <b>Статистика:</b> переходы: <b>${clicks}</b> | копирования: <b>${converted}</b>\\n` +\n         `───────────────────`;\n}\n\n// Сборка сообщений с жестким разделением через \\n\nfunction buildMessages(items) {\n  const messages = [];\n  let currentChunk = [];\n  let currentLength = 0;\n\n  for (const item of items) {\n    const block = formatEntry(item);\n    if (currentLength + block.length > 3900 && currentChunk.length > 0) {\n      messages.push(currentChunk.join('\\n\\n')); \n      currentChunk = [];\n      currentLength = 0;\n    }\n    currentChunk.push(block);\n    currentLength += block.length + 2;\n  }\n  \n  if (currentChunk.length > 0) {\n    messages.push(currentChunk.join('\\n\\n'));\n  }\n  return messages;\n}\n\n// === Основная логика ===\nconst rawData = $input.all();\n\nif (!rawData.length) {\n  return [{ json: { text: '📭 Нет данных для отчета' } }];\n}\n\nconst output = buildMessages(rawData).map((text, index) => {\n  // Добавляем заголовок только к самому первому сообщению\n  if (index === 0) {\n    text = `<b>📊 Отчет по каналу \"${$('Запрос разрешений').first().json['check:channel_name']}\"</b>\\n\\n` + text;\n  }\n  return { json: { text } };\n});\n\n// Считаем общую статистику\nconst stats = rawData.reduce((acc, item) => {\n  acc.clicks += Number(item.json.clicks) || 0;\n  acc.converted += Number(item.json.subscribed_with_gift) || 0;\n  acc.totalKeys += 1; // ИСПРАВЛЕНО: Считаем абсолютно все строки (итерации)\n  return acc;\n}, { clicks: 0, converted: 0, totalKeys: 0 });\n\nconst cr = stats.clicks ? Math.round((stats.converted / stats.clicks) * 100) : 0;\n\noutput.push({\n  json: {\n    text: `<b>📈 ИТОГО ПО КАНАЛУ</b>\\n` +\n          `───────────────────\\n` +\n          `🔑 Ключевых слов: <b>${stats.totalKeys}</b>\\n` +\n          `👥 Всего переходов: <b>${stats.clicks}</b>\\n` +\n          `✅ Получили подарок: <b>${stats.converted}</b>\\n\\n` +\n          `🎯 <b>Конверсия:</b> <b>${cr}%</b>`\n  }\n});\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        1296
+      ],
+      "id": "c3d160db-9791-435f-8a22-0958b3a3af7b",
+      "name": "Подготовка отчета"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "XKAoEAKfto_5tIo2bZb5s",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/XKAoEAKfto_5tIo2bZb5s",
+          "cachedResultName": "sub_проверка прав"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user": "={{ $json.callback_query.from.id.toString() }}",
+            "channel": "={{ $json.callback_query.data.split(':')[1] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user",
+              "displayName": "user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channel",
+              "displayName": "channel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "bot",
+              "displayName": "bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        1936
+      ],
+      "id": "9ccb9ce1-b226-4009-a7b1-2025bcbc3d36",
+      "name": "Запрос разрешений1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "234af8f4-524b-4f40-a568-8e56372840f1",
+              "leftValue": "={{ $json[\"check:user_is_active\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "856591a7-c7d9-4b6d-a727-ef0f298cf433",
+              "leftValue": "={{ $json[\"check:user_is_channel_admin\"] }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        1936
+      ],
+      "id": "795eac6a-ce66-4d96-91b2-dd8e271b0afe",
+      "name": "Админ допущен?1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('inline кнопка').item.json.callback_query.message.chat.id }}",
+        "text": "=❌ Просмотр отчета не возможен по одной из причин:\n   - Пользователь не имеет прав\n   - Пользователь не является админом канала\n   - Канал заблокирован\n   - Бот не является админом канала",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        2048
+      ],
+      "id": "acfc3af1-b6e8-4c1b-b34d-189fe82c0e9c",
+      "name": "Нет допуска2",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# CSV файл отчета",
+        "height": 464,
+        "width": 1488
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        1760
+      ],
+      "typeVersion": 1,
+      "id": "7b4079d4-802e-4ef5-adb0-cbda5a10e382",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
+          "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1808,
+        1840
+      ],
+      "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
+      "name": "Короткий отчет1",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Простая защита полей для CSV (если в данных есть запятые или кавычки)\nreturn $input.all().map(item => {\n  const escaped = {};\n  for (const [key, val] of Object.entries(item.json)) {\n    const str = String(val ?? '');\n    // Если есть запятая, кавычка или перенос — оборачиваем в кавычки и экранируем\n    escaped[key] = /[\",\\n]/.test(str) ? `\"${str.replace(/\"/g, '\"\"')}\"` : str;\n  }\n  item.json = escaped;\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        1840
+      ],
+      "id": "6fc23672-3cf3-43d2-98b4-6f66f61f3917",
+      "name": "Подготовка отчета1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    t.code_word,\n    t.link_target,\n    'https://t.me/your_bot?start=' || t.target_code AS bot_start_link,\n    COUNT(i.id) AS clicks,\n    COUNT(CASE WHEN i.status = 'подарок выдан' THEN 1 END) AS subscribed_with_gift\nFROM atgate.\"AtGateTarget\" t\nLEFT JOIN atgate.\"AtGateInteraction\" i ON t.target_code = i.target_code\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nGROUP BY t.code_word, t.link_target, t.target_code\nORDER BY t.code_word;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1232,
+        1296
+      ],
+      "id": "5b9c6cea-cc22-4e6e-a87b-e49c1319178f",
+      "name": "Запрос полей отчета",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1232,
+        1840
+      ],
+      "id": "bca96315-0602-4f6a-89c2-144e7cfc5d8b",
+      "name": "Запрос полей отчета1",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1616,
+        1840
+      ],
+      "id": "c848846d-00b5-465e-a7a0-bd24f169199f",
+      "name": "Convert to File"
     }
   ],
   "pinData": {},
@@ -6764,6 +8862,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-05-23T22:03:06.771Z",
-  "versionId": "169ec38c-b862-4160-99a8-3040c67c8e96"
+  "updatedAt": "2026-05-24T22:18:11.766Z",
+  "versionId": "cfc7317c-4c09-4ba6-add1-131fd8ea5e44"
 }
