@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-25T21:38:58.745Z",
-    "createdAt": "2026-05-25T21:38:56.321Z",
-    "versionId": "f4a0dae7-44ff-4458-abc9-6fa1d21a210c",
+    "updatedAt": "2026-05-26T21:49:11.667Z",
+    "createdAt": "2026-05-26T21:48:59.995Z",
+    "versionId": "1619586e-6fa8-4a3e-9d53-aee3bebbc6aa",
     "workflowId": "4NBpOUrsoYJ0Qmlkgz8W6",
     "nodes": [
       {
@@ -84,6 +84,7 @@
         "id": "a4f36631-ff6e-4927-9201-b21c744b2043",
         "name": "Telegram Trigger",
         "webhookId": "878e64d4-bc00-4234-9162-9eed07f37e0c",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -807,6 +808,7 @@
         "id": "72d0803a-a952-44b0-97d0-d85da7604532",
         "name": "Приветствие",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -939,14 +941,13 @@
         "id": "f430457e-b58e-4ec7-a02f-a397024ee8dc",
         "name": "Админ не имеет прав",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-        "retryOnFail": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
           }
-        },
-        "onError": "continueRegularOutput"
+        }
       },
       {
         "parameters": {
@@ -963,14 +964,13 @@
         "id": "e299b0a5-ae74-4a5c-9835-fc6c8467cb08",
         "name": "Удаление бота из канала",
         "webhookId": "a1da5cf4-3fc7-4288-b2a4-5b43ee2cbff0",
-        "retryOnFail": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
           }
-        },
-        "onError": "continueRegularOutput"
+        }
       },
       {
         "parameters": {
@@ -1031,7 +1031,7 @@
         "id": "53ebea50-924e-4091-9988-7d882231a45d",
         "name": "Канал заблокирован",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-        "retryOnFail": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1057,7 +1057,7 @@
         "id": "dadce432-586e-44b0-8837-2fe0b6ee8a1d",
         "name": "Бот добавлен в канал",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-        "retryOnFail": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1104,6 +1104,7 @@
         "id": "05e3bbe1-a5c0-4212-a890-1bb390894a90",
         "name": "Нет допуска",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1175,6 +1176,7 @@
         "id": "1678cbb7-047b-490e-8568-2f601cbd9734",
         "name": "Ошибка команды",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1294,6 +1296,7 @@
         "id": "7c20a6b8-215a-4a09-8cfa-2f25e6e7cda1",
         "name": "Канал не зарегистрирован",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1384,6 +1387,7 @@
         "id": "c9116d3c-0581-4c20-a496-ecfc6ad717a8",
         "name": "Бот не в канале",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1441,6 +1445,7 @@
         "id": "f77e6ed4-b588-47f8-9316-a1db2bb37228",
         "name": "Пользователь не админ канала",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1465,6 +1470,7 @@
         "id": "e0ae73b1-e326-435b-8937-9e0a2c953920",
         "name": "Канал заблокирован1",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1601,6 +1607,7 @@
         "id": "5f99c4c0-dde2-4221-8fb3-16149d52a753",
         "name": "Сообщение со ссылкой",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -1898,12 +1905,14 @@
         "id": "fea42836-4b8b-46f3-b70d-74c460bd2d9d",
         "name": "Ошибка старта",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
           }
-        }
+        },
+        "onError": "continueRegularOutput"
       },
       {
         "parameters": {
@@ -1922,12 +1931,14 @@
         "id": "112c0758-9086-44bf-8c72-f1eaf2a3bbde",
         "name": "Нет такой цели",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
           }
-        }
+        },
+        "onError": "continueRegularOutput"
       },
       {
         "parameters": {
@@ -1946,6 +1957,8 @@
         "id": "a8d40a78-ef68-4778-a58d-8427f227e488",
         "name": "В бот ошибок",
         "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "executeOnce": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "8cXUYDeWkHWKbQ8T",
@@ -1970,6 +1983,7 @@
         "id": "d282274c-7519-4267-a753-ea1fcfe6b8e5",
         "name": "В бот ошибок1",
         "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "8cXUYDeWkHWKbQ8T",
@@ -2402,6 +2416,7 @@
         "id": "fce6dd9a-a09c-4574-ae07-65304be9b8df",
         "name": "Подпишись!",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -2458,7 +2473,8 @@
           2480
         ],
         "id": "eb64362d-6bcb-4d0e-b44a-06d6c2637093",
-        "name": "Одобрение подписки"
+        "name": "Одобрение подписки",
+        "retryOnFail": true
       },
       {
         "parameters": {
@@ -2476,7 +2492,8 @@
           2480
         ],
         "id": "09aab28c-ae6f-416a-b864-f72cdf5adcef",
-        "name": "Отзыв приглашения"
+        "name": "Отзыв приглашения",
+        "retryOnFail": true
       },
       {
         "parameters": {
@@ -2620,6 +2637,7 @@
         "id": "f71533fe-eb75-4ede-8b21-b89c87ed9866",
         "name": "Выдача подарка",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -2685,6 +2703,7 @@
         "id": "15ea0834-71ab-4a20-96bc-6d3025aa31f4",
         "name": "Выдача подарка1",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -2817,7 +2836,8 @@
           464
         ],
         "id": "48c994dd-5b64-4915-8405-b62fbbdfae21",
-        "name": "Публикация кнопок"
+        "name": "Публикация кнопок",
+        "retryOnFail": true
       },
       {
         "parameters": {
@@ -2869,6 +2889,7 @@
         "id": "b9138c76-8706-479a-8aff-6072d7b38209",
         "name": "Нет каналов",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -3062,6 +3083,7 @@
         "id": "1ff8e8b2-8a1f-4f0b-bcb0-fa164b05a971",
         "name": "Нет допуска1",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -3086,12 +3108,15 @@
         "id": "310470ea-d617-41a9-b5dd-f857f4e3758f",
         "name": "Лене",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "executeOnce": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
           }
-        }
+        },
+        "onError": "continueRegularOutput"
       },
       {
         "parameters": {
@@ -3110,12 +3135,15 @@
         "id": "0cd88ea1-67d7-4b92-9bc3-89dbe411e98a",
         "name": "Мне",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
+        "executeOnce": false,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
           }
-        }
+        },
+        "onError": "continueRegularOutput"
       },
       {
         "parameters": {
@@ -3302,6 +3330,7 @@
         "id": "9461abdd-15c2-4b68-b881-37a8e35e25c3",
         "name": "Короткий отчет",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -3443,6 +3472,7 @@
         "id": "acfc3af1-b6e8-4c1b-b34d-189fe82c0e9c",
         "name": "Нет допуска2",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -3485,6 +3515,7 @@
         "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
         "name": "Короткий отчет1",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -3640,6 +3671,7 @@
         "id": "e382e391-16a1-4c4a-adc0-be8f07b863b8",
         "name": "Нет данных",
         "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
@@ -3755,6 +3787,8 @@
         "id": "7e084b04-5941-49d8-b151-2b5f4119b890",
         "name": "В бот ошибок2",
         "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+        "executeOnce": false,
+        "retryOnFail": true,
         "credentials": {
           "telegramApi": {
             "id": "8cXUYDeWkHWKbQ8T",
@@ -4684,11 +4718,11 @@
       }
     },
     "authors": "Алексей К",
-    "name": "Version f4a0dae7",
+    "name": "Version 1619586e",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "f4a0dae7-44ff-4458-abc9-6fa1d21a210c",
+  "activeVersionId": "1619586e-6fa8-4a3e-9d53-aee3bebbc6aa",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -5680,6 +5714,7 @@
       "id": "a4f36631-ff6e-4927-9201-b21c744b2043",
       "name": "Telegram Trigger",
       "webhookId": "878e64d4-bc00-4234-9162-9eed07f37e0c",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6403,6 +6438,7 @@
       "id": "72d0803a-a952-44b0-97d0-d85da7604532",
       "name": "Приветствие",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6535,14 +6571,13 @@
       "id": "f430457e-b58e-4ec7-a02f-a397024ee8dc",
       "name": "Админ не имеет прав",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-      "retryOnFail": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
@@ -6559,14 +6594,13 @@
       "id": "e299b0a5-ae74-4a5c-9835-fc6c8467cb08",
       "name": "Удаление бота из канала",
       "webhookId": "a1da5cf4-3fc7-4288-b2a4-5b43ee2cbff0",
-      "retryOnFail": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
-      },
-      "onError": "continueRegularOutput"
+      }
     },
     {
       "parameters": {
@@ -6627,7 +6661,7 @@
       "id": "53ebea50-924e-4091-9988-7d882231a45d",
       "name": "Канал заблокирован",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-      "retryOnFail": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6653,7 +6687,7 @@
       "id": "dadce432-586e-44b0-8837-2fe0b6ee8a1d",
       "name": "Бот добавлен в канал",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-      "retryOnFail": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6700,6 +6734,7 @@
       "id": "05e3bbe1-a5c0-4212-a890-1bb390894a90",
       "name": "Нет допуска",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6771,6 +6806,7 @@
       "id": "1678cbb7-047b-490e-8568-2f601cbd9734",
       "name": "Ошибка команды",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6890,6 +6926,7 @@
       "id": "7c20a6b8-215a-4a09-8cfa-2f25e6e7cda1",
       "name": "Канал не зарегистрирован",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -6980,6 +7017,7 @@
       "id": "c9116d3c-0581-4c20-a496-ecfc6ad717a8",
       "name": "Бот не в канале",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -7037,6 +7075,7 @@
       "id": "f77e6ed4-b588-47f8-9316-a1db2bb37228",
       "name": "Пользователь не админ канала",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -7061,6 +7100,7 @@
       "id": "e0ae73b1-e326-435b-8937-9e0a2c953920",
       "name": "Канал заблокирован1",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -7197,6 +7237,7 @@
       "id": "5f99c4c0-dde2-4221-8fb3-16149d52a753",
       "name": "Сообщение со ссылкой",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -7494,12 +7535,14 @@
       "id": "fea42836-4b8b-46f3-b70d-74c460bd2d9d",
       "name": "Ошибка старта",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -7518,12 +7561,14 @@
       "id": "112c0758-9086-44bf-8c72-f1eaf2a3bbde",
       "name": "Нет такой цели",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -7542,6 +7587,8 @@
       "id": "a8d40a78-ef68-4778-a58d-8427f227e488",
       "name": "В бот ошибок",
       "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "executeOnce": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "8cXUYDeWkHWKbQ8T",
@@ -7566,6 +7613,7 @@
       "id": "d282274c-7519-4267-a753-ea1fcfe6b8e5",
       "name": "В бот ошибок1",
       "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "8cXUYDeWkHWKbQ8T",
@@ -7998,6 +8046,7 @@
       "id": "fce6dd9a-a09c-4574-ae07-65304be9b8df",
       "name": "Подпишись!",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -8054,7 +8103,8 @@
         2480
       ],
       "id": "eb64362d-6bcb-4d0e-b44a-06d6c2637093",
-      "name": "Одобрение подписки"
+      "name": "Одобрение подписки",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -8072,7 +8122,8 @@
         2480
       ],
       "id": "09aab28c-ae6f-416a-b864-f72cdf5adcef",
-      "name": "Отзыв приглашения"
+      "name": "Отзыв приглашения",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -8216,6 +8267,7 @@
       "id": "f71533fe-eb75-4ede-8b21-b89c87ed9866",
       "name": "Выдача подарка",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -8281,6 +8333,7 @@
       "id": "15ea0834-71ab-4a20-96bc-6d3025aa31f4",
       "name": "Выдача подарка1",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -8413,7 +8466,8 @@
         464
       ],
       "id": "48c994dd-5b64-4915-8405-b62fbbdfae21",
-      "name": "Публикация кнопок"
+      "name": "Публикация кнопок",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -8465,6 +8519,7 @@
       "id": "b9138c76-8706-479a-8aff-6072d7b38209",
       "name": "Нет каналов",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -8658,6 +8713,7 @@
       "id": "1ff8e8b2-8a1f-4f0b-bcb0-fa164b05a971",
       "name": "Нет допуска1",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -8682,12 +8738,15 @@
       "id": "310470ea-d617-41a9-b5dd-f857f4e3758f",
       "name": "Лене",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "executeOnce": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -8706,12 +8765,15 @@
       "id": "0cd88ea1-67d7-4b92-9bc3-89dbe411e98a",
       "name": "Мне",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
+      "executeOnce": false,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
           "name": "Превратник"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -8898,6 +8960,7 @@
       "id": "9461abdd-15c2-4b68-b881-37a8e35e25c3",
       "name": "Короткий отчет",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -9039,6 +9102,7 @@
       "id": "acfc3af1-b6e8-4c1b-b34d-189fe82c0e9c",
       "name": "Нет допуска2",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -9081,6 +9145,7 @@
       "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
       "name": "Короткий отчет1",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -9236,6 +9301,7 @@
       "id": "e382e391-16a1-4c4a-adc0-be8f07b863b8",
       "name": "Нет данных",
       "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "65F3OXZ2S5RJpd8j",
@@ -9351,6 +9417,8 @@
       "id": "7e084b04-5941-49d8-b151-2b5f4119b890",
       "name": "В бот ошибок2",
       "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "executeOnce": false,
+      "retryOnFail": true,
       "credentials": {
         "telegramApi": {
           "id": "8cXUYDeWkHWKbQ8T",
@@ -9398,6 +9466,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-05-25T21:38:56.319Z",
-  "versionId": "f4a0dae7-44ff-4458-abc9-6fa1d21a210c"
+  "updatedAt": "2026-05-26T21:48:59.989Z",
+  "versionId": "1619586e-6fa8-4a3e-9d53-aee3bebbc6aa"
 }
