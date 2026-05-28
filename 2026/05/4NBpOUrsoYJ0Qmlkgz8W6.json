@@ -8823,13 +8823,13 @@
     {
       "parameters": {
         "content": "# Отчет (/report - вывод каналов)",
-        "height": 480,
-        "width": 1136
+        "height": 288,
+        "width": 1120
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         2400,
-        320
+        512
       ],
       "typeVersion": 1,
       "id": "855479db-d041-4e1b-a761-ed97b19d1070",
@@ -8838,13 +8838,13 @@
     {
       "parameters": {
         "content": "# Добавление подарка (/add)",
-        "height": 464,
-        "width": 2016
+        "height": 480,
+        "width": 2000
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         2400,
-        832
+        816
       ],
       "typeVersion": 1,
       "id": "0570251f-ac74-4479-bb96-d1b056b8e258",
@@ -9466,6 +9466,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-05-26T21:48:59.989Z",
-  "versionId": "1619586e-6fa8-4a3e-9d53-aee3bebbc6aa"
+  "updatedAt": "2026-05-27T23:58:56.468Z",
+  "versionId": "6fee207a-7814-4cfb-9cfe-b2adfc46eede"
 }
