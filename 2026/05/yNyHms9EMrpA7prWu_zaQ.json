@@ -1,0 +1,378 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Кому нужен дожим",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "В бот ошибок2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Кому нужен дожим": {
+      "main": [
+        [
+          {
+            "node": "Подготовка сообщений",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка сообщений": {
+      "main": [
+        [
+          {
+            "node": "Сообщение есть?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сообщение есть?": {
+      "main": [
+        [
+          {
+            "node": "Отправление сообщения",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Отправление сообщения": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Вносим ошибку",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Вносим ошибку": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-05-31T12:19:06.877Z",
+  "id": "yNyHms9EMrpA7prWu_zaQ",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_дожим",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Дожим\nСистема автоматического напоминания пользователю что он не подписался и не получил подарок. \nРаботает по триггеру времени, запускается каждые 10 минут и проверяет не пришло ли время напомнить кому-то о подписке и подарке.\nРаботает для записей в которых `reminder = true`, а в таблице `AtGateInteraction` и есть параметры дожима в поле `extra`.\n### Параметры дожима\nПараметры дожима в поле `extra` таблицы `AtGateTarget`.\n``` \n{\n  \"напоминание\": {\n    \"время\": {\n      \"10\": {\n        \"checked\": 0,\n        \"ожидание подачи заявки\": \"Текст для 10 минут\"\n      },\n      \"20\": {\n        \"checked\": 0,\n        \"ожидание подачи заявки\": \"Текст для 20 минут\"\n      }\n    }\n  }\n}\n```\n- `10`, `20` — временные метки (минуты с момента создания взаимодействия created_at).\n- `checked` — флаг срабатывания конкретной метки (0 — не сработала, 1 — сработала).\n- `ожидание подачи заявки` — динамический ключ статуса, внутри которого хранится текст сообщения для этой минуты.\n\n  #### Алгоритм\n- Выборка: Выбираем все записи из таблицы `AtGateInteraction`, у которых `reminder = true`.\n- Инициализация переменных для каждой записи:\n  - `id` — идентификатор взаимодействия.\n  - `user_id` — идентификатор пользователя.\n  - `minutes` — количество минут, прошедших с момента `created_at`.\n  - `status` — текущий статус записи.\n  - `reminder` — текущее состояние дожима (изначально `true`).\n  - `reminder_parameters` — параметры из поля напоминание.\n  - `message` — сообщение для вывода (задаем пустым).\n- Выполнение для каждой записи:\n  - Глобальная проверка статуса: Проверяем, есть ли текущий `status` хотя бы в одной активной (у которой `checked = 0`) временной метке внутри `reminder_parameters.время`. Если этого статуса нет вообще нигде или если нет активных временных меток в параметрах — отключаем дожим (`reminder = false`) и пропускаем дальнейшую проверку записи.\n  - Цикл по времени: Сортируем ключи времени (от меньшего к большему). Перебираем все активные (у которой `checked = 0`) временные метки (ключи) из `reminder_parameters.время`:\n    - Если ключ (минуты) меньше или равен прошедшим `minutes`:\n      - Меняем флаг метки checked с 0 на 1 (фиксируем изменение времени).\n      - Проверяем, есть ли внутри этой временной метки ключ, совпадающий с текущим `status` записи.\n      - Если ключ статуса есть — записываем его текст в переменную `message`.\n  - Анализ после цикла (проверка остатка): считаем количество меток в `reminder_parameters.время`, у которых флаг `checked = 0`. Если таких меток больше не осталось — отключаем дожим (`reminder = false`).\n  - Формирование выхода: Если изменился `reminder` ИЛИ обновились флаги меток в `reminder_parameters`, возвращаем объект: `id`, `user_id`, `reminder`, `reminder_parameters`, `message`. В противном случае запись полностью игнорируем.\n- Действия для выходных объектов:\n  - Если `message` не пустое — отправляем текст пользователю `user_id`.\n  - Записываем обновленные `reminder` и `reminder_parameters` в базу данных.",
+        "height": 1424,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "41fb2540-8194-4352-874b-7a3e9d45d9f3",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        544,
+        464
+      ],
+      "id": "359237ca-a05e-4bc0-9e2d-d3dc35839a6e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        656
+      ],
+      "id": "0002261a-cbec-4219-b822-5c9027650f61",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        528,
+        1056
+      ],
+      "id": "32f06325-08e7-4f31-9a03-35bb520aa19d",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "=249503190",
+        "text": "=Ошибка в приложении \"{{ $workflow.name }}\"",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        752,
+        1056
+      ],
+      "id": "81195794-6593-4da8-a3f5-49c68fcd94e7",
+      "name": "В бот ошибок2",
+      "webhookId": "756cdbe9-678a-46d9-a72c-757c20491991",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "8cXUYDeWkHWKbQ8T",
+          "name": "Ошибки приложений"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Ошибки\n- сообщение об ошибке отправляется в специальный бот ошибок разработчику",
+        "height": 112,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        896
+      ],
+      "typeVersion": 1,
+      "id": "6b68c28e-b6af-4f9c-882c-1c7f04391a66",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateInteraction",
+          "mode": "list",
+          "cachedResultName": "AtGateInteraction"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "reminder",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        832,
+        560
+      ],
+      "id": "47307d50-ce21-4e03-b64a-04f56df65d5e",
+      "name": "Кому нужен дожим",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = [];\nconst nowMs = Date.now();\n\nfor (const item of $input.all()) {\n  const data = item.json;\n  \n  const id = data.id;\n  const user_id = data.user_id;\n  const status = data.status;\n  let reminder = data.reminder;\n  \n  let reminder_parameters = data.extra?.[\"напоминание\"] ? JSON.parse(JSON.stringify(data.extra[\"напоминание\"])) : null;\n  let message = \"\";\n  \n  if (!reminder_parameters || !reminder_parameters[\"время\"]) continue;\n\n  const createdAtMs = Date.parse(data.created_at);\n  const minutes = Math.floor((nowMs - createdAtMs) / 1000 / 60);\n\n  const initialReminder = reminder;\n  const initialTimeStr = JSON.stringify(reminder_parameters[\"время\"]);\n\n  // 1. Глобальная проверка статуса и наличия активных меток\n  let statusFoundInActive = false;\n  let hasActiveLabels = false;\n\n  for (const key in reminder_parameters[\"время\"]) {\n    if (reminder_parameters[\"время\"][key][\"checked\"] === 0) {\n      hasActiveLabels = true;\n      if (reminder_parameters[\"время\"][key].hasOwnProperty(status)) {\n        statusFoundInActive = true;\n      }\n    }\n  }\n\n  if (!hasActiveLabels || !statusFoundInActive) {\n    reminder = false;\n    if (initialReminder !== reminder) {\n      output.push({ json: { id, user_id, reminder, reminder_parameters, message } });\n    }\n    continue;\n  }\n\n  // 2. СОРТИРОВКА: Получаем упорядоченный массив временных меток (от 10 к 20 и т.д.)\n  const sortedKeys = Object.keys(reminder_parameters[\"время\"]).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));\n\n  // 3. Цикл по времени (перебор по отсортированным ключам)\n  for (const key of sortedKeys) {\n    const label = reminder_parameters[\"время\"][key];\n    \n    if (label[\"checked\"] === 0) {\n      const timeLimit = parseInt(key, 10);\n      \n      if (timeLimit <= minutes) {\n        // Фиксируем изменение времени\n        label[\"checked\"] = 1;\n        \n        // Более поздняя метка затрет сообщение от предыдущей, если обе сработали одновременно\n        if (label.hasOwnProperty(status)) {\n          message = label[status];\n        }\n      }\n    }\n  }\n\n  // 4. Анализ после цикла (проверка остатка)\n  let hasZeroLeft = false;\n  for (const key in reminder_parameters[\"время\"]) {\n    if (reminder_parameters[\"время\"][key][\"checked\"] === 0) {\n      hasZeroLeft = true;\n      break;\n    }\n  }\n\n  if (!hasZeroLeft) {\n    reminder = false;\n  }\n\n  // 5. Формирование выхода\n  const timeChanged = initialTimeStr !== JSON.stringify(reminder_parameters[\"время\"]);\n  const reminderChanged = initialReminder !== reminder;\n  \n  if (reminderChanged || timeChanged) {\n    output.push({\n      json: {\n        id,\n        user_id,\n        reminder,\n        reminder_parameters,\n        message\n      }\n    });\n  }\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        560
+      ],
+      "id": "d2a4940e-8fe0-4543-8002-0969a21aea9c",
+      "name": "Подготовка сообщений"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "07a72e2c-77c5-4b1c-a255-8cc7c4f5cf63",
+              "leftValue": "={{ $json.message }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        560
+      ],
+      "id": "80b2ef0f-7293-4b09-84bf-e153f0639f9a",
+      "name": "Сообщение есть?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.user_id }}",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1520,
+        384
+      ],
+      "id": "bf81e945-b8fc-40c3-88ec-ce4456e53251",
+      "name": "Отправление сообщения",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = [];\n\nfor (const item of $input.all()) {\n  const data = item.json;\n  \n  // 1. Копируем входные данные \"как есть\"\n  const id = data.id;\n  const user_id = data.user_id;\n  let reminder = data.reminder;\n  let reminder_parameters = data.reminder_parameters ? JSON.parse(JSON.stringify(data.reminder_parameters)) : {};\n  const message = data.message || \"\";\n  \n  // Получаем текст ошибки, если он передан\n  const errorMessage = data.error || \"\";\n\n  // 2. Если ошибка содержит маркер блокировки — вносим минимальные изменения\n  if (errorMessage.includes(\"Forbidden\")) {\n    reminder = false;                             // Меняем ремайндер на false\n    reminder_parameters[\"error\"] = errorMessage; // Добавляем поле с причиной в корень параметров\n  }\n\n  // 3. Формируем единый выход для ноды БД\n  output.push({\n    json: {\n      id,\n      user_id,\n      reminder,\n      reminder_parameters,\n      message\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1712,
+        496
+      ],
+      "id": "edb06518-6184-4ec0-ba9b-f26ea8865e39",
+      "name": "Вносим ошибку"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE \"atgate\".\"AtGateInteraction\"\nSET \n    reminder = {{ $json.reminder }},\n    extra = jsonb_set(\n        COALESCE(extra, '{}'::jsonb), \n        '{напоминание}', \n        '{{ JSON.stringify($json.reminder_parameters) }}'::jsonb, \n        true\n    ),\n    updated_at = CURRENT_TIMESTAMP\nWHERE id = {{ $json.id }};\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2160,
+        576
+      ],
+      "id": "732f20cf-24c9-4b5b-b812-55fabd7fde56",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-05-31T12:19:06.877Z",
+      "createdAt": "2026-05-31T12:19:06.877Z",
+      "role": "workflow:owner",
+      "workflowId": "yNyHms9EMrpA7prWu_zaQ",
+      "projectId": "ILcfmLBZn60jlfes"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-05-31T21:40:41.127Z",
+  "versionId": "3b40ad28-ec30-4f31-af54-07dc85586776"
+}
