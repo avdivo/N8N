@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-01T22:42:26.783Z",
-    "createdAt": "2026-06-01T22:42:21.318Z",
-    "versionId": "31893809-c11d-4ece-8fca-2a9406ec61ce",
+    "updatedAt": "2026-06-02T21:07:44.729Z",
+    "createdAt": "2026-06-02T21:07:32.663Z",
+    "versionId": "b2bfb92f-7e61-4ab0-8b81-ddd254392e80",
     "workflowId": "4NBpOUrsoYJ0Qmlkgz8W6",
     "nodes": [
       {
@@ -3431,7 +3431,7 @@
         "parameters": {
           "content": "# CSV файл отчета",
           "height": 464,
-          "width": 1488
+          "width": 1568
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
@@ -3444,40 +3444,12 @@
       },
       {
         "parameters": {
-          "operation": "sendDocument",
-          "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
-          "binaryData": true,
-          "additionalFields": {
-            "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
-            "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
-            "parse_mode": "HTML"
-          }
-        },
-        "type": "n8n-nodes-base.telegram",
-        "typeVersion": 1.2,
-        "position": [
-          1808,
-          1840
-        ],
-        "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
-        "name": "Короткий отчет1",
-        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-        "retryOnFail": true,
-        "credentials": {
-          "telegramApi": {
-            "id": "65F3OXZ2S5RJpd8j",
-            "name": "Превратник"
-          }
-        }
-      },
-      {
-        "parameters": {
           "jsCode": "// Простая защита полей для CSV (если в данных есть запятые или кавычки)\nreturn $input.all().map(item => {\n  const escaped = {};\n  for (const [key, val] of Object.entries(item.json)) {\n    const str = String(val ?? '');\n    // Если есть запятая, кавычка или перенос — оборачиваем в кавычки и экранируем\n    escaped[key] = /[\",\\n]/.test(str) ? `\"${str.replace(/\"/g, '\"\"')}\"` : str;\n  }\n  item.json = escaped;\n  return item;\n});"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1424,
+          1600,
           1840
         ],
         "id": "6fc23672-3cf3-43d2-98b4-6f66f61f3917",
@@ -3508,7 +3480,7 @@
       {
         "parameters": {
           "operation": "executeQuery",
-          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\", -- ← Добавили извлечение источника\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
+          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
           "options": {}
         },
         "type": "n8n-nodes-base.postgres",
@@ -3533,7 +3505,7 @@
         "type": "n8n-nodes-base.convertToFile",
         "typeVersion": 1.1,
         "position": [
-          1616,
+          1792,
           1840
         ],
         "id": "c848846d-00b5-465e-a7a0-bd24f169199f",
@@ -3844,7 +3816,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const inputData = $input.first().json;\n\n// Добавляем напоминание напрямую в объект parameters\ninputData.parameters[\"напоминание\"] = {\n  \"время\": {\n    \"20\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"Вы были в одном шаге от цели! Переходите в канал, чтобы закончить.\"\n    },\n    \"1440\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"Напоминаем, что ссылка на наш канал всё еще активна. Ждем вас!\"\n    }\n  }\n};\n\n// Возвращаем объект со всеми исходными полями\nreturn [{ json: inputData }];\n"
+          "jsCode": "const inputData = $input.first().json;\n\n// Добавляем напоминание напрямую в объект parameters\ninputData.parameters[\"напоминание\"] = {\n  \"время\": {\n    \"20\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"🎯 Вы в одном шаге от цели! Переходите в канал, чтобы закончить.\"\n    },\n    \"1440\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"👋 Напоминаем, что ссылка на наш канал всё еще активна. Ждем вас!\"\n    }\n  }\n};\n\n// Возвращаем объект со всеми исходными полями\nreturn [{ json: inputData }];\n"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -3854,6 +3826,34 @@
         ],
         "id": "0cc2223a-3fd6-4b7b-9a78-0d90cfaf6183",
         "name": "Добавление дожима"
+      },
+      {
+        "parameters": {
+          "operation": "sendDocument",
+          "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {
+            "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
+            "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1984,
+          1840
+        ],
+        "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
+        "name": "Файл отчета",
+        "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+        "retryOnFail": true,
+        "credentials": {
+          "telegramApi": {
+            "id": "65F3OXZ2S5RJpd8j",
+            "name": "Превратник"
+          }
+        }
       }
     ],
     "connections": {
@@ -4680,7 +4680,7 @@
         "main": [
           [
             {
-              "node": "Короткий отчет1",
+              "node": "Файл отчета",
               "type": "main",
               "index": 0
             }
@@ -4773,11 +4773,11 @@
       }
     },
     "authors": "Алексей К",
-    "name": "Version 31893809",
+    "name": "Version b2bfb92f",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "31893809-c11d-4ece-8fca-2a9406ec61ce",
+  "activeVersionId": "b2bfb92f-7e61-4ab0-8b81-ddd254392e80",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -5602,7 +5602,7 @@
       "main": [
         [
           {
-            "node": "Короткий отчет1",
+            "node": "Файл отчета",
             "type": "main",
             "index": 0
           }
@@ -9127,7 +9127,7 @@
       "parameters": {
         "content": "# CSV файл отчета",
         "height": 464,
-        "width": 1488
+        "width": 1568
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -9140,40 +9140,12 @@
     },
     {
       "parameters": {
-        "operation": "sendDocument",
-        "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
-        "binaryData": true,
-        "additionalFields": {
-          "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
-          "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        1808,
-        1840
-      ],
-      "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
-      "name": "Короткий отчет1",
-      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
-      "retryOnFail": true,
-      "credentials": {
-        "telegramApi": {
-          "id": "65F3OXZ2S5RJpd8j",
-          "name": "Превратник"
-        }
-      }
-    },
-    {
-      "parameters": {
         "jsCode": "// Простая защита полей для CSV (если в данных есть запятые или кавычки)\nreturn $input.all().map(item => {\n  const escaped = {};\n  for (const [key, val] of Object.entries(item.json)) {\n    const str = String(val ?? '');\n    // Если есть запятая, кавычка или перенос — оборачиваем в кавычки и экранируем\n    escaped[key] = /[\",\\n]/.test(str) ? `\"${str.replace(/\"/g, '\"\"')}\"` : str;\n  }\n  item.json = escaped;\n  return item;\n});"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1424,
+        1600,
         1840
       ],
       "id": "6fc23672-3cf3-43d2-98b4-6f66f61f3917",
@@ -9204,7 +9176,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\", -- ← Добавили извлечение источника\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
+        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -9229,7 +9201,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        1616,
+        1792,
         1840
       ],
       "id": "c848846d-00b5-465e-a7a0-bd24f169199f",
@@ -9540,7 +9512,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const inputData = $input.first().json;\n\n// Добавляем напоминание напрямую в объект parameters\ninputData.parameters[\"напоминание\"] = {\n  \"время\": {\n    \"20\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"Вы были в одном шаге от цели! Переходите в канал, чтобы закончить.\"\n    },\n    \"1440\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"Напоминаем, что ссылка на наш канал всё еще активна. Ждем вас!\"\n    }\n  }\n};\n\n// Возвращаем объект со всеми исходными полями\nreturn [{ json: inputData }];\n"
+        "jsCode": "const inputData = $input.first().json;\n\n// Добавляем напоминание напрямую в объект parameters\ninputData.parameters[\"напоминание\"] = {\n  \"время\": {\n    \"20\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"🎯 Вы в одном шаге от цели! Переходите в канал, чтобы закончить.\"\n    },\n    \"1440\": {\n      \"checked\": 0,\n      \"ожидание подачи заявки\": \"👋 Напоминаем, что ссылка на наш канал всё еще активна. Ждем вас!\"\n    }\n  }\n};\n\n// Возвращаем объект со всеми исходными полями\nreturn [{ json: inputData }];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -9550,6 +9522,34 @@
       ],
       "id": "0cc2223a-3fd6-4b7b-9a78-0d90cfaf6183",
       "name": "Добавление дожима"
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
+          "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1984,
+        1840
+      ],
+      "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
+      "name": "Файл отчета",
+      "webhookId": "b1a111c9-c787-45b9-ab43-1bca05294865",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "65F3OXZ2S5RJpd8j",
+          "name": "Превратник"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -9576,6 +9576,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-06-01T22:42:21.313Z",
-  "versionId": "31893809-c11d-4ece-8fca-2a9406ec61ce"
+  "updatedAt": "2026-06-02T21:07:32.660Z",
+  "versionId": "b2bfb92f-7e61-4ab0-8b81-ddd254392e80"
 }
