@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-02T21:07:44.729Z",
-    "createdAt": "2026-06-02T21:07:32.663Z",
-    "versionId": "b2bfb92f-7e61-4ab0-8b81-ddd254392e80",
+    "updatedAt": "2026-06-03T21:32:51.309Z",
+    "createdAt": "2026-06-03T21:32:01.307Z",
+    "versionId": "ce4adefd-71eb-4e3f-a2df-5bd5a7252588",
     "workflowId": "4NBpOUrsoYJ0Qmlkgz8W6",
     "nodes": [
       {
@@ -411,7 +411,7 @@
       {
         "parameters": {
           "operation": "executeQuery",
-          "query": "-- 1. Настройка схемы и часового пояса\nCREATE SCHEMA IF NOT EXISTS atgate;\nSET search_path TO atgate;\n\n-- Гарантирует, что БД будет отдавать и принимать время в вашем поясе (+3)\nSET timezone TO 'Europe/Minsk'; \n\n-- Функция для автоматического обновления поля updated_at (нужна для триггера)\nCREATE OR REPLACE FUNCTION update_updated_at_column()\nRETURNS TRIGGER AS $$\nBEGIN\n    NEW.updated_at = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND;\n$$ language 'plpgsql';\n\n-- 2. Таблица Каналы\nCREATE TABLE IF NOT EXISTS \"AtGateChannel\" (\n    channel_id BIGINT PRIMARY KEY,\n    channel_name TEXT NOT NULL,\n    is_blocked BOOLEAN DEFAULT FALSE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateChannel\" IS 'Каналы, для которых работает бот';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_id IS 'Уникальный Telegram ID канала';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_name IS 'Произвольное название канала';\nCOMMENT ON COLUMN \"AtGateChannel\".is_blocked IS 'Флаг блокировки канала (по умолчанию FALSE)';\nCOMMENT ON COLUMN \"AtGateChannel\".registered_at IS 'Дата и время добавления канала';\n\n-- 3. Таблица Администраторы\nCREATE TABLE IF NOT EXISTS \"AtGateAdmins\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    status JSONB DEFAULT '{}',\n    is_blocked BOOLEAN DEFAULT TRUE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateAdmins\" IS 'Администраторы с правами управления системой';\nCOMMENT ON COLUMN \"AtGateAdmins\".user_id IS 'Уникальный Telegram ID администратора';\nCOMMENT ON COLUMN \"AtGateAdmins\".username IS 'Юзернейм администратора в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateAdmins\".status IS 'Текущее состояние админа (JSONB-контекст для сценариев)';\nCOMMENT ON COLUMN \"AtGateAdmins\".is_blocked IS 'Флаг блокировки доступа к админ-панели (по умолчанию TRUE)';\nCOMMENT ON COLUMN \"AtGateAdmins\".registered_at IS 'Дата и время назначения/регистрации администратора';\n\n-- 4. Таблица Пользователи\nCREATE TABLE IF NOT EXISTS \"AtGateUser\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateUser\" IS 'Данные пользователей Telegram, запустивших бота';\nCOMMENT ON COLUMN \"AtGateUser\".user_id IS 'Уникальный Telegram ID пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".username IS 'Юзернейм пользователя в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateUser\".first_name IS 'Имя пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".last_name IS 'Фамилия пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".registered_at IS 'Дата и время первого входа в бота';\n\n-- 5. Таблица Цели\nCREATE TABLE IF NOT EXISTS \"AtGateTarget\" (\n    channel_id BIGINT REFERENCES \"AtGateChannel\"(channel_id) ON DELETE CASCADE,\n    type_target TEXT DEFAULT 'подписка на тг канал',\n    parameters JSONB DEFAULT '{}',\n    code_word TEXT NOT NULL,\n    target_code CHAR(5) PRIMARY KEY, \n    link_target TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateTarget\" IS 'Связка кодовых слов с подарками и стартовыми кодами бота';\nCOMMENT ON COLUMN \"AtGateTarget\".channel_id IS 'ID канала, к которому привязан подарок';\nCOMMENT ON COLUMN \"AtGateTarget\".type_target IS 'Тип выполняемой цели (например, подписка на тг канал)';\nCOMMENT ON COLUMN \"AtGateTarget\".parameters IS 'Дополнительные параметры цели в формате JSONB';\nCOMMENT ON COLUMN \"AtGateTarget\".code_word IS 'Слово-триггер из Инстаграм, которому соответствует этот код';\nCOMMENT ON COLUMN \"AtGateTarget\".target_code IS 'Уникальный 5-значный код для ссылки формата t.me/bot?start=XXXXX';\nCOMMENT ON COLUMN \"AtGateTarget\".link_target IS 'Ссылка на конкретный пост с подарком внутри канала';\nCOMMENT ON COLUMN \"AtGateTarget\".created_at IS 'Дата и время создания цели';\n\n-- 6. Таблица Взаимодействия\nCREATE TABLE IF NOT EXISTS \"AtGateInteraction\" (\n    id SERIAL PRIMARY KEY,\n    user_id BIGINT REFERENCES \"AtGateUser\"(user_id) ON DELETE CASCADE,\n    invite_link TEXT, \n    target_code CHAR(5) REFERENCES \"AtGateTarget\"(target_code) ON DELETE RESTRICT, \n    status TEXT,\n    reminder BOOLEAN DEFAULT FALSE,\n    extra JSONB DEFAULT '{}',\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateInteraction\" IS 'Лог сессий и этапов проверки подписок пользователей';\nCOMMENT ON COLUMN \"AtGateInteraction\".id IS 'Инкрементный ID записи взаимодействия';\nCOMMENT ON COLUMN \"AtGateInteraction\".user_id IS 'ID пользователя, совершившего действие';\nCOMMENT ON COLUMN \"AtGateInteraction\".invite_link IS 'Уникальная ссылка-приглашение в канал, выданная этому юзеру для проверки подписки';\nCOMMENT ON COLUMN \"AtGateInteraction\".target_code IS 'Код лид-магнита, по которому пользователь изначально пришел';\nCOMMENT ON COLUMN \"AtGateInteraction\".status IS 'Текущий статус (например: \"выдана ссылка\", \"подписался\", \"получил подарок\")';\nCOMMENT ON COLUMN \"AtGateInteraction\".reminder IS 'Флаг отправки напоминания/дожима пользователю';\nCOMMENT ON COLUMN \"AtGateInteraction\".extra IS 'Любые дополнительные метаданные взаимодействия для n8n';\nCOMMENT ON COLUMN \"AtGateInteraction\".created_at IS 'Дата и время создания записи (старта сессии)';\nCOMMENT ON COLUMN \"AtGateInteraction\".updated_at IS 'Дата и время последнего обновления записи (меняется триггером)';\n\n-- Создание триггера для автоматического обновления поля updated_at при каждом UPDATE\nCREATE TRIGGER update_interaction_modtime\n    BEFORE UPDATE ON \"AtGateInteraction\"\n    FOR EACH ROW\n    EXECUTE FUNCTION update_updated_at_column();\n\n-- 7. Индексы для оптимизации поиска и n8n-воркфлоу\nCREATE INDEX IF NOT EXISTS idx_interaction_user ON \"AtGateInteraction\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_interaction_extra ON \"AtGateInteraction\" USING gin (extra);\n\n-- Уникальный частичный индекс: обеспечивает жесткую уникальность ссылок, при этом игнорирует пустые (NULL) значения\nCREATE UNIQUE INDEX IF NOT EXISTS idx_interaction_invite_link_unique \nON \"AtGateInteraction\"(invite_link) \nWHERE invite_link IS NOT NULL;\n",
+          "query": "-- 1. Настройка схемы и часового пояса\nCREATE SCHEMA IF NOT EXISTS atgate;\nSET search_path TO atgate;\n\n-- Гарантирует, что БД будет отдавать и принимать время в вашем поясе (+3)\nSET timezone TO 'Europe/Minsk'; \n\n-- Функция для автоматического обновления поля updated_at (нужна для триггера)\nCREATE OR REPLACE FUNCTION update_updated_at_column()\nRETURNS TRIGGER AS $$\nBEGIN\n    NEW.updated_at = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND;\n$$ language 'plpgsql';\n\n-- 2. Таблица Каналы\nCREATE TABLE IF NOT EXISTS \"AtGateChannel\" (\n    channel_id BIGINT PRIMARY KEY,\n    channel_name TEXT NOT NULL,\n    is_blocked BOOLEAN DEFAULT FALSE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateChannel\" IS 'Каналы, для которых работает бот';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_id IS 'Уникальный Telegram ID канала';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_name IS 'Произвольное название канала';\nCOMMENT ON COLUMN \"AtGateChannel\".is_blocked IS 'Флаг блокировки канала (по умолчанию FALSE)';\nCOMMENT ON COLUMN \"AtGateChannel\".registered_at IS 'Дата и время добавления канала';\n\n-- 3. Таблица Администраторы\nCREATE TABLE IF NOT EXISTS \"AtGateAdmins\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    status JSONB DEFAULT '{}',\n    is_blocked BOOLEAN DEFAULT TRUE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateAdmins\" IS 'Администраторы с правами управления системой';\nCOMMENT ON COLUMN \"AtGateAdmins\".user_id IS 'Уникальный Telegram ID администратора';\nCOMMENT ON COLUMN \"AtGateAdmins\".username IS 'Юзернейм администратора в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateAdmins\".status IS 'Текущее состояние админа (JSONB-контекст для сценариев)';\nCOMMENT ON COLUMN \"AtGateAdmins\".is_blocked IS 'Флаг блокировки доступа к админ-панели (по умолчанию TRUE)';\nCOMMENT ON COLUMN \"AtGateAdmins\".registered_at IS 'Дата и время назначения/регистрации администратора';\n\n-- 4. Таблица Пользователи\nCREATE TABLE IF NOT EXISTS \"AtGateUser\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateUser\" IS 'Данные пользователей Telegram, запустивших бота';\nCOMMENT ON COLUMN \"AtGateUser\".user_id IS 'Уникальный Telegram ID пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".username IS 'Юзернейм пользователя в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateUser\".first_name IS 'Имя пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".last_name IS 'Фамилия пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".registered_at IS 'Дата и время первого входа в бота';\n\n-- 5. Таблица Цели\nCREATE TABLE IF NOT EXISTS \"AtGateTarget\" (\n    channel_id BIGINT REFERENCES \"AtGateChannel\"(channel_id) ON DELETE CASCADE,\n    type_target TEXT DEFAULT 'подписка на тг канал',\n    parameters JSONB DEFAULT '{}',\n    code_word TEXT NOT NULL,\n    target_code CHAR(5) PRIMARY KEY, \n    link_target TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateTarget\" IS 'Связка кодовых слов с подарками и стартовыми кодами бота';\nCOMMENT ON COLUMN \"AtGateTarget\".channel_id IS 'ID канала, к которому привязан подарок';\nCOMMENT ON COLUMN \"AtGateTarget\".type_target IS 'Тип выполняемой цели (например, подписка на тг канал)';\nCOMMENT ON COLUMN \"AtGateTarget\".parameters IS 'Дополнительные параметры цели в формате JSONB';\nCOMMENT ON COLUMN \"AtGateTarget\".code_word IS 'Слово-триггер из Инстаграм, которому соответствует этот код';\nCOMMENT ON COLUMN \"AtGateTarget\".target_code IS 'Уникальный 5-значный код для ссылки формата t.me/bot?start=XXXXX';\nCOMMENT ON COLUMN \"AtGateTarget\".link_target IS 'Ссылка на конкретный пост с подарком внутри канала';\nCOMMENT ON COLUMN \"AtGateTarget\".created_at IS 'Дата и время создания цели';\n\n-- 6. Таблица Взаимодействия\nCREATE TABLE IF NOT EXISTS \"AtGateInteraction\" (\n    id SERIAL PRIMARY KEY,\n    user_id BIGINT REFERENCES \"AtGateUser\"(user_id) ON DELETE CASCADE,\n    invite_link TEXT, \n    target_code CHAR(5) REFERENCES \"AtGateTarget\"(target_code) ON DELETE RESTRICT, \n    status TEXT,\n    reminder BOOLEAN DEFAULT FALSE,\n    extra JSONB DEFAULT '{}',\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateInteraction\" IS 'Лог сессий и этапов проверки подписок пользователей';\nCOMMENT ON COLUMN \"AtGateInteraction\".id IS 'Инкрементный ID записи взаимодействия';\nCOMMENT ON COLUMN \"AtGateInteraction\".user_id IS 'ID пользователя, совершившего действие';\nCOMMENT ON COLUMN \"AtGateInteraction\".invite_link IS 'Уникальная ссылка-приглашение в канал, выданная этому юзеру для проверки подписки';\nCOMMENT ON COLUMN \"AtGateInteraction\".target_code IS 'Код лид-магнита, по которому пользователь изначально пришел';\nCOMMENT ON COLUMN \"AtGateInteraction\".status IS 'Текущий статус (например: \"выдана ссылка\", \"подписался\", \"получил подарок\")';\nCOMMENT ON COLUMN \"AtGateInteraction\".reminder IS 'Флаг отправки напоминания/дожима пользователю';\nCOMMENT ON COLUMN \"AtGateInteraction\".extra IS 'Любые дополнительные метаданные взаимодействия для n8n';\nCOMMENT ON COLUMN \"AtGateInteraction\".created_at IS 'Дата и время создания записи (старта сессии)';\nCOMMENT ON COLUMN \"AtGateInteraction\".updated_at IS 'Дата и время последнего обновления записи (меняется триггером)';\n\n-- Создание триггера для автоматического обновления поля updated_at при каждом UPDATE\nDROP TRIGGER IF EXISTS update_interaction_modtime ON \"AtGateInteraction\";\nCREATE TRIGGER update_interaction_modtime\n    BEFORE UPDATE ON \"AtGateInteraction\"\n    FOR EACH ROW\n    EXECUTE FUNCTION update_updated_at_column();\n\n-- 7. Индексы для оптимизации поиска и n8n-воркфлоу\nCREATE INDEX IF NOT EXISTS idx_interaction_user ON \"AtGateInteraction\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_interaction_extra ON \"AtGateInteraction\" USING gin (extra);\n\n-- Уникальный частичный индекс: обеспечивает жесткую уникальность ссылок, при этом игнорирует пустые (NULL) значения\nCREATE UNIQUE INDEX IF NOT EXISTS idx_interaction_invite_link_unique \nON \"AtGateInteraction\"(invite_link) \nWHERE invite_link IS NOT NULL;\n\n\n-- 8. Таблица Логов взаимодействий\nCREATE TABLE IF NOT EXISTS \"AtGateInteractionLog\" (\n    log_id BIGSERIAL PRIMARY KEY,\n    interaction_id INTEGER NOT NULL REFERENCES \"AtGateInteraction\"(id) ON DELETE CASCADE,\n    action_text TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateInteractionLog\" IS 'Хронология действий по взаимодействиям клиентов за подарками';\nCOMMENT ON COLUMN \"AtGateInteractionLog\".interaction_id IS 'ID взаимодействия из таблицы AtGateInteraction';\nCOMMENT ON COLUMN \"AtGateInteractionLog\".action_text IS 'Текст действия: \"выдана ссылка\", \"проверка подписки: успех\", \"отправлен подарок\" и т.п.';\nCOMMENT ON COLUMN \"AtGateInteractionLog\".created_at IS 'Дата и время совершения действия';\n\n-- Индексы для быстрых выборок по конкретному взаимодействию и по времени\nCREATE INDEX IF NOT EXISTS idx_log_interaction ON \"AtGateInteractionLog\"(interaction_id);\nCREATE INDEX IF NOT EXISTS idx_log_created ON \"AtGateInteractionLog\"(created_at DESC);",
           "options": {}
         },
         "type": "n8n-nodes-base.postgres",
@@ -3096,7 +3096,7 @@
         "parameters": {
           "content": "# Пришел за подарком",
           "height": 800,
-          "width": 2512
+          "width": 2672
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
@@ -3214,9 +3214,9 @@
       },
       {
         "parameters": {
-          "content": "# Выдача подарка после подписка",
+          "content": "# Выдача подарка после подписки",
           "height": 336,
-          "width": 1232
+          "width": 1344
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
@@ -3480,7 +3480,7 @@
       {
         "parameters": {
           "operation": "executeQuery",
-          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
+          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    i.reminder AS \"Напомининия\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
           "options": {}
         },
         "type": "n8n-nodes-base.postgres",
@@ -3852,6 +3852,146 @@
           "telegramApi": {
             "id": "65F3OXZ2S5RJpd8j",
             "name": "Превратник"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "atgate",
+            "mode": "list",
+            "cachedResultName": "atgate"
+          },
+          "table": {
+            "__rl": true,
+            "value": "AtGateInteractionLog",
+            "mode": "list",
+            "cachedResultName": "AtGateInteractionLog"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "interaction_id": "={{ $('Добавление взаимодействия').first().json.id }}",
+              "action_text": "=Вход пользователя - {{ $('Добавление взаимодействия').first().json.status }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "interaction_id",
+                "displayName": "interaction_id",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "action_text",
+                "displayName": "action_text",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          4848,
+          -448
+        ],
+        "id": "d1bbf4e0-d7c4-4a58-96c8-8cfdeb085110",
+        "name": "Лог взаимодействия",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "atgate",
+            "mode": "list",
+            "cachedResultName": "atgate"
+          },
+          "table": {
+            "__rl": true,
+            "value": "AtGateInteractionLog",
+            "mode": "list",
+            "cachedResultName": "AtGateInteractionLog"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "interaction_id": "={{ $('Обновление взаимодействия').first().json.id }}",
+              "action_text": "={{ $('Обновление взаимодействия').first().json.status }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "interaction_id",
+                "displayName": "interaction_id",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "action_text",
+                "displayName": "action_text",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1744,
+          2480
+        ],
+        "id": "19dc50b6-aaa3-4bd7-917c-707130d898c3",
+        "name": "Лог взаимодействия1",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
           }
         }
       }
@@ -4770,14 +4910,47 @@
             }
           ]
         ]
+      },
+      "Подпишись!": {
+        "main": [
+          [
+            {
+              "node": "Лог взаимодействия",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Выдача подарка1": {
+        "main": [
+          [
+            {
+              "node": "Лог взаимодействия",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Выдача подарка": {
+        "main": [
+          [
+            {
+              "node": "Лог взаимодействия1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version b2bfb92f",
+    "name": "Version ce4adefd",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "b2bfb92f-7e61-4ab0-8b81-ddd254392e80",
+  "activeVersionId": "ce4adefd-71eb-4e3f-a2df-5bd5a7252588",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -5692,6 +5865,39 @@
           }
         ]
       ]
+    },
+    "Подпишись!": {
+      "main": [
+        [
+          {
+            "node": "Лог взаимодействия",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Выдача подарка1": {
+      "main": [
+        [
+          {
+            "node": "Лог взаимодействия",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Выдача подарка": {
+      "main": [
+        [
+          {
+            "node": "Лог взаимодействия1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2026-05-05T10:18:50.424Z",
@@ -6107,7 +6313,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "-- 1. Настройка схемы и часового пояса\nCREATE SCHEMA IF NOT EXISTS atgate;\nSET search_path TO atgate;\n\n-- Гарантирует, что БД будет отдавать и принимать время в вашем поясе (+3)\nSET timezone TO 'Europe/Minsk'; \n\n-- Функция для автоматического обновления поля updated_at (нужна для триггера)\nCREATE OR REPLACE FUNCTION update_updated_at_column()\nRETURNS TRIGGER AS $$\nBEGIN\n    NEW.updated_at = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND;\n$$ language 'plpgsql';\n\n-- 2. Таблица Каналы\nCREATE TABLE IF NOT EXISTS \"AtGateChannel\" (\n    channel_id BIGINT PRIMARY KEY,\n    channel_name TEXT NOT NULL,\n    is_blocked BOOLEAN DEFAULT FALSE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateChannel\" IS 'Каналы, для которых работает бот';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_id IS 'Уникальный Telegram ID канала';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_name IS 'Произвольное название канала';\nCOMMENT ON COLUMN \"AtGateChannel\".is_blocked IS 'Флаг блокировки канала (по умолчанию FALSE)';\nCOMMENT ON COLUMN \"AtGateChannel\".registered_at IS 'Дата и время добавления канала';\n\n-- 3. Таблица Администраторы\nCREATE TABLE IF NOT EXISTS \"AtGateAdmins\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    status JSONB DEFAULT '{}',\n    is_blocked BOOLEAN DEFAULT TRUE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateAdmins\" IS 'Администраторы с правами управления системой';\nCOMMENT ON COLUMN \"AtGateAdmins\".user_id IS 'Уникальный Telegram ID администратора';\nCOMMENT ON COLUMN \"AtGateAdmins\".username IS 'Юзернейм администратора в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateAdmins\".status IS 'Текущее состояние админа (JSONB-контекст для сценариев)';\nCOMMENT ON COLUMN \"AtGateAdmins\".is_blocked IS 'Флаг блокировки доступа к админ-панели (по умолчанию TRUE)';\nCOMMENT ON COLUMN \"AtGateAdmins\".registered_at IS 'Дата и время назначения/регистрации администратора';\n\n-- 4. Таблица Пользователи\nCREATE TABLE IF NOT EXISTS \"AtGateUser\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateUser\" IS 'Данные пользователей Telegram, запустивших бота';\nCOMMENT ON COLUMN \"AtGateUser\".user_id IS 'Уникальный Telegram ID пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".username IS 'Юзернейм пользователя в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateUser\".first_name IS 'Имя пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".last_name IS 'Фамилия пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".registered_at IS 'Дата и время первого входа в бота';\n\n-- 5. Таблица Цели\nCREATE TABLE IF NOT EXISTS \"AtGateTarget\" (\n    channel_id BIGINT REFERENCES \"AtGateChannel\"(channel_id) ON DELETE CASCADE,\n    type_target TEXT DEFAULT 'подписка на тг канал',\n    parameters JSONB DEFAULT '{}',\n    code_word TEXT NOT NULL,\n    target_code CHAR(5) PRIMARY KEY, \n    link_target TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateTarget\" IS 'Связка кодовых слов с подарками и стартовыми кодами бота';\nCOMMENT ON COLUMN \"AtGateTarget\".channel_id IS 'ID канала, к которому привязан подарок';\nCOMMENT ON COLUMN \"AtGateTarget\".type_target IS 'Тип выполняемой цели (например, подписка на тг канал)';\nCOMMENT ON COLUMN \"AtGateTarget\".parameters IS 'Дополнительные параметры цели в формате JSONB';\nCOMMENT ON COLUMN \"AtGateTarget\".code_word IS 'Слово-триггер из Инстаграм, которому соответствует этот код';\nCOMMENT ON COLUMN \"AtGateTarget\".target_code IS 'Уникальный 5-значный код для ссылки формата t.me/bot?start=XXXXX';\nCOMMENT ON COLUMN \"AtGateTarget\".link_target IS 'Ссылка на конкретный пост с подарком внутри канала';\nCOMMENT ON COLUMN \"AtGateTarget\".created_at IS 'Дата и время создания цели';\n\n-- 6. Таблица Взаимодействия\nCREATE TABLE IF NOT EXISTS \"AtGateInteraction\" (\n    id SERIAL PRIMARY KEY,\n    user_id BIGINT REFERENCES \"AtGateUser\"(user_id) ON DELETE CASCADE,\n    invite_link TEXT, \n    target_code CHAR(5) REFERENCES \"AtGateTarget\"(target_code) ON DELETE RESTRICT, \n    status TEXT,\n    reminder BOOLEAN DEFAULT FALSE,\n    extra JSONB DEFAULT '{}',\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateInteraction\" IS 'Лог сессий и этапов проверки подписок пользователей';\nCOMMENT ON COLUMN \"AtGateInteraction\".id IS 'Инкрементный ID записи взаимодействия';\nCOMMENT ON COLUMN \"AtGateInteraction\".user_id IS 'ID пользователя, совершившего действие';\nCOMMENT ON COLUMN \"AtGateInteraction\".invite_link IS 'Уникальная ссылка-приглашение в канал, выданная этому юзеру для проверки подписки';\nCOMMENT ON COLUMN \"AtGateInteraction\".target_code IS 'Код лид-магнита, по которому пользователь изначально пришел';\nCOMMENT ON COLUMN \"AtGateInteraction\".status IS 'Текущий статус (например: \"выдана ссылка\", \"подписался\", \"получил подарок\")';\nCOMMENT ON COLUMN \"AtGateInteraction\".reminder IS 'Флаг отправки напоминания/дожима пользователю';\nCOMMENT ON COLUMN \"AtGateInteraction\".extra IS 'Любые дополнительные метаданные взаимодействия для n8n';\nCOMMENT ON COLUMN \"AtGateInteraction\".created_at IS 'Дата и время создания записи (старта сессии)';\nCOMMENT ON COLUMN \"AtGateInteraction\".updated_at IS 'Дата и время последнего обновления записи (меняется триггером)';\n\n-- Создание триггера для автоматического обновления поля updated_at при каждом UPDATE\nCREATE TRIGGER update_interaction_modtime\n    BEFORE UPDATE ON \"AtGateInteraction\"\n    FOR EACH ROW\n    EXECUTE FUNCTION update_updated_at_column();\n\n-- 7. Индексы для оптимизации поиска и n8n-воркфлоу\nCREATE INDEX IF NOT EXISTS idx_interaction_user ON \"AtGateInteraction\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_interaction_extra ON \"AtGateInteraction\" USING gin (extra);\n\n-- Уникальный частичный индекс: обеспечивает жесткую уникальность ссылок, при этом игнорирует пустые (NULL) значения\nCREATE UNIQUE INDEX IF NOT EXISTS idx_interaction_invite_link_unique \nON \"AtGateInteraction\"(invite_link) \nWHERE invite_link IS NOT NULL;\n",
+        "query": "-- 1. Настройка схемы и часового пояса\nCREATE SCHEMA IF NOT EXISTS atgate;\nSET search_path TO atgate;\n\n-- Гарантирует, что БД будет отдавать и принимать время в вашем поясе (+3)\nSET timezone TO 'Europe/Minsk'; \n\n-- Функция для автоматического обновления поля updated_at (нужна для триггера)\nCREATE OR REPLACE FUNCTION update_updated_at_column()\nRETURNS TRIGGER AS $$\nBEGIN\n    NEW.updated_at = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND;\n$$ language 'plpgsql';\n\n-- 2. Таблица Каналы\nCREATE TABLE IF NOT EXISTS \"AtGateChannel\" (\n    channel_id BIGINT PRIMARY KEY,\n    channel_name TEXT NOT NULL,\n    is_blocked BOOLEAN DEFAULT FALSE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateChannel\" IS 'Каналы, для которых работает бот';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_id IS 'Уникальный Telegram ID канала';\nCOMMENT ON COLUMN \"AtGateChannel\".channel_name IS 'Произвольное название канала';\nCOMMENT ON COLUMN \"AtGateChannel\".is_blocked IS 'Флаг блокировки канала (по умолчанию FALSE)';\nCOMMENT ON COLUMN \"AtGateChannel\".registered_at IS 'Дата и время добавления канала';\n\n-- 3. Таблица Администраторы\nCREATE TABLE IF NOT EXISTS \"AtGateAdmins\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    status JSONB DEFAULT '{}',\n    is_blocked BOOLEAN DEFAULT TRUE,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateAdmins\" IS 'Администраторы с правами управления системой';\nCOMMENT ON COLUMN \"AtGateAdmins\".user_id IS 'Уникальный Telegram ID администратора';\nCOMMENT ON COLUMN \"AtGateAdmins\".username IS 'Юзернейм администратора в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateAdmins\".status IS 'Текущее состояние админа (JSONB-контекст для сценариев)';\nCOMMENT ON COLUMN \"AtGateAdmins\".is_blocked IS 'Флаг блокировки доступа к админ-панели (по умолчанию TRUE)';\nCOMMENT ON COLUMN \"AtGateAdmins\".registered_at IS 'Дата и время назначения/регистрации администратора';\n\n-- 4. Таблица Пользователи\nCREATE TABLE IF NOT EXISTS \"AtGateUser\" (\n    user_id BIGINT PRIMARY KEY,\n    username TEXT,\n    first_name TEXT,\n    last_name TEXT,\n    registered_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateUser\" IS 'Данные пользователей Telegram, запустивших бота';\nCOMMENT ON COLUMN \"AtGateUser\".user_id IS 'Уникальный Telegram ID пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".username IS 'Юзернейм пользователя в Telegram (без @)';\nCOMMENT ON COLUMN \"AtGateUser\".first_name IS 'Имя пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".last_name IS 'Фамилия пользователя';\nCOMMENT ON COLUMN \"AtGateUser\".registered_at IS 'Дата и время первого входа в бота';\n\n-- 5. Таблица Цели\nCREATE TABLE IF NOT EXISTS \"AtGateTarget\" (\n    channel_id BIGINT REFERENCES \"AtGateChannel\"(channel_id) ON DELETE CASCADE,\n    type_target TEXT DEFAULT 'подписка на тг канал',\n    parameters JSONB DEFAULT '{}',\n    code_word TEXT NOT NULL,\n    target_code CHAR(5) PRIMARY KEY, \n    link_target TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateTarget\" IS 'Связка кодовых слов с подарками и стартовыми кодами бота';\nCOMMENT ON COLUMN \"AtGateTarget\".channel_id IS 'ID канала, к которому привязан подарок';\nCOMMENT ON COLUMN \"AtGateTarget\".type_target IS 'Тип выполняемой цели (например, подписка на тг канал)';\nCOMMENT ON COLUMN \"AtGateTarget\".parameters IS 'Дополнительные параметры цели в формате JSONB';\nCOMMENT ON COLUMN \"AtGateTarget\".code_word IS 'Слово-триггер из Инстаграм, которому соответствует этот код';\nCOMMENT ON COLUMN \"AtGateTarget\".target_code IS 'Уникальный 5-значный код для ссылки формата t.me/bot?start=XXXXX';\nCOMMENT ON COLUMN \"AtGateTarget\".link_target IS 'Ссылка на конкретный пост с подарком внутри канала';\nCOMMENT ON COLUMN \"AtGateTarget\".created_at IS 'Дата и время создания цели';\n\n-- 6. Таблица Взаимодействия\nCREATE TABLE IF NOT EXISTS \"AtGateInteraction\" (\n    id SERIAL PRIMARY KEY,\n    user_id BIGINT REFERENCES \"AtGateUser\"(user_id) ON DELETE CASCADE,\n    invite_link TEXT, \n    target_code CHAR(5) REFERENCES \"AtGateTarget\"(target_code) ON DELETE RESTRICT, \n    status TEXT,\n    reminder BOOLEAN DEFAULT FALSE,\n    extra JSONB DEFAULT '{}',\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateInteraction\" IS 'Лог сессий и этапов проверки подписок пользователей';\nCOMMENT ON COLUMN \"AtGateInteraction\".id IS 'Инкрементный ID записи взаимодействия';\nCOMMENT ON COLUMN \"AtGateInteraction\".user_id IS 'ID пользователя, совершившего действие';\nCOMMENT ON COLUMN \"AtGateInteraction\".invite_link IS 'Уникальная ссылка-приглашение в канал, выданная этому юзеру для проверки подписки';\nCOMMENT ON COLUMN \"AtGateInteraction\".target_code IS 'Код лид-магнита, по которому пользователь изначально пришел';\nCOMMENT ON COLUMN \"AtGateInteraction\".status IS 'Текущий статус (например: \"выдана ссылка\", \"подписался\", \"получил подарок\")';\nCOMMENT ON COLUMN \"AtGateInteraction\".reminder IS 'Флаг отправки напоминания/дожима пользователю';\nCOMMENT ON COLUMN \"AtGateInteraction\".extra IS 'Любые дополнительные метаданные взаимодействия для n8n';\nCOMMENT ON COLUMN \"AtGateInteraction\".created_at IS 'Дата и время создания записи (старта сессии)';\nCOMMENT ON COLUMN \"AtGateInteraction\".updated_at IS 'Дата и время последнего обновления записи (меняется триггером)';\n\n-- Создание триггера для автоматического обновления поля updated_at при каждом UPDATE\nDROP TRIGGER IF EXISTS update_interaction_modtime ON \"AtGateInteraction\";\nCREATE TRIGGER update_interaction_modtime\n    BEFORE UPDATE ON \"AtGateInteraction\"\n    FOR EACH ROW\n    EXECUTE FUNCTION update_updated_at_column();\n\n-- 7. Индексы для оптимизации поиска и n8n-воркфлоу\nCREATE INDEX IF NOT EXISTS idx_interaction_user ON \"AtGateInteraction\"(user_id);\nCREATE INDEX IF NOT EXISTS idx_interaction_extra ON \"AtGateInteraction\" USING gin (extra);\n\n-- Уникальный частичный индекс: обеспечивает жесткую уникальность ссылок, при этом игнорирует пустые (NULL) значения\nCREATE UNIQUE INDEX IF NOT EXISTS idx_interaction_invite_link_unique \nON \"AtGateInteraction\"(invite_link) \nWHERE invite_link IS NOT NULL;\n\n\n-- 8. Таблица Логов взаимодействий\nCREATE TABLE IF NOT EXISTS \"AtGateInteractionLog\" (\n    log_id BIGSERIAL PRIMARY KEY,\n    interaction_id INTEGER NOT NULL REFERENCES \"AtGateInteraction\"(id) ON DELETE CASCADE,\n    action_text TEXT NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n\nCOMMENT ON TABLE \"AtGateInteractionLog\" IS 'Хронология действий по взаимодействиям клиентов за подарками';\nCOMMENT ON COLUMN \"AtGateInteractionLog\".interaction_id IS 'ID взаимодействия из таблицы AtGateInteraction';\nCOMMENT ON COLUMN \"AtGateInteractionLog\".action_text IS 'Текст действия: \"выдана ссылка\", \"проверка подписки: успех\", \"отправлен подарок\" и т.п.';\nCOMMENT ON COLUMN \"AtGateInteractionLog\".created_at IS 'Дата и время совершения действия';\n\n-- Индексы для быстрых выборок по конкретному взаимодействию и по времени\nCREATE INDEX IF NOT EXISTS idx_log_interaction ON \"AtGateInteractionLog\"(interaction_id);\nCREATE INDEX IF NOT EXISTS idx_log_created ON \"AtGateInteractionLog\"(created_at DESC);",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -8792,7 +8998,7 @@
       "parameters": {
         "content": "# Пришел за подарком",
         "height": 800,
-        "width": 2512
+        "width": 2672
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -8910,9 +9116,9 @@
     },
     {
       "parameters": {
-        "content": "# Выдача подарка после подписка",
+        "content": "# Выдача подарка после подписки",
         "height": 336,
-        "width": 1232
+        "width": 1344
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -9176,7 +9382,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
+        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    i.reminder AS \"Напомининия\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -9550,6 +9756,146 @@
           "name": "Превратник"
         }
       }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateInteractionLog",
+          "mode": "list",
+          "cachedResultName": "AtGateInteractionLog"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "interaction_id": "={{ $('Добавление взаимодействия').first().json.id }}",
+            "action_text": "=Вход пользователя - {{ $('Добавление взаимодействия').first().json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "interaction_id",
+              "displayName": "interaction_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_text",
+              "displayName": "action_text",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4848,
+        -448
+      ],
+      "id": "d1bbf4e0-d7c4-4a58-96c8-8cfdeb085110",
+      "name": "Лог взаимодействия",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateInteractionLog",
+          "mode": "list",
+          "cachedResultName": "AtGateInteractionLog"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "interaction_id": "={{ $('Обновление взаимодействия').first().json.id }}",
+            "action_text": "={{ $('Обновление взаимодействия').first().json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "interaction_id",
+              "displayName": "interaction_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_text",
+              "displayName": "action_text",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1744,
+        2480
+      ],
+      "id": "19dc50b6-aaa3-4bd7-917c-707130d898c3",
+      "name": "Лог взаимодействия1",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -9576,6 +9922,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-06-02T21:07:32.660Z",
-  "versionId": "b2bfb92f-7e61-4ab0-8b81-ddd254392e80"
+  "updatedAt": "2026-06-03T21:32:01.303Z",
+  "versionId": "ce4adefd-71eb-4e3f-a2df-5bd5a7252588"
 }
