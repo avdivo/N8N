@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-01T22:12:52.288Z",
-    "createdAt": "2026-06-01T22:12:48.781Z",
-    "versionId": "8da994b5-654d-4c37-9166-f9ead5326578",
+    "updatedAt": "2026-06-03T22:45:53.399Z",
+    "createdAt": "2026-06-03T22:45:10.330Z",
+    "versionId": "6732c789-f4fe-4c9a-8769-9a85be9f31e5",
     "workflowId": "yNyHms9EMrpA7prWu_zaQ",
     "nodes": [
       {
@@ -233,27 +233,6 @@
       },
       {
         "parameters": {
-          "operation": "executeQuery",
-          "query": "UPDATE \"atgate\".\"AtGateInteraction\"\nSET \n    reminder = {{ $json.reminder }},\n    extra = jsonb_set(\n        COALESCE(extra, '{}'::jsonb), \n        '{напоминание}', \n        '{{ JSON.stringify($json.reminder_parameters) }}'::jsonb, \n        true\n    ),\n    updated_at = CURRENT_TIMESTAMP\nWHERE id = {{ $json.id }};\n",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.postgres",
-        "typeVersion": 2.6,
-        "position": [
-          2352,
-          240
-        ],
-        "id": "732f20cf-24c9-4b5b-b812-55fabd7fde56",
-        "name": "Execute a SQL query",
-        "credentials": {
-          "postgres": {
-            "id": "xe5rl8ApMEn9rCCd",
-            "name": "Postgres account"
-          }
-        }
-      },
-      {
-        "parameters": {
           "options": {}
         },
         "type": "n8n-nodes-base.splitInBatches",
@@ -277,6 +256,180 @@
         ],
         "id": "d1ce147d-bc75-4871-903a-6de59366493a",
         "name": "Возвращаем входные данные"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "atgate",
+            "mode": "list",
+            "cachedResultName": "atgate"
+          },
+          "table": {
+            "__rl": true,
+            "value": "AtGateInteractionLog",
+            "mode": "list",
+            "cachedResultName": "AtGateInteractionLog"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "interaction_id": "={{ $json.id }}",
+              "action_text": "={{ $('Обновление взаимодействия').first().json.status }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "interaction_id",
+                "displayName": "interaction_id",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "action_text",
+                "displayName": "action_text",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2544,
+          240
+        ],
+        "id": "6603665f-a44d-488b-bebf-134e8c9f88f8",
+        "name": "Лог взаимодействия",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "UPDATE \"atgate\".\"AtGateInteraction\"\nSET \n    reminder = {{ $json.reminder }},\n    extra = jsonb_set(\n        COALESCE(extra, '{}'::jsonb), \n        '{напоминание}', \n        '{{ JSON.stringify($json.reminder_parameters) }}'::jsonb, \n        true\n    ),\n    updated_at = CURRENT_TIMESTAMP\nWHERE id = {{ $json.id }};\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2352,
+          240
+        ],
+        "id": "732f20cf-24c9-4b5b-b812-55fabd7fde56",
+        "name": "Обновление параметров дожима",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Получаем данные из всех предыдущих нод\nconst items = $input.all();\n\n// Функция обработки одного объекта\nfunction processItem(item) {\n  const id = item.json.id;\n  const reminder = item.json.reminder;\n  const message = item.json.message;\n  const reminderParams = item.json.reminder_parameters || {};\n  const hasError = reminderParams.error ? true : false;\n  \n  let result = '';\n  \n  // Проверяем наличие текста и error\n  if (!message && reminder === false) {\n    result = 'Дожим остановлен';\n  } else if (message) {\n    // Выбираем префикс в зависимости от наличия ошибки\n    const prefix = hasError ? 'Попытка отправки' : 'Отправлено';\n    result = `${prefix}: ${message}`;\n    \n    // Добавляем строку о дожиме если reminder = false\n    if (reminder === false) {\n      result += '\\nДожим остановлен';\n    }\n    \n    // Если есть ошибка, добавляем информацию об ошибке\n    if (hasError && reminderParams.error) {\n      const errorText = reminderParams.error;\n      let errorMessage = '';\n      \n      if (errorText.includes('Forbidden')) {\n        if (errorText.includes('blocked')) {\n          errorMessage = 'Пользователь заблокировал бота';\n        } else {\n          errorMessage = 'Пользователь вышел из бота';\n        }\n      } else {\n        errorMessage = 'Ошибка отправки сообщения';\n      }\n      \n      result += `\\n${errorMessage}`;\n    }\n  } else if (!message && reminder === true) {\n    // Нет текста, но reminder = true - такого быть не должно, но на всякий случай\n    result = 'Нет текста для отправки';\n  } else {\n    result = 'Дожим остановлен';\n  }\n  \n  return {\n    id: id,\n    text: result\n  };\n}\n\n// Обрабатываем все входящие объекты из всех нод\nconst results = [];\nfor (const item of items) {\n  results.push(processItem(item));\n}\n\nreturn results;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2352,
+          64
+        ],
+        "id": "f8b3e674-8fde-4c21-82e8-df732a24894f",
+        "name": "Подготовка записи в лог"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "atgate",
+            "mode": "list",
+            "cachedResultName": "atgate"
+          },
+          "table": {
+            "__rl": true,
+            "value": "AtGateInteractionLog",
+            "mode": "list",
+            "cachedResultName": "AtGateInteractionLog"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "interaction_id": "={{ $json.id }}",
+              "action_text": "={{ $('Обновление взаимодействия').first().json.status }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "interaction_id",
+                "displayName": "interaction_id",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "action_text",
+                "displayName": "action_text",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2544,
+          64
+        ],
+        "id": "a0ebea71-eac9-453b-963c-79ddbeb0e033",
+        "name": "Лог взаимодействия1",
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
       }
     ],
     "connections": {
@@ -346,7 +499,12 @@
           ],
           [
             {
-              "node": "Execute a SQL query",
+              "node": "Обновление параметров дожима",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Подготовка записи в лог",
               "type": "main",
               "index": 0
             }
@@ -386,7 +544,12 @@
         "main": [
           [
             {
-              "node": "Execute a SQL query",
+              "node": "Обновление параметров дожима",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Подготовка записи в лог",
               "type": "main",
               "index": 0
             }
@@ -410,14 +573,25 @@
             }
           ]
         ]
+      },
+      "Обновление параметров дожима": {
+        "main": [
+          [
+            {
+              "node": "Лог взаимодействия",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version 8da994b5",
+    "name": "Version 6732c789",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "8da994b5-654d-4c37-9166-f9ead5326578",
+  "activeVersionId": "6732c789-f4fe-4c9a-8769-9a85be9f31e5",
   "connections": {
     "Schedule Trigger": {
       "main": [
@@ -485,7 +659,12 @@
         ],
         [
           {
-            "node": "Execute a SQL query",
+            "node": "Обновление параметров дожима",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Подготовка записи в лог",
             "type": "main",
             "index": 0
           }
@@ -525,7 +704,12 @@
       "main": [
         [
           {
-            "node": "Execute a SQL query",
+            "node": "Обновление параметров дожима",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Подготовка записи в лог",
             "type": "main",
             "index": 0
           }
@@ -544,6 +728,17 @@
         [
           {
             "node": "Цикл отправления сообщений",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Обновление параметров дожима": {
+      "main": [
+        [
+          {
+            "node": "Лог взаимодействия",
             "type": "main",
             "index": 0
           }
@@ -786,27 +981,6 @@
     },
     {
       "parameters": {
-        "operation": "executeQuery",
-        "query": "UPDATE \"atgate\".\"AtGateInteraction\"\nSET \n    reminder = {{ $json.reminder }},\n    extra = jsonb_set(\n        COALESCE(extra, '{}'::jsonb), \n        '{напоминание}', \n        '{{ JSON.stringify($json.reminder_parameters) }}'::jsonb, \n        true\n    ),\n    updated_at = CURRENT_TIMESTAMP\nWHERE id = {{ $json.id }};\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.6,
-      "position": [
-        2352,
-        240
-      ],
-      "id": "732f20cf-24c9-4b5b-b812-55fabd7fde56",
-      "name": "Execute a SQL query",
-      "credentials": {
-        "postgres": {
-          "id": "xe5rl8ApMEn9rCCd",
-          "name": "Postgres account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "options": {}
       },
       "type": "n8n-nodes-base.splitInBatches",
@@ -830,6 +1004,180 @@
       ],
       "id": "d1ce147d-bc75-4871-903a-6de59366493a",
       "name": "Возвращаем входные данные"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateInteractionLog",
+          "mode": "list",
+          "cachedResultName": "AtGateInteractionLog"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "interaction_id": "={{ $json.id }}",
+            "action_text": "={{ $('Обновление взаимодействия').first().json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "interaction_id",
+              "displayName": "interaction_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_text",
+              "displayName": "action_text",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2544,
+        240
+      ],
+      "id": "6603665f-a44d-488b-bebf-134e8c9f88f8",
+      "name": "Лог взаимодействия",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE \"atgate\".\"AtGateInteraction\"\nSET \n    reminder = {{ $json.reminder }},\n    extra = jsonb_set(\n        COALESCE(extra, '{}'::jsonb), \n        '{напоминание}', \n        '{{ JSON.stringify($json.reminder_parameters) }}'::jsonb, \n        true\n    ),\n    updated_at = CURRENT_TIMESTAMP\nWHERE id = {{ $json.id }};\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2352,
+        240
+      ],
+      "id": "732f20cf-24c9-4b5b-b812-55fabd7fde56",
+      "name": "Обновление параметров дожима",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем данные из всех предыдущих нод\nconst items = $input.all();\n\n// Функция обработки одного объекта\nfunction processItem(item) {\n  const id = item.json.id;\n  const reminder = item.json.reminder;\n  const message = item.json.message;\n  const reminderParams = item.json.reminder_parameters || {};\n  const hasError = reminderParams.error ? true : false;\n  \n  let result = '';\n  \n  // Проверяем наличие текста и error\n  if (!message && reminder === false) {\n    result = 'Дожим остановлен';\n  } else if (message) {\n    // Выбираем префикс в зависимости от наличия ошибки\n    const prefix = hasError ? 'Попытка отправки' : 'Отправлено';\n    result = `${prefix}: ${message}`;\n    \n    // Добавляем строку о дожиме если reminder = false\n    if (reminder === false) {\n      result += '\\nДожим остановлен';\n    }\n    \n    // Если есть ошибка, добавляем информацию об ошибке\n    if (hasError && reminderParams.error) {\n      const errorText = reminderParams.error;\n      let errorMessage = '';\n      \n      if (errorText.includes('Forbidden')) {\n        if (errorText.includes('blocked')) {\n          errorMessage = 'Пользователь заблокировал бота';\n        } else {\n          errorMessage = 'Пользователь вышел из бота';\n        }\n      } else {\n        errorMessage = 'Ошибка отправки сообщения';\n      }\n      \n      result += `\\n${errorMessage}`;\n    }\n  } else if (!message && reminder === true) {\n    // Нет текста, но reminder = true - такого быть не должно, но на всякий случай\n    result = 'Нет текста для отправки';\n  } else {\n    result = 'Дожим остановлен';\n  }\n  \n  return {\n    id: id,\n    text: result\n  };\n}\n\n// Обрабатываем все входящие объекты из всех нод\nconst results = [];\nfor (const item of items) {\n  results.push(processItem(item));\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2352,
+        64
+      ],
+      "id": "f8b3e674-8fde-4c21-82e8-df732a24894f",
+      "name": "Подготовка записи в лог"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateInteractionLog",
+          "mode": "list",
+          "cachedResultName": "AtGateInteractionLog"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "interaction_id": "={{ $json.id }}",
+            "action_text": "={{ $('Обновление взаимодействия').first().json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "interaction_id",
+              "displayName": "interaction_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_text",
+              "displayName": "action_text",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2544,
+        64
+      ],
+      "id": "a0ebea71-eac9-453b-963c-79ddbeb0e033",
+      "name": "Лог взаимодействия1",
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -856,6 +1204,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-06-01T22:12:48.777Z",
-  "versionId": "8da994b5-654d-4c37-9166-f9ead5326578"
+  "updatedAt": "2026-06-03T22:45:10.328Z",
+  "versionId": "6732c789-f4fe-4c9a-8769-9a85be9f31e5"
 }
