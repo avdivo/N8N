@@ -1,0 +1,846 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-06-06T13:32:03.099Z",
+    "createdAt": "2026-06-06T13:15:08.880Z",
+    "versionId": "6addc466-61ae-46a1-955a-9858d4164912",
+    "workflowId": "12tWIxA8P1iPzQIc",
+    "nodes": [
+      {
+        "parameters": {
+          "content": "## Список каналов пользователя\n\nФормирует и возвращает список каналов зарегистрированных в системе, в которых указанный пользователь является админом. \n\n### Принимает\n`user_id`  - идентификатор пользователя в тг\n\n### Возвращает\nJSON `Список объектов:\n- `channel_name` - название канала \n- `channel_id` - идентификатор канала\n\n### Алгоритм\n- получает список активных каналов из таблицы `AtGateChannel` в схеме `atgate`\n- запрашивает в тг админов канала (ошибки, если бот не в канале - игнорируем)\n- если переданный пользователь является админом канала - выбираем канал\n- возвращаем выбранные каналы",
+          "height": 496,
+          "width": 416
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          0,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "1ec2db40-2a89-41dd-8caa-835b7223aaf0",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "user"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          576,
+          192
+        ],
+        "id": "2f11a7a1-f81c-4548-870a-383958298d3d",
+        "name": "Функция"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          576,
+          32
+        ],
+        "id": "ef73179f-682e-4113-a4eb-dcd876604bcb",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "943b5099-8ee7-4a62-9ced-f3007af7c0b5",
+                "name": "user",
+                "value": "2495031901",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          752,
+          32
+        ],
+        "id": "d3ce7a9c-2e9e-4509-a04d-bcf8d90dd946",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "includeOtherFields": true,
+          "include": "selected",
+          "includeFields": "channel_id, channel_name",
+          "options": {}
+        },
+        "id": "ee101800-aa99-42c5-923b-ec3ed74ba326",
+        "name": "Return",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          1984,
+          96
+        ],
+        "typeVersion": 3.3,
+        "executeOnce": false,
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3fcd6641-ce23-4762-83d7-c41f566aec14",
+                "name": "user",
+                "value": "={{ $json.user }}",
+                "type": "string"
+              },
+              {
+                "id": "d6fec304-b661-4bd9-b1c5-503ffffb1117",
+                "name": "bot",
+                "value": "8631709948",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1152,
+          192
+        ],
+        "id": "f367144b-557a-48b6-a562-755f27cbc221",
+        "name": "Вход"
+      },
+      {
+        "parameters": {
+          "content": "### Указать id бота",
+          "height": 192,
+          "width": 160
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1120,
+          144
+        ],
+        "typeVersion": 1,
+        "id": "e520108a-14f0-4372-8327-5c19c2f9a7bd",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "schema": {
+            "__rl": true,
+            "value": "atgate",
+            "mode": "list",
+            "cachedResultName": "atgate"
+          },
+          "table": {
+            "__rl": true,
+            "value": "AtGateChannel",
+            "mode": "list",
+            "cachedResultName": "AtGateChannel"
+          },
+          "returnAll": true,
+          "where": {
+            "values": [
+              {
+                "column": "is_blocked",
+                "value": "false"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1360,
+          192
+        ],
+        "id": "9c33441a-50d1-4820-a9cb-b4e7b22d7886",
+        "name": "Активные каналы",
+        "credentials": {
+          "postgres": {
+            "id": "AhQeZcnO9Mj1s8DW",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "batchSize": 20,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          1568,
+          192
+        ],
+        "id": "bae4d8f8-3ab4-4e8f-b930-142b74e873e0",
+        "name": "Цикл по каналам",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "b177163a-83c1-4107-b45b-9269e390b866",
+                "leftValue": "={{ $json.result.status }}",
+                "rightValue": "administrator",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "90338af3-6f14-4fd8-b48f-0bd95a99a0aa",
+                "leftValue": "={{ $json.result.status }}",
+                "rightValue": "creator",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.3,
+        "position": [
+          1776,
+          96
+        ],
+        "id": "4b9e7d01-6413-4094-9b73-f639f1198496",
+        "name": "Только админы",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "resource": "chat",
+          "operation": "member",
+          "chatId": "={{ $json.channel_id }}",
+          "userId": "={{ $('Вход').item.json.user }}"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1776,
+          304
+        ],
+        "id": "83da5c80-cf9b-4d7f-94b8-2a3ed9b5ea61",
+        "name": "Статус пользователя в канале",
+        "webhookId": "fef88ae3-e16b-448b-a244-4e04c082c12c",
+        "credentials": {
+          "telegramApi": {
+            "id": "EtSwAd8BT347HRrU",
+            "name": "Привратник"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "43ec7ae3-1c0e-4084-9364-a416514e4d97",
+                "name": "channel_id",
+                "value": "={{ $('Цикл по каналам').item.json.channel_id }}",
+                "type": "string"
+              },
+              {
+                "id": "121c94aa-3e2b-4d63-9f0f-d45b1b58410d",
+                "name": "channel_name",
+                "value": "={{ $('Цикл по каналам').item.json.channel_name }}",
+                "type": "string"
+              },
+              {
+                "id": "6af4694e-e040-4d6d-ab04-b8ed01047af8",
+                "name": "result.status",
+                "value": "={{ $json.result.status }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2016,
+          304
+        ],
+        "id": "15c317ad-e2d8-4351-9922-f5409ecf05e5",
+        "name": "Подготовка ответа"
+      }
+    ],
+    "connections": {
+      "Функция": {
+        "main": [
+          [
+            {
+              "node": "Вход",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Вход",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Вход": {
+        "main": [
+          [
+            {
+              "node": "Активные каналы",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Активные каналы": {
+        "main": [
+          [
+            {
+              "node": "Цикл по каналам",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Цикл по каналам": {
+        "main": [
+          [
+            {
+              "node": "Только админы",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Статус пользователя в канале",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Только админы": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Статус пользователя в канале": {
+        "main": [
+          [
+            {
+              "node": "Подготовка ответа",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Подготовка ответа": {
+        "main": [
+          [
+            {
+              "node": "Цикл по каналам",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Aliaksei Krutsikau",
+    "name": "1",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "6addc466-61ae-46a1-955a-9858d4164912",
+  "connections": {
+    "Функция": {
+      "main": [
+        [
+          {
+            "node": "Вход",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Вход",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Вход": {
+      "main": [
+        [
+          {
+            "node": "Активные каналы",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Активные каналы": {
+      "main": [
+        [
+          {
+            "node": "Цикл по каналам",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Цикл по каналам": {
+      "main": [
+        [
+          {
+            "node": "Только админы",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Статус пользователя в канале",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Только админы": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Статус пользователя в канале": {
+      "main": [
+        [
+          {
+            "node": "Подготовка ответа",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Подготовка ответа": {
+      "main": [
+        [
+          {
+            "node": "Цикл по каналам",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-06-06T13:14:08.861Z",
+  "id": "12tWIxA8P1iPzQIc",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_каналы пользователя",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Список каналов пользователя\n\nФормирует и возвращает список каналов зарегистрированных в системе, в которых указанный пользователь является админом. \n\n### Принимает\n`user_id`  - идентификатор пользователя в тг\n\n### Возвращает\nJSON `Список объектов:\n- `channel_name` - название канала \n- `channel_id` - идентификатор канала\n\n### Алгоритм\n- получает список активных каналов из таблицы `AtGateChannel` в схеме `atgate`\n- запрашивает в тг админов канала (ошибки, если бот не в канале - игнорируем)\n- если переданный пользователь является админом канала - выбираем канал\n- возвращаем выбранные каналы",
+        "height": 496,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "1ec2db40-2a89-41dd-8caa-835b7223aaf0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "user"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        192
+      ],
+      "id": "2f11a7a1-f81c-4548-870a-383958298d3d",
+      "name": "Функция"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        576,
+        32
+      ],
+      "id": "ef73179f-682e-4113-a4eb-dcd876604bcb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "943b5099-8ee7-4a62-9ced-f3007af7c0b5",
+              "name": "user",
+              "value": "2495031901",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        32
+      ],
+      "id": "d3ce7a9c-2e9e-4509-a04d-bcf8d90dd946",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "include": "selected",
+        "includeFields": "channel_id, channel_name",
+        "options": {}
+      },
+      "id": "ee101800-aa99-42c5-923b-ec3ed74ba326",
+      "name": "Return",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1984,
+        96
+      ],
+      "typeVersion": 3.3,
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3fcd6641-ce23-4762-83d7-c41f566aec14",
+              "name": "user",
+              "value": "={{ $json.user }}",
+              "type": "string"
+            },
+            {
+              "id": "d6fec304-b661-4bd9-b1c5-503ffffb1117",
+              "name": "bot",
+              "value": "8631709948",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1152,
+        192
+      ],
+      "id": "f367144b-557a-48b6-a562-755f27cbc221",
+      "name": "Вход"
+    },
+    {
+      "parameters": {
+        "content": "### Указать id бота",
+        "height": 192,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1120,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "e520108a-14f0-4372-8327-5c19c2f9a7bd",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateChannel",
+          "mode": "list",
+          "cachedResultName": "AtGateChannel"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "is_blocked",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1360,
+        192
+      ],
+      "id": "9c33441a-50d1-4820-a9cb-b4e7b22d7886",
+      "name": "Активные каналы",
+      "credentials": {
+        "postgres": {
+          "id": "AhQeZcnO9Mj1s8DW",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 20,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1568,
+        192
+      ],
+      "id": "bae4d8f8-3ab4-4e8f-b930-142b74e873e0",
+      "name": "Цикл по каналам",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b177163a-83c1-4107-b45b-9269e390b866",
+              "leftValue": "={{ $json.result.status }}",
+              "rightValue": "administrator",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "90338af3-6f14-4fd8-b48f-0bd95a99a0aa",
+              "leftValue": "={{ $json.result.status }}",
+              "rightValue": "creator",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1776,
+        96
+      ],
+      "id": "4b9e7d01-6413-4094-9b73-f639f1198496",
+      "name": "Только админы",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "member",
+        "chatId": "={{ $json.channel_id }}",
+        "userId": "={{ $('Вход').item.json.user }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        304
+      ],
+      "id": "83da5c80-cf9b-4d7f-94b8-2a3ed9b5ea61",
+      "name": "Статус пользователя в канале",
+      "webhookId": "fef88ae3-e16b-448b-a244-4e04c082c12c",
+      "credentials": {
+        "telegramApi": {
+          "id": "EtSwAd8BT347HRrU",
+          "name": "Привратник"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "43ec7ae3-1c0e-4084-9364-a416514e4d97",
+              "name": "channel_id",
+              "value": "={{ $('Цикл по каналам').item.json.channel_id }}",
+              "type": "string"
+            },
+            {
+              "id": "121c94aa-3e2b-4d63-9f0f-d45b1b58410d",
+              "name": "channel_name",
+              "value": "={{ $('Цикл по каналам').item.json.channel_name }}",
+              "type": "string"
+            },
+            {
+              "id": "6af4694e-e040-4d6d-ab04-b8ed01047af8",
+              "name": "result.status",
+              "value": "={{ $json.result.status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2016,
+        304
+      ],
+      "id": "15c317ad-e2d8-4351-9922-f5409ecf05e5",
+      "name": "Подготовка ответа"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-06-06T13:14:08.861Z",
+      "createdAt": "2026-06-06T13:14:08.861Z",
+      "role": "workflow:owner",
+      "workflowId": "12tWIxA8P1iPzQIc",
+      "projectId": "Sls0bGRVRpHAWjW1"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-06-06T13:30:25.273Z",
+  "versionId": "6addc466-61ae-46a1-955a-9858d4164912"
+}
