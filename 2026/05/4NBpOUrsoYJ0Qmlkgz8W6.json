@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-03T21:32:51.309Z",
-    "createdAt": "2026-06-03T21:32:01.307Z",
-    "versionId": "ce4adefd-71eb-4e3f-a2df-5bd5a7252588",
+    "updatedAt": "2026-06-04T11:27:10.656Z",
+    "createdAt": "2026-06-04T11:27:00.917Z",
+    "versionId": "1acffb87-d716-4a39-aab4-8711450cbe6c",
     "workflowId": "4NBpOUrsoYJ0Qmlkgz8W6",
     "nodes": [
       {
@@ -3199,7 +3199,7 @@
       },
       {
         "parameters": {
-          "content": "# Отчет по каналу",
+          "content": "# Отчет по каналу Сводный в Телеграм",
           "height": 464,
           "width": 1568
         },
@@ -3429,9 +3429,9 @@
       },
       {
         "parameters": {
-          "content": "# CSV файл отчета",
+          "content": "# CSV файл отчета Взаимодействия",
           "height": 464,
-          "width": 1568
+          "width": 1792
         },
         "type": "n8n-nodes-base.stickyNote",
         "position": [
@@ -3449,7 +3449,7 @@
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
         "position": [
-          1600,
+          1808,
           1840
         ],
         "id": "6fc23672-3cf3-43d2-98b4-6f66f61f3917",
@@ -3480,7 +3480,7 @@
       {
         "parameters": {
           "operation": "executeQuery",
-          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    i.reminder AS \"Напомининия\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
+          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    i.id AS \"id\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.reminder AS \"Напомининия\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
           "options": {}
         },
         "type": "n8n-nodes-base.postgres",
@@ -3505,7 +3505,7 @@
         "type": "n8n-nodes-base.convertToFile",
         "typeVersion": 1.1,
         "position": [
-          1792,
+          2000,
           1840
         ],
         "id": "c848846d-00b5-465e-a7a0-bd24f169199f",
@@ -3833,15 +3833,15 @@
           "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
           "binaryData": true,
           "additionalFields": {
-            "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
-            "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
+            "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').first().json['check:channel_name'] }}\"",
+            "fileName": "={{ $('Запрос разрешений1').first().json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
             "parse_mode": "HTML"
           }
         },
         "type": "n8n-nodes-base.telegram",
         "typeVersion": 1.2,
         "position": [
-          1984,
+          2192,
           1840
         ],
         "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
@@ -3994,6 +3994,75 @@
             "name": "Postgres account"
           }
         }
+      },
+      {
+        "parameters": {
+          "jsCode": "const tz = $now.zoneName;\nconst sourceDate = \"2026-06-04T09:19:27.738Z\";\n\n// Преобразуем в часовой пояс воркфлоу и нужный формат\nconst localDate = DateTime.fromISO(sourceDate)\n  .setZone(tz)\n  .toFormat('yyyy-MM-dd H:mm'); // 'H' — час без нуля (9), 'mm' — минуты с нулем (19)\n\nreturn [{\n  json: {\n    current_timezone: tz,\n    formatted_date: localDate // Выведет: \"2026-06-04 12:19\"\n  }\n}];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -2080,
+          176
+        ],
+        "id": "2a2244ba-838e-4f18-a848-9a847551f4b1",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "operation": "select",
+          "schema": {
+            "__rl": true,
+            "value": "atgate",
+            "mode": "list",
+            "cachedResultName": "atgate"
+          },
+          "table": {
+            "__rl": true,
+            "value": "AtGateInteractionLog",
+            "mode": "list",
+            "cachedResultName": "AtGateInteractionLog"
+          },
+          "returnAll": true,
+          "where": {
+            "values": [
+              {
+                "column": "interaction_id",
+                "value": "={{ $json.id }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1424,
+          1840
+        ],
+        "id": "41c3d0df-9d75-41ab-918e-244631c8d085",
+        "name": "Получаем логи",
+        "retryOnFail": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "postgres": {
+            "id": "xe5rl8ApMEn9rCCd",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Получаем часовой пояс\nconst tz = $now.zoneName;\nconst logs = $input.all();\n\n// Сортируем логи по log_id\nlogs.sort((a, b) => a.json.log_id - b.json.log_id);\n\n// Группируем логи по interaction_id\nconst groups = new Map();\nfor (const log of logs) {\n  const id = log.json.interaction_id;\n  const date = DateTime.fromISO(log.json.created_at).setZone(tz).toFormat('yyyy-MM-dd HH:mm:ss');\n  const text = log.json.action_text;\n  \n  if (!groups.has(id)) groups.set(id, []);\n  groups.get(id).push(`${date}\\n${text}`);\n}\n\n// Преобразуем группы в Map с текстом логов\nconst logsMap = new Map();\nfor (const [id, entries] of groups) {\n  logsMap.set(id, entries.join('\\n\\n'));\n}\n\n// Берем отчет и добавляем в него логи\nconst reports = $items('Запрос полей отчета1');\nconst result = [];\n\nfor (const report of reports) {\n  const reportId = report.json.id;\n  const logText = logsMap.get(reportId) || 'Логи отсутствуют';\n  \n  // Удаляем id и добавляем поле Отчет\n  const { id, ...reportWithoutId } = report.json;\n  result.push({\n    ...reportWithoutId,\n    Отчет: logText\n  });\n}\n\nreturn result;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1616,
+          1840
+        ],
+        "id": "a652015e-f1ab-4867-a513-17471e7bfb8e",
+        "name": "Формируем и добавляем логи"
       }
     ],
     "connections": {
@@ -4809,7 +4878,7 @@
         "main": [
           [
             {
-              "node": "Подготовка отчета1",
+              "node": "Получаем логи",
               "type": "main",
               "index": 0
             }
@@ -4943,14 +5012,36 @@
             }
           ]
         ]
+      },
+      "Получаем логи": {
+        "main": [
+          [
+            {
+              "node": "Формируем и добавляем логи",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Формируем и добавляем логи": {
+        "main": [
+          [
+            {
+              "node": "Подготовка отчета1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Алексей К",
-    "name": "Version ce4adefd",
+    "name": "Version 1acffb87",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "ce4adefd-71eb-4e3f-a2df-5bd5a7252588",
+  "activeVersionId": "1acffb87-d716-4a39-aab4-8711450cbe6c",
   "connections": {
     "Telegram Trigger": {
       "main": [
@@ -5764,7 +5855,7 @@
       "main": [
         [
           {
-            "node": "Подготовка отчета1",
+            "node": "Получаем логи",
             "type": "main",
             "index": 0
           }
@@ -5893,6 +5984,28 @@
         [
           {
             "node": "Лог взаимодействия1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получаем логи": {
+      "main": [
+        [
+          {
+            "node": "Формируем и добавляем логи",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Формируем и добавляем логи": {
+      "main": [
+        [
+          {
+            "node": "Подготовка отчета1",
             "type": "main",
             "index": 0
           }
@@ -9101,7 +9214,7 @@
     },
     {
       "parameters": {
-        "content": "# Отчет по каналу",
+        "content": "# Отчет по каналу Сводный в Телеграм",
         "height": 464,
         "width": 1568
       },
@@ -9331,9 +9444,9 @@
     },
     {
       "parameters": {
-        "content": "# CSV файл отчета",
+        "content": "# CSV файл отчета Взаимодействия",
         "height": 464,
-        "width": 1568
+        "width": 1792
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -9351,7 +9464,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1600,
+        1808,
         1840
       ],
       "id": "6fc23672-3cf3-43d2-98b4-6f66f61f3917",
@@ -9382,7 +9495,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.extra AS \"Результат\", -- ← Добавили поле с логом напоминаний\n    i.reminder AS \"Напомининия\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
+        "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY i.updated_at DESC) AS \"№\",\n    i.id AS \"id\",\n    t.code_word AS \"Ключевое слово\",\n    COALESCE(t.parameters->>'source_name', 'не указан') AS \"Источник\",\n    i.reminder AS \"Напомининия\", -- ← Добавили поле с логом напоминаний\n    TO_CHAR(i.updated_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Обновлено\",\n    i.status AS \"Статус\",\n    i.invite_link AS \"Ссылка-приглашение\",\n    t.link_target AS \"Ссылка на пост\",\n    i.user_id AS \"ID пользователя\",\n    u.username AS \"Юзернейм\",\n    u.first_name AS \"Имя\",\n    u.last_name AS \"Фамилия\",\n    TO_CHAR(u.registered_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Зарегистрирован\",\n    t.target_code AS \"Код цели\",\n    t.type_target AS \"Тип цели\",\n    TO_CHAR(i.created_at AT TIME ZONE 'Europe/Minsk', 'YYYY-MM-DD HH24:MI:SS') AS \"Создано\"\nFROM atgate.\"AtGateInteraction\" i\nJOIN atgate.\"AtGateTarget\" t ON i.target_code = t.target_code\nLEFT JOIN atgate.\"AtGateUser\" u ON i.user_id = u.user_id\nWHERE t.channel_id = {{ $('inline кнопка').item.json.callback_query.data.split(':')[1] }}\nORDER BY i.updated_at DESC;\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -9407,7 +9520,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        1792,
+        2000,
         1840
       ],
       "id": "c848846d-00b5-465e-a7a0-bd24f169199f",
@@ -9735,15 +9848,15 @@
         "chatId": "={{ $('inline кнопка').first().json.callback_query.message.chat.id }}",
         "binaryData": true,
         "additionalFields": {
-          "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').item.json['check:channel_name'] }}\"",
-          "fileName": "={{ $('Запрос разрешений1').item.json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
+          "caption": "=Отчет по каналу \"{{ $('Запрос разрешений1').first().json['check:channel_name'] }}\"",
+          "fileName": "={{ $('Запрос разрешений1').first().json['check:channel_name'] }}_{{ $now.toFormat('yyyy-MM-dd_HH-mm') }}.csv",
           "parse_mode": "HTML"
         }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1984,
+        2192,
         1840
       ],
       "id": "eddf2f6c-7d9f-4d81-9475-b7f5f45cc79d",
@@ -9896,6 +10009,75 @@
           "name": "Postgres account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const tz = $now.zoneName;\nconst sourceDate = \"2026-06-04T09:19:27.738Z\";\n\n// Преобразуем в часовой пояс воркфлоу и нужный формат\nconst localDate = DateTime.fromISO(sourceDate)\n  .setZone(tz)\n  .toFormat('yyyy-MM-dd H:mm'); // 'H' — час без нуля (9), 'mm' — минуты с нулем (19)\n\nreturn [{\n  json: {\n    current_timezone: tz,\n    formatted_date: localDate // Выведет: \"2026-06-04 12:19\"\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2080,
+        176
+      ],
+      "id": "2a2244ba-838e-4f18-a848-9a847551f4b1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "atgate",
+          "mode": "list",
+          "cachedResultName": "atgate"
+        },
+        "table": {
+          "__rl": true,
+          "value": "AtGateInteractionLog",
+          "mode": "list",
+          "cachedResultName": "AtGateInteractionLog"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "interaction_id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1424,
+        1840
+      ],
+      "id": "41c3d0df-9d75-41ab-918e-244631c8d085",
+      "name": "Получаем логи",
+      "retryOnFail": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "xe5rl8ApMEn9rCCd",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем часовой пояс\nconst tz = $now.zoneName;\nconst logs = $input.all();\n\n// Сортируем логи по log_id\nlogs.sort((a, b) => a.json.log_id - b.json.log_id);\n\n// Группируем логи по interaction_id\nconst groups = new Map();\nfor (const log of logs) {\n  const id = log.json.interaction_id;\n  const date = DateTime.fromISO(log.json.created_at).setZone(tz).toFormat('yyyy-MM-dd HH:mm:ss');\n  const text = log.json.action_text;\n  \n  if (!groups.has(id)) groups.set(id, []);\n  groups.get(id).push(`${date}\\n${text}`);\n}\n\n// Преобразуем группы в Map с текстом логов\nconst logsMap = new Map();\nfor (const [id, entries] of groups) {\n  logsMap.set(id, entries.join('\\n\\n'));\n}\n\n// Берем отчет и добавляем в него логи\nconst reports = $items('Запрос полей отчета1');\nconst result = [];\n\nfor (const report of reports) {\n  const reportId = report.json.id;\n  const logText = logsMap.get(reportId) || 'Логи отсутствуют';\n  \n  // Удаляем id и добавляем поле Отчет\n  const { id, ...reportWithoutId } = report.json;\n  result.push({\n    ...reportWithoutId,\n    Отчет: logText\n  });\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        1840
+      ],
+      "id": "a652015e-f1ab-4867-a513-17471e7bfb8e",
+      "name": "Формируем и добавляем логи"
     }
   ],
   "pinData": {},
@@ -9922,6 +10104,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-06-03T21:32:01.303Z",
-  "versionId": "ce4adefd-71eb-4e3f-a2df-5bd5a7252588"
+  "updatedAt": "2026-06-04T11:27:00.914Z",
+  "versionId": "1acffb87-d716-4a39-aab4-8711450cbe6c"
 }
