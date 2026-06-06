@@ -1,0 +1,1865 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-06-06T11:52:58.819Z",
+    "createdAt": "2026-06-06T11:52:47.497Z",
+    "versionId": "a48b634a-af4e-4380-b345-61228128fe9e",
+    "workflowId": "jq0t8BoMzvVs6Cqw",
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "*"
+          ],
+          "additionalFields": {
+            "chatIds": ""
+          }
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -784,
+          832
+        ],
+        "id": "a2cc0685-9dda-44e4-882b-a3b964fa5a2a",
+        "name": "Telegram Trigger",
+        "webhookId": "0f55084e-c453-4149-8627-94a97313c8b8",
+        "credentials": {
+          "telegramApi": {
+            "id": "NyeS7gj7QmBnpcNZ",
+            "name": "Умный дом"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $json.message.from.id }}",
+          "text": "Нажмите кнопку чтобы отобразить панель управления",
+          "replyMarkup": "replyKeyboard",
+          "replyKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "🔼 Показать кнопки 🔼",
+                      "additionalFields": {}
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "replyKeyboardOptions": {
+            "resize_keyboard": true
+          },
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -112,
+          528
+        ],
+        "id": "bad5f73b-9330-4491-a929-1b82a7c7d9c6",
+        "name": "start",
+        "webhookId": "9f534039-81ba-4071-8ae9-5ccc323cdd0c",
+        "credentials": {
+          "telegramApi": {
+            "id": "NyeS7gj7QmBnpcNZ",
+            "name": "Умный дом"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $json.message.from.id }}",
+          "text": "Все действия",
+          "replyMarkup": "inlineKeyboard",
+          "inlineKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Спальня   🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Спальня_on"
+                      }
+                    },
+                    {
+                      "text": "Спальня   🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Спальня_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Зал             🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Зал_on"
+                      }
+                    },
+                    {
+                      "text": "Зал             🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Зал_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Коридор   🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Коридор_on"
+                      }
+                    },
+                    {
+                      "text": "Коридор   🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Коридор_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Ванная        🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Ванная_on"
+                      }
+                    },
+                    {
+                      "text": "Ванная        🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Ванная_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Кухня         🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Кухня_on"
+                      }
+                    },
+                    {
+                      "text": "Кухня         🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Кухня_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {},
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Шторы      🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Шторы_on"
+                      }
+                    },
+                    {
+                      "text": "Шторы      🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Шторы_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Пылесос   🟢  ",
+                      "additionalFields": {
+                        "callback_data": "Пылесос_on"
+                      }
+                    },
+                    {
+                      "text": "Пылесос   🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Пылесос_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Выключить свет везде       🔴  ",
+                      "additionalFields": {
+                        "callback_data": "Свет_off"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "Домофон   🏠  ",
+                      "additionalFields": {
+                        "callback_data": "Домофон_scenario"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -112,
+          720
+        ],
+        "id": "4a185ba4-576d-4efc-a518-293a33a4ec04",
+        "name": "Вывод кнопок",
+        "webhookId": "6b2d1573-159e-4030-8ee6-40ac53afaf30",
+        "credentials": {
+          "telegramApi": {
+            "id": "NyeS7gj7QmBnpcNZ",
+            "name": "Умный дом"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "/start",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "1a83bb80-1b44-4aff-be80-a966e097b3a6"
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "58ef493f-c698-47ec-90df-f9fe09ee73c4",
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "🔼 Показать кнопки 🔼",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              }
+            ]
+          },
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          -336,
+          816
+        ],
+        "id": "4d617009-b9fe-4f6b-a199-1bf5b472bbb4",
+        "name": "Маршрутизатор"
+      },
+      {
+        "parameters": {
+          "content": "## Телеграмм бот для управления устройствами умного дома\nВыводит в телеграмм список кнопок для включения и выключения отдельных устройств и кнопку выключения всего верхнего света",
+          "width": 400
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -816,
+          576
+        ],
+        "typeVersion": 1,
+        "id": "6d6d9232-53ab-4b1b-8829-9b23fa68fb30",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "url": "https://api.iot.yandex.net/v1.0/user/info",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=OAuth {{ $json.value }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -640,
+          320
+        ],
+        "id": "ee2ec573-b16e-4af1-8f3d-7b6fb8f10f3b",
+        "name": "Информация об умном доме"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "OAuth {{ $json.value }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\n    \"devices\": [\n        {\n            \"id\": \"9af46f0f-c0b5-4604-9240-476eea453f8f\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": true\n                    }\n                }\n            ]\n        }\n    ]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -240,
+          320
+        ],
+        "id": "457c28f0-1196-474e-b04e-07bbf0069c7a",
+        "name": "Проба управления"
+      },
+      {
+        "parameters": {
+          "content": "## Управление \nДля выключения и включения менять true/false\n``` json\n\"state\": {\n    \"instance\": \"on\",\n    \"value\": true\n }\n```",
+          "height": 256
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -576,
+          16
+        ],
+        "typeVersion": 1,
+        "id": "16246e85-6421-43ea-9c42-45fe82d6da4a",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "content": "## Яндекс\n\n### API Умный дом\nhttps://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/platform-protocol\n\n### Создание приложения\nhttps://oauth.yandex.ru/client/new/api\n\n### Статья про отладку токена (Debug Token): \nhttps://yandex.ru/dev/id/doc/ru/tokens/debug-token\n\n1. Зайти в аккаунт\n2. Перейти к созданию приложения\n3. Название - любое\n4. Доступ к данным\n    - iot: view - список устройств\n    - iot: control -  управление устройствами\n5. В поле Redirect URI введите значение\nhttps://oauth.yandex.ru/verification_code \n6. Создать приложение\n7. На новой странице копируем Client ID\n8. Переход по ссылке вида:\nhttps://oauth.yandex.ru/authorize?response_type=token&client_id=<идентификатор приложения>\n9. Копируем полученный токен, его используем для создания строки авторизации.\n",
+          "height": 768,
+          "width": 560
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -1488,
+          64
+        ],
+        "typeVersion": 1,
+        "id": "34cf7659-84dd-4edc-a90b-f83bb3ea7810",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.iot.yandex.net/v1.0/scenarios/90632374-cc25-4911-81a7-5792fa888a16/actions",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "OAuth {{ $json.value }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          176,
+          320
+        ],
+        "id": "f291437c-0547-45db-b008-776f8468f6e5",
+        "name": "Проба управления1"
+      },
+      {
+        "parameters": {
+          "content": "## Выполнение сценария\nhttps://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/platform-scenario\n\nАдрес для запуска сценария: `https://api.iot.yandex.net/v1.0/scenarios/{scenario_id}/actions`\n\nPOST запрос без тела. Пример (для домофона): \n\nhttps://api.iot.yandex.net/v1.0/scenarios/90632374-cc25-4911-81a7-5792fa888a16/actions",
+          "height": 272,
+          "width": 400
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          0,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "0469fe24-68fc-4f49-979f-a877f31aad8b",
+        "name": "Sticky Note3"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "923f3c47-f0e8-4582-a293-ce320e67a5a7",
+                "leftValue": "={{ $json.data.type }}",
+                "rightValue": "scenario",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "eb4f00c7-84ad-4763-8e38-ee401014bad5",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          480,
+          880
+        ],
+        "id": "442eb796-3602-42f4-8179-fad56e2dfb31",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=OAuth {{ $json.secret }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n    \"devices\": [\n        {\n            \"id\": \"{{ $json.data.device_id }}\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": {{ $json.data.action }}\n                    }\n                }\n            ]\n        }\n    ]\n}",
+          "options": {
+            "timeout": 500
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          704,
+          976
+        ],
+        "id": "e6af37ef-e31a-47ef-a53f-b39b047a2977",
+        "name": "Действие с устройством",
+        "retryOnFail": true,
+        "waitBetweenTries": 200,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://api.iot.yandex.net/v1.0/scenarios/{{ $json.data.device_id }}/actions",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=OAuth {{ $json.secret }}"
+              }
+            ]
+          },
+          "options": {
+            "timeout": 500
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          704,
+          784
+        ],
+        "id": "ea978389-951e-4d28-b8d3-3003650c555a",
+        "name": "Выполнение сценария",
+        "retryOnFail": true,
+        "waitBetweenTries": 200,
+        "notesInFlow": false,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Выясняем кто что сделал и готовим данные для выполнения действия\n\n// Получаем данные из сообщения (предполагая, что _items определено в вашем окружении)\nconst message = $input.first().json.callback_query;\n\n// Устройства\nconst devicesId = {\n  \"Ванная\": \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",\n  \"Коридор\": \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",\n  \"Кухня\": \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",\n  \"Зал\": \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",\n  \"Спальня\": \"9af46f0f-c0b5-4604-9240-476eea453f8f\",\n  \"Лента\": \"\",\n  \"Пылесос\": \"2d5b0ab8-7880-4d79-a368-6120be845bfc\",\n  \"Шторы\": \"0197d9e0-ca35-4ea2-a31a-51516c63cdfe\",\n  \"Домофон\": \"90632374-cc25-4911-81a7-5792fa888a16\"\n};\n\n// Только верхний свет\nconst lightUp = [\n  \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",  // Ванная\n  \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",  // Коридор\n  \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",  // Кухня\n  \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",  // Зал\n  \"f6826740-39db-484e-9e3e-2b2a7ed2f5ee\"   // Спальня\n];\n\nconst key = message.data; // Пришло сообщение от кнопки\nconst deviceAction = key.split(\"_\"); // Устройство и действие\n\nlet data = {}; // Ответ (по умолчанию объект)\n\nif (deviceAction.length === 2) {\n  let action = null;\n  let type = \"action\";\n  let deviceId;\n  const [deviceName, actionType] = deviceAction; // Деструктуризация для читаемости\n\n  if (deviceName in devicesId) {\n    deviceId = devicesId[deviceName];\n\n    if (actionType === \"off\") {\n      action = false;\n    } else if (actionType === \"on\") {\n      action = true;\n    } else if (actionType === \"scenario\") {\n      type = \"scenario\";\n      action = \"scenario\";\n    }\n\n  } else {\n    // Устройства нет в списке. Возможно это общая команда\n    if (deviceName === \"Свет\") {\n      // Общая команда для выключения света\n      const responseDataList = [];\n      for (const id of lightUp) {\n        const cmd = {\n          \"type\": type,\n          \"action\": false,\n          \"device_id\": id,\n        };\n        responseDataList.push({\"json\": {\"data\": cmd}});\n      }\n      // Внимание: Здесь мы имитируем \"return data\" из Python, \n      // сразу возвращая массив и завершая выполнение скрипта.\n      return responseDataList;\n      // data = responseDataList; // Заменяем объект на массив\n    }\n  }\n\n  // Проверяем и формируем ответ для одиночного действия\n  if (action !== null && deviceId) {\n    data = {\n      \"type\": type,\n      \"action\": action,\n      \"device_id\": deviceId,\n    };\n  }\n}\n\nreturn [{\"json\": {\"data\": data, \"secret\": $input.all()[1].json.value}}]; // Итоговый возврат данных, если data не массив\n\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          272,
+          880
+        ],
+        "id": "861fa359-6380-437d-9920-e681e6064826",
+        "name": "Code in JavaScript1"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Кто может управлять\nconst true_ids = [249503190, 326830581, 203885740];\n\nconst query = $input.first().json;\n\nlet from_id = 0;\nif (query.message) {\n  from_id = query.message.from.id;\n} else {\n  from_id = query.callback_query.from.id;\n}\n\nif (true_ids.includes(from_id)) {\n  return query;\n}\n\nreturn [{ json: {} }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -560,
+          832
+        ],
+        "id": "0adc9551-96ca-4423-b634-1a9303a7cba9",
+        "name": "Авторизация"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          64,
+          880
+        ],
+        "id": "22b991f5-7660-4cb0-ba4b-1fa3ff82224b",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "url": "http://vault-n8n:8000/api/v1/secrets",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "keys",
+                "value": "Мой_умный_дом_yandex_API"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -416,
+          320
+        ],
+        "id": "157a6694-47f3-4b18-b580-54ace3ed72cb",
+        "name": "VaultN8N токен Умного дома1",
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "1rEWKg29DHy38Z7H",
+            "name": "Header Auth account"
+          }
+        },
+        "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+      },
+      {
+        "parameters": {
+          "url": "http://vault-n8n:8000/api/v1/secrets",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "keys",
+                "value": "Мой_умный_дом_yandex_API"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -800,
+          320
+        ],
+        "id": "5af361aa-3726-4d4a-ba84-5df9a6539a52",
+        "name": "VaultN8N токен Умного дома2",
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "1rEWKg29DHy38Z7H",
+            "name": "Header Auth account"
+          }
+        },
+        "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+      },
+      {
+        "parameters": {
+          "content": "## Токен\nПолучаем из VaultN8N по ключу: Мой_умный_дом_yandex_API"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -272,
+          112
+        ],
+        "typeVersion": 1,
+        "id": "344f74de-0f34-4bea-94a8-7604931728c3",
+        "name": "Sticky Note4"
+      },
+      {
+        "parameters": {
+          "url": "http://vault-n8n:8000/api/v1/secrets",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "keys",
+                "value": "Мой_умный_дом_yandex_API"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -16,
+          320
+        ],
+        "id": "b768e1df-611c-44d3-ade8-36a4e774e288",
+        "name": "VaultN8N токен Умного дома3",
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "1rEWKg29DHy38Z7H",
+            "name": "Header Auth account"
+          }
+        },
+        "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+      },
+      {
+        "parameters": {
+          "url": "http://vault-n8n:8000/api/v1/secrets",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "keys",
+                "value": "Мой_умный_дом_yandex_API"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -112,
+          992
+        ],
+        "id": "d48e9bad-6467-4345-ac23-cdd1ea16cd8b",
+        "name": "Получение токена для Умного дома",
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "1rEWKg29DHy38Z7H",
+            "name": "Header Auth account"
+          }
+        },
+        "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "http://vault-n8n:8000/api/v1/secrets/single",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "key",
+                "value": "Мой_умный_дом_yandex_API"
+              },
+              {
+                "name": "value"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -800,
+          96
+        ],
+        "id": "34e6421f-dc53-438e-a967-6f5c6837ef48",
+        "name": "Добавить токен Яндекс Умный дом",
+        "alwaysOutputData": true,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "1rEWKg29DHy38Z7H",
+            "name": "Header Auth account"
+          }
+        },
+        "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+      }
+    ],
+    "connections": {
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "Авторизация",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Маршрутизатор": {
+        "main": [
+          [
+            {
+              "node": "start",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Вывод кнопок",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Получение токена для Умного дома",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Выполнение сценария",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Действие с устройством",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript1": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Авторизация": {
+        "main": [
+          [
+            {
+              "node": "Маршрутизатор",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "VaultN8N токен Умного дома1": {
+        "main": [
+          [
+            {
+              "node": "Проба управления",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "VaultN8N токен Умного дома2": {
+        "main": [
+          [
+            {
+              "node": "Информация об умном доме",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "VaultN8N токен Умного дома3": {
+        "main": [
+          [
+            {
+              "node": "Проба управления1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Получение токена для Умного дома": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Aliaksei Krutsikau",
+    "name": "Version a48b634a",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "a48b634a-af4e-4380-b345-61228128fe9e",
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Авторизация",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Маршрутизатор": {
+      "main": [
+        [
+          {
+            "node": "start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Вывод кнопок",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Получение токена для Умного дома",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Выполнение сценария",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Действие с устройством",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Авторизация": {
+      "main": [
+        [
+          {
+            "node": "Маршрутизатор",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VaultN8N токен Умного дома1": {
+      "main": [
+        [
+          {
+            "node": "Проба управления",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VaultN8N токен Умного дома2": {
+      "main": [
+        [
+          {
+            "node": "Информация об умном доме",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VaultN8N токен Умного дома3": {
+      "main": [
+        [
+          {
+            "node": "Проба управления1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Получение токена для Умного дома": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-06-06T11:33:00.096Z",
+  "id": "jq0t8BoMzvVs6Cqw",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Умный дом Telegram bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "*"
+        ],
+        "additionalFields": {
+          "chatIds": ""
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -784,
+        832
+      ],
+      "id": "a2cc0685-9dda-44e4-882b-a3b964fa5a2a",
+      "name": "Telegram Trigger",
+      "webhookId": "0f55084e-c453-4149-8627-94a97313c8b8",
+      "credentials": {
+        "telegramApi": {
+          "id": "NyeS7gj7QmBnpcNZ",
+          "name": "Умный дом"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "Нажмите кнопку чтобы отобразить панель управления",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔼 Показать кнопки 🔼",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        528
+      ],
+      "id": "bad5f73b-9330-4491-a929-1b82a7c7d9c6",
+      "name": "start",
+      "webhookId": "9f534039-81ba-4071-8ae9-5ccc323cdd0c",
+      "credentials": {
+        "telegramApi": {
+          "id": "NyeS7gj7QmBnpcNZ",
+          "name": "Умный дом"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.from.id }}",
+        "text": "Все действия",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Спальня   🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Спальня_on"
+                    }
+                  },
+                  {
+                    "text": "Спальня   🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Спальня_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Зал             🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Зал_on"
+                    }
+                  },
+                  {
+                    "text": "Зал             🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Зал_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Коридор   🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Коридор_on"
+                    }
+                  },
+                  {
+                    "text": "Коридор   🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Коридор_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Ванная        🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Ванная_on"
+                    }
+                  },
+                  {
+                    "text": "Ванная        🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Ванная_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Кухня         🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Кухня_on"
+                    }
+                  },
+                  {
+                    "text": "Кухня         🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Кухня_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {},
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Шторы      🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Шторы_on"
+                    }
+                  },
+                  {
+                    "text": "Шторы      🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Шторы_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Пылесос   🟢  ",
+                    "additionalFields": {
+                      "callback_data": "Пылесос_on"
+                    }
+                  },
+                  {
+                    "text": "Пылесос   🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Пылесос_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Выключить свет везде       🔴  ",
+                    "additionalFields": {
+                      "callback_data": "Свет_off"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Домофон   🏠  ",
+                    "additionalFields": {
+                      "callback_data": "Домофон_scenario"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        720
+      ],
+      "id": "4a185ba4-576d-4efc-a518-293a33a4ec04",
+      "name": "Вывод кнопок",
+      "webhookId": "6b2d1573-159e-4030-8ee6-40ac53afaf30",
+      "credentials": {
+        "telegramApi": {
+          "id": "NyeS7gj7QmBnpcNZ",
+          "name": "Умный дом"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1a83bb80-1b44-4aff-be80-a966e097b3a6"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "58ef493f-c698-47ec-90df-f9fe09ee73c4",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "🔼 Показать кнопки 🔼",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -336,
+        816
+      ],
+      "id": "4d617009-b9fe-4f6b-a199-1bf5b472bbb4",
+      "name": "Маршрутизатор"
+    },
+    {
+      "parameters": {
+        "content": "## Телеграмм бот для управления устройствами умного дома\nВыводит в телеграмм список кнопок для включения и выключения отдельных устройств и кнопку выключения всего верхнего света",
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -816,
+        576
+      ],
+      "typeVersion": 1,
+      "id": "6d6d9232-53ab-4b1b-8829-9b23fa68fb30",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "url": "https://api.iot.yandex.net/v1.0/user/info",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=OAuth {{ $json.value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -640,
+        320
+      ],
+      "id": "ee2ec573-b16e-4af1-8f3d-7b6fb8f10f3b",
+      "name": "Информация об умном доме"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "OAuth {{ $json.value }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n    \"devices\": [\n        {\n            \"id\": \"9af46f0f-c0b5-4604-9240-476eea453f8f\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": true\n                    }\n                }\n            ]\n        }\n    ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -240,
+        320
+      ],
+      "id": "457c28f0-1196-474e-b04e-07bbf0069c7a",
+      "name": "Проба управления"
+    },
+    {
+      "parameters": {
+        "content": "## Управление \nДля выключения и включения менять true/false\n``` json\n\"state\": {\n    \"instance\": \"on\",\n    \"value\": true\n }\n```",
+        "height": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -576,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "16246e85-6421-43ea-9c42-45fe82d6da4a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Яндекс\n\n### API Умный дом\nhttps://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/platform-protocol\n\n### Создание приложения\nhttps://oauth.yandex.ru/client/new/api\n\n### Статья про отладку токена (Debug Token): \nhttps://yandex.ru/dev/id/doc/ru/tokens/debug-token\n\n1. Зайти в аккаунт\n2. Перейти к созданию приложения\n3. Название - любое\n4. Доступ к данным\n    - iot: view - список устройств\n    - iot: control -  управление устройствами\n5. В поле Redirect URI введите значение\nhttps://oauth.yandex.ru/verification_code \n6. Создать приложение\n7. На новой странице копируем Client ID\n8. Переход по ссылке вида:\nhttps://oauth.yandex.ru/authorize?response_type=token&client_id=<идентификатор приложения>\n9. Копируем полученный токен, его используем для создания строки авторизации.\n",
+        "height": 768,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1488,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "34cf7659-84dd-4edc-a90b-f83bb3ea7810",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.iot.yandex.net/v1.0/scenarios/90632374-cc25-4911-81a7-5792fa888a16/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "OAuth {{ $json.value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        176,
+        320
+      ],
+      "id": "f291437c-0547-45db-b008-776f8468f6e5",
+      "name": "Проба управления1"
+    },
+    {
+      "parameters": {
+        "content": "## Выполнение сценария\nhttps://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/platform-scenario\n\nАдрес для запуска сценария: `https://api.iot.yandex.net/v1.0/scenarios/{scenario_id}/actions`\n\nPOST запрос без тела. Пример (для домофона): \n\nhttps://api.iot.yandex.net/v1.0/scenarios/90632374-cc25-4911-81a7-5792fa888a16/actions",
+        "height": 272,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "0469fe24-68fc-4f49-979f-a877f31aad8b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "923f3c47-f0e8-4582-a293-ce320e67a5a7",
+              "leftValue": "={{ $json.data.type }}",
+              "rightValue": "scenario",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "eb4f00c7-84ad-4763-8e38-ee401014bad5",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        880
+      ],
+      "id": "442eb796-3602-42f4-8179-fad56e2dfb31",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.iot.yandex.net/v1.0/devices/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=OAuth {{ $json.secret }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"devices\": [\n        {\n            \"id\": \"{{ $json.data.device_id }}\",\n            \"actions\": [\n                {\n                    \"type\": \"devices.capabilities.on_off\",\n                    \"state\": {\n                        \"instance\": \"on\",\n                        \"value\": {{ $json.data.action }}\n                    }\n                }\n            ]\n        }\n    ]\n}",
+        "options": {
+          "timeout": 500
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        704,
+        976
+      ],
+      "id": "e6af37ef-e31a-47ef-a53f-b39b047a2977",
+      "name": "Действие с устройством",
+      "retryOnFail": true,
+      "waitBetweenTries": 200,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.iot.yandex.net/v1.0/scenarios/{{ $json.data.device_id }}/actions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=OAuth {{ $json.secret }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 500
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        704,
+        784
+      ],
+      "id": "ea978389-951e-4d28-b8d3-3003650c555a",
+      "name": "Выполнение сценария",
+      "retryOnFail": true,
+      "waitBetweenTries": 200,
+      "notesInFlow": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Выясняем кто что сделал и готовим данные для выполнения действия\n\n// Получаем данные из сообщения (предполагая, что _items определено в вашем окружении)\nconst message = $input.first().json.callback_query;\n\n// Устройства\nconst devicesId = {\n  \"Ванная\": \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",\n  \"Коридор\": \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",\n  \"Кухня\": \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",\n  \"Зал\": \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",\n  \"Спальня\": \"9af46f0f-c0b5-4604-9240-476eea453f8f\",\n  \"Лента\": \"\",\n  \"Пылесос\": \"2d5b0ab8-7880-4d79-a368-6120be845bfc\",\n  \"Шторы\": \"0197d9e0-ca35-4ea2-a31a-51516c63cdfe\",\n  \"Домофон\": \"90632374-cc25-4911-81a7-5792fa888a16\"\n};\n\n// Только верхний свет\nconst lightUp = [\n  \"2f9f9cc8-ada2-4bde-bd85-b9885ae28f36\",  // Ванная\n  \"65bcfad0-4759-4cb7-8654-7584b2fc96d0\",  // Коридор\n  \"a56d4cb7-621e-44ba-b825-4e9606a7acb4\",  // Кухня\n  \"b0adbe30-5b28-40d1-9bf2-ba15aadd70bb\",  // Зал\n  \"f6826740-39db-484e-9e3e-2b2a7ed2f5ee\"   // Спальня\n];\n\nconst key = message.data; // Пришло сообщение от кнопки\nconst deviceAction = key.split(\"_\"); // Устройство и действие\n\nlet data = {}; // Ответ (по умолчанию объект)\n\nif (deviceAction.length === 2) {\n  let action = null;\n  let type = \"action\";\n  let deviceId;\n  const [deviceName, actionType] = deviceAction; // Деструктуризация для читаемости\n\n  if (deviceName in devicesId) {\n    deviceId = devicesId[deviceName];\n\n    if (actionType === \"off\") {\n      action = false;\n    } else if (actionType === \"on\") {\n      action = true;\n    } else if (actionType === \"scenario\") {\n      type = \"scenario\";\n      action = \"scenario\";\n    }\n\n  } else {\n    // Устройства нет в списке. Возможно это общая команда\n    if (deviceName === \"Свет\") {\n      // Общая команда для выключения света\n      const responseDataList = [];\n      for (const id of lightUp) {\n        const cmd = {\n          \"type\": type,\n          \"action\": false,\n          \"device_id\": id,\n        };\n        responseDataList.push({\"json\": {\"data\": cmd}});\n      }\n      // Внимание: Здесь мы имитируем \"return data\" из Python, \n      // сразу возвращая массив и завершая выполнение скрипта.\n      return responseDataList;\n      // data = responseDataList; // Заменяем объект на массив\n    }\n  }\n\n  // Проверяем и формируем ответ для одиночного действия\n  if (action !== null && deviceId) {\n    data = {\n      \"type\": type,\n      \"action\": action,\n      \"device_id\": deviceId,\n    };\n  }\n}\n\nreturn [{\"json\": {\"data\": data, \"secret\": $input.all()[1].json.value}}]; // Итоговый возврат данных, если data не массив\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        880
+      ],
+      "id": "861fa359-6380-437d-9920-e681e6064826",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Кто может управлять\nconst true_ids = [249503190, 326830581, 203885740];\n\nconst query = $input.first().json;\n\nlet from_id = 0;\nif (query.message) {\n  from_id = query.message.from.id;\n} else {\n  from_id = query.callback_query.from.id;\n}\n\nif (true_ids.includes(from_id)) {\n  return query;\n}\n\nreturn [{ json: {} }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        832
+      ],
+      "id": "0adc9551-96ca-4423-b634-1a9303a7cba9",
+      "name": "Авторизация"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        64,
+        880
+      ],
+      "id": "22b991f5-7660-4cb0-ba4b-1fa3ff82224b",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Мой_умный_дом_yandex_API"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -416,
+        320
+      ],
+      "id": "157a6694-47f3-4b18-b580-54ace3ed72cb",
+      "name": "VaultN8N токен Умного дома1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1rEWKg29DHy38Z7H",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Мой_умный_дом_yandex_API"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -800,
+        320
+      ],
+      "id": "5af361aa-3726-4d4a-ba84-5df9a6539a52",
+      "name": "VaultN8N токен Умного дома2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1rEWKg29DHy38Z7H",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "content": "## Токен\nПолучаем из VaultN8N по ключу: Мой_умный_дом_yandex_API"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -272,
+        112
+      ],
+      "typeVersion": 1,
+      "id": "344f74de-0f34-4bea-94a8-7604931728c3",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Мой_умный_дом_yandex_API"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -16,
+        320
+      ],
+      "id": "b768e1df-611c-44d3-ade8-36a4e774e288",
+      "name": "VaultN8N токен Умного дома3",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1rEWKg29DHy38Z7H",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "url": "http://vault-n8n:8000/api/v1/secrets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keys",
+              "value": "Мой_умный_дом_yandex_API"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -112,
+        992
+      ],
+      "id": "d48e9bad-6467-4345-ac23-cdd1ea16cd8b",
+      "name": "Получение токена для Умного дома",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1rEWKg29DHy38Z7H",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://vault-n8n:8000/api/v1/secrets/single",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "Мой_умный_дом_yandex_API"
+            },
+            {
+              "name": "value"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -800,
+        96
+      ],
+      "id": "34e6421f-dc53-438e-a967-6f5c6837ef48",
+      "name": "Добавить токен Яндекс Умный дом",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1rEWKg29DHy38Z7H",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "https://techcrunch.com/2026/01/22/anthropic-has-to-keep-revising-its-technical-interview-test-so-you-cant-cheat-on-it-with-claude/"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "saveDataSuccessExecution": "none"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-06-06T11:33:00.096Z",
+      "createdAt": "2026-06-06T11:33:00.096Z",
+      "role": "workflow:owner",
+      "workflowId": "jq0t8BoMzvVs6Cqw",
+      "projectId": "Sls0bGRVRpHAWjW1"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-06-06T11:56:14.838Z",
+  "versionId": "a48b634a-af4e-4380-b345-61228128fe9e"
+}
