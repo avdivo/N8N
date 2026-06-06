@@ -1,0 +1,2712 @@
+{
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-06-06T13:32:24.388Z",
+    "createdAt": "2026-06-06T13:22:29.383Z",
+    "versionId": "79ea033e-6ecf-4b73-8867-dce80fb207a4",
+    "workflowId": "pE3PVwjPwZBwgvwf",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "user"
+              },
+              {
+                "name": "channel"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -16,
+          928
+        ],
+        "id": "5a2af60f-7cf8-4aa2-9f58-e91bb3313f9e",
+        "name": "Функция"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -16,
+          768
+        ],
+        "id": "b3d94e3a-fd6a-429e-9327-a0d10e66ea47",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "943b5099-8ee7-4a62-9ced-f3007af7c0b5",
+                "name": "user",
+                "value": "249503190",
+                "type": "string"
+              },
+              {
+                "id": "93961d51-d9ef-4084-9707-4d170e84e3a4",
+                "name": "channel",
+                "value": "-1003411040779",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          160,
+          768
+        ],
+        "id": "38910ec5-dc95-4086-8fec-06c9ea470a6a",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "content": "## Функция Проверка прав\nСобирает всю информацию о запрошенном пользователе и канале и возвращает в виде списка флагов.\n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n- `bot` идентификатор бота\n\n## Возвращает\nПлоский JSON со значениями для каждого флага: `null`, `true`, `false` . Уровни для наглядности. Если для любого поля значение не определено `null` - то и все нижестоящие поля не определяются.\n\n* `check:user_id_provided` — пользователь запрошен.\n  * `check:user_is_lead` — пользователь является лидом.\n  * `check:user_is_admin` — пользователь является админом.\n    * `check:user_is_active` — пользователь разблокирован.\n\n\n* `check:channel_id_provided` — канал запрошен.\n  * `check:channel_found` — канал зарегистрирован.\n    * `check:channel_is_active` — канал разблокирован.\n      * `check:bot_is_member` — бот находится в канале.\n        * `check:user_is_channel_admin` — пользователь является админом канала.\n        * `check:user_is_subscribed` — пользователь подписан.\n        * `check:channel_name`  — название канала\n",
+          "height": 656,
+          "width": 592
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          0,
+          0
+        ],
+        "typeVersion": 1,
+        "id": "502be83d-19b1-468b-8e3b-90af13cb8b62",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "3994a47c-0da6-46db-8197-e9196c697348",
+                "leftValue": "={{ $('Вход').item.json.user }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1200,
+          928
+        ],
+        "id": "24abb65d-72d8-4ace-a736-5043a6b21915",
+        "name": "Пользователь запрошен?"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "={{ $json.redis_key }}",
+          "value": "={{ $json.redis_value }}"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          992,
+          928
+        ],
+        "id": "20052444-04e6-4415-a54c-f316fdd3ddc3",
+        "name": "Сохранение переменных",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null,     // пользователь подписан\n  \"check:channel_name\": null            // название канала\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          832,
+          928
+        ],
+        "id": "6e5c1030-92c8-44ae-b63c-1730613bb2bb",
+        "name": "Переменные"
+      },
+      {
+        "parameters": {
+          "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null      // пользователь подписан\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          752,
+          464
+        ],
+        "id": "975c25b1-5165-4bae-b63d-fa3c6731a8eb",
+        "name": "Переменные1"
+      },
+      {
+        "parameters": {
+          "content": "## Прочитать переменные",
+          "height": 272,
+          "width": 400
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          720,
+          368
+        ],
+        "typeVersion": 1,
+        "id": "06ac7b2a-dedc-4162-9675-ff38b5d08cb2",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "propertyName": "={{ $json.redis_key }}",
+          "key": "={{ $json.redis_key }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          912,
+          464
+        ],
+        "id": "3916c553-b854-4a89-88e5-b11d4fdb85d9",
+        "name": "Показать переменные",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_id_provided",
+          "value": "true"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1424,
+          832
+        ],
+        "id": "82172ecd-3419-4bb3-abf4-6c500ca31a92",
+        "name": "check:user_id_provided",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_is_lead",
+          "value": "={{ $json.user_found }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1776,
+          832
+        ],
+        "id": "cf17d4b4-791c-4478-b32a-2d5dc8407028",
+        "name": "check:user_is_lead",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateUser\" \n    WHERE user_id = {{ $('Вход').item.json.user }}\n) AS user_found;\n;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1600,
+          832
+        ],
+        "id": "d41f84c1-24cc-4028-988d-9409f62bb508",
+        "name": "Лид?",
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "AhQeZcnO9Mj1s8DW",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateAdmins\" \n    WHERE user_id = {{ $('Вход').item.json.user }}\n) AS is_admin;\n;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1952,
+          832
+        ],
+        "id": "aedd2728-6126-43d4-923f-7c2027d2a7b3",
+        "name": "Поиск среди админов",
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "AhQeZcnO9Mj1s8DW",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "61ac637c-0fec-4c3f-8589-783ee597daf3",
+                "leftValue": "={{ $json.is_admin }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2320,
+          928
+        ],
+        "id": "2bf69895-317f-4986-9a82-7601d39989a4",
+        "name": "Админ?"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_is_admin",
+          "value": "={{ $json.is_admin }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          2128,
+          832
+        ],
+        "id": "262ec749-39cd-40c4-9792-686960ec8f20",
+        "name": "check:user_is_admin",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateAdmins\" \n    WHERE user_id = {{ $('Вход').item.json.user }} \n      AND is_blocked = false\n) AS is_active;\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2560,
+          928
+        ],
+        "id": "f16dc823-e9e9-425b-8930-1c0aa13c9f44",
+        "name": "Админ активный?",
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "AhQeZcnO9Mj1s8DW",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_is_active",
+          "value": "={{ $json.is_active }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          2768,
+          1040
+        ],
+        "id": "b7457e34-1dbf-4bdf-a547-47830421cb19",
+        "name": "check:user_is_active",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:channel_id_provided",
+          "value": "true"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          880,
+          1456
+        ],
+        "id": "de9da6d5-4a6e-41b6-bae8-c69974276be9",
+        "name": "check:channel_id_provided",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "3994a47c-0da6-46db-8197-e9196c697348",
+                "leftValue": "={{ $('Вход').item.json.channel }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          656,
+          1552
+        ],
+        "id": "45f53a43-05b6-415a-b22b-c13c882ef363",
+        "name": "Канал запрошен?"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateChannel\" \n    WHERE channel_id = {{ $('Вход').item.json.channel }}\n) AS is_exist;",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1072,
+          1456
+        ],
+        "id": "f424adad-72db-4777-868b-4f629e7b9f19",
+        "name": "Поиск среди каналов",
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "AhQeZcnO9Mj1s8DW",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:channel_found",
+          "value": "={{ $json.is_exist }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1248,
+          1456
+        ],
+        "id": "82fa60cb-17ce-4773-b314-9a60f8a2a412",
+        "name": "check:channel_found",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "61ac637c-0fec-4c3f-8589-783ee597daf3",
+                "leftValue": "={{ $json.is_exist }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1424,
+          1456
+        ],
+        "id": "4c44c4e6-8cf6-4843-ad83-419407bb2158",
+        "name": "Канал найден?"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:channel_is_active",
+          "value": "={{ $json.is_active }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          1808,
+          1376
+        ],
+        "id": "a4895bfa-3c10-490a-996d-79ac36f9f9e5",
+        "name": "check:channel_is_active",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateChannel\" \n    WHERE channel_id = {{ $('Вход').item.json.channel }} \n      AND is_blocked = false\n) AS is_active;\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1632,
+          1376
+        ],
+        "id": "41e72adf-ea70-4b5a-a7a7-14c41fa75a25",
+        "name": "Канал активный?",
+        "alwaysOutputData": true,
+        "executeOnce": true,
+        "credentials": {
+          "postgres": {
+            "id": "AhQeZcnO9Mj1s8DW",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "chat",
+          "operation": "member",
+          "chatId": "={{ $('Вход').item.json.channel }}",
+          "userId": "={{ $('Вход').item.json.bot }}"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1984,
+          1376
+        ],
+        "id": "0ac6a155-a963-43bc-b038-98ff1bac8b47",
+        "name": "Бот в канале?",
+        "webhookId": "c65ff9df-508a-4f5c-854c-ad99d62e1802",
+        "credentials": {
+          "telegramApi": {
+            "id": "EtSwAd8BT347HRrU",
+            "name": "Привратник"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:bot_is_member",
+          "value": "={{ $json.error ? 'false' : 'true' }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          2832,
+          1360
+        ],
+        "id": "7689d76b-5e9a-44cb-b629-d13ac8f4b2b4",
+        "name": "check:bot_is_member",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6a569ef3-b8be-4720-a346-f36e91912dcb",
+                "leftValue": "={{ $json.error ? 'false' : 'true' }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          3008,
+          1360
+        ],
+        "id": "aa226af5-8cf1-43db-a117-5184cf6c24fe",
+        "name": "Бот - админ?"
+      },
+      {
+        "parameters": {
+          "resource": "chat",
+          "operation": "member",
+          "chatId": "={{ $('Вход').item.json.channel }}",
+          "userId": "={{ $('Вход').item.json.user }}"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          3216,
+          1264
+        ],
+        "id": "7f20037c-91d3-43e4-b35b-8ef40674212a",
+        "name": "Кто пользователь в канале",
+        "webhookId": "c65ff9df-508a-4f5c-854c-ad99d62e1802",
+        "credentials": {
+          "telegramApi": {
+            "id": "EtSwAd8BT347HRrU",
+            "name": "Привратник"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_is_channel_admin",
+          "value": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          3408,
+          1264
+        ],
+        "id": "b3a2d61c-f860-488e-aeb0-559b39871a65",
+        "name": "check:user_is_channel_admin",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_is_subscribed",
+          "value": "true",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          3856,
+          1184
+        ],
+        "id": "fc939b0f-4573-46ff-9317-8d957cc4c504",
+        "name": "check:user_is_subscribed",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "6a569ef3-b8be-4720-a346-f36e91912dcb",
+                "leftValue": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          3600,
+          1264
+        ],
+        "id": "0836c25d-913d-40fb-b789-94cc3a09e2bb",
+        "name": "Пользователь админ канала?"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:user_is_subscribed",
+          "value": "={{ $json.result?.status === 'member' ? 'true' : 'false' }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          4032,
+          1280
+        ],
+        "id": "58be9ef5-12d5-40bf-b3f1-14372b56d22c",
+        "name": "check:user_is_subscribed1",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "keys",
+          "keyPattern": "check:*"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          4624,
+          1552
+        ],
+        "id": "b8ea026d-3edc-4f89-b758-236d5e3e6aa7",
+        "name": "Все флаги",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3fcd6641-ce23-4762-83d7-c41f566aec14",
+                "name": "user",
+                "value": "={{ $json.user }}",
+                "type": "string"
+              },
+              {
+                "id": "e88eaa82-2528-4549-bc42-8cd263aa10e6",
+                "name": "channel",
+                "value": "={{ $json.channel }}",
+                "type": "string"
+              },
+              {
+                "id": "d6fec304-b661-4bd9-b1c5-503ffffb1117",
+                "name": "bot",
+                "value": "8631709948",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          560,
+          928
+        ],
+        "id": "018980cc-51a6-49ff-8c1d-5121ec118321",
+        "name": "Вход"
+      },
+      {
+        "parameters": {
+          "content": "### Указать id бота",
+          "height": 192,
+          "width": 160
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          528,
+          880
+        ],
+        "typeVersion": 1,
+        "id": "73577678-92cb-477b-acca-0fba37ea88d9",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "1c672ec7-cd1f-4264-958b-63a43fd8a19a",
+                "leftValue": "={{ $json.error ? 'false' : 'true' }}",
+                "rightValue": "true",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2208,
+          1280
+        ],
+        "id": "1e9a36ad-b414-4c8b-8f06-da50f894acbf",
+        "name": "В канале?"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "check:channel_name",
+          "value": "={{ $json.result.title }}",
+          "keyType": "string"
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          2592,
+          1280
+        ],
+        "id": "fab169a1-60b8-48c3-8ab1-dd3e14ce671b",
+        "name": "check:channel_name",
+        "credentials": {
+          "redis": {
+            "id": "YjQcJGoymmTlvAkO",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "chat",
+          "chatId": "={{ $('Вход').item.json.channel }}"
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2416,
+          1280
+        ],
+        "id": "6710e04b-92d6-4ae8-b183-92d9d9b9c4c1",
+        "name": "Название канала",
+        "webhookId": "deb82648-a4bf-45e6-b931-df64ee873c59",
+        "credentials": {
+          "telegramApi": {
+            "id": "EtSwAd8BT347HRrU",
+            "name": "Привратник"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Функция": {
+        "main": [
+          [
+            {
+              "node": "Вход",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Вход",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Пользователь запрошен?": {
+        "main": [
+          [
+            {
+              "node": "check:user_id_provided",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Канал запрошен?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Сохранение переменных": {
+        "main": [
+          [
+            {
+              "node": "Пользователь запрошен?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Переменные": {
+        "main": [
+          [
+            {
+              "node": "Сохранение переменных",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Переменные1": {
+        "main": [
+          [
+            {
+              "node": "Показать переменные",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_id_provided": {
+        "main": [
+          [
+            {
+              "node": "Лид?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_is_lead": {
+        "main": [
+          [
+            {
+              "node": "Поиск среди админов",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Лид?": {
+        "main": [
+          [
+            {
+              "node": "check:user_is_lead",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Поиск среди админов": {
+        "main": [
+          [
+            {
+              "node": "check:user_is_admin",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Админ?": {
+        "main": [
+          [
+            {
+              "node": "Админ активный?",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Канал запрошен?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_is_admin": {
+        "main": [
+          [
+            {
+              "node": "Админ?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Админ активный?": {
+        "main": [
+          [
+            {
+              "node": "check:user_is_active",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_is_active": {
+        "main": [
+          [
+            {
+              "node": "Канал запрошен?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:channel_id_provided": {
+        "main": [
+          [
+            {
+              "node": "Поиск среди каналов",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Канал запрошен?": {
+        "main": [
+          [
+            {
+              "node": "check:channel_id_provided",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Все флаги",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Поиск среди каналов": {
+        "main": [
+          [
+            {
+              "node": "check:channel_found",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:channel_found": {
+        "main": [
+          [
+            {
+              "node": "Канал найден?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Канал найден?": {
+        "main": [
+          [
+            {
+              "node": "Канал активный?",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Все флаги",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:channel_is_active": {
+        "main": [
+          [
+            {
+              "node": "Бот в канале?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Канал активный?": {
+        "main": [
+          [
+            {
+              "node": "check:channel_is_active",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Бот в канале?": {
+        "main": [
+          [
+            {
+              "node": "В канале?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:bot_is_member": {
+        "main": [
+          [
+            {
+              "node": "Бот - админ?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Бот - админ?": {
+        "main": [
+          [
+            {
+              "node": "Кто пользователь в канале",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Все флаги",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Кто пользователь в канале": {
+        "main": [
+          [
+            {
+              "node": "check:user_is_channel_admin",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_is_channel_admin": {
+        "main": [
+          [
+            {
+              "node": "Пользователь админ канала?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_is_subscribed": {
+        "main": [
+          [
+            {
+              "node": "Все флаги",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Пользователь админ канала?": {
+        "main": [
+          [
+            {
+              "node": "check:user_is_subscribed",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "check:user_is_subscribed1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:user_is_subscribed1": {
+        "main": [
+          [
+            {
+              "node": "Все флаги",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Вход": {
+        "main": [
+          [
+            {
+              "node": "Переменные",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "В канале?": {
+        "main": [
+          [
+            {
+              "node": "Название канала",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check:channel_name": {
+        "main": [
+          [
+            {
+              "node": "check:bot_is_member",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Название канала": {
+        "main": [
+          [
+            {
+              "node": "check:channel_name",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Aliaksei Krutsikau",
+    "name": "1",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "79ea033e-6ecf-4b73-8867-dce80fb207a4",
+  "connections": {
+    "Функция": {
+      "main": [
+        [
+          {
+            "node": "Вход",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Вход",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Пользователь запрошен?": {
+      "main": [
+        [
+          {
+            "node": "check:user_id_provided",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Канал запрошен?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Сохранение переменных": {
+      "main": [
+        [
+          {
+            "node": "Пользователь запрошен?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Переменные": {
+      "main": [
+        [
+          {
+            "node": "Сохранение переменных",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Переменные1": {
+      "main": [
+        [
+          {
+            "node": "Показать переменные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_id_provided": {
+      "main": [
+        [
+          {
+            "node": "Лид?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_is_lead": {
+      "main": [
+        [
+          {
+            "node": "Поиск среди админов",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Лид?": {
+      "main": [
+        [
+          {
+            "node": "check:user_is_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Поиск среди админов": {
+      "main": [
+        [
+          {
+            "node": "check:user_is_admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Админ?": {
+      "main": [
+        [
+          {
+            "node": "Админ активный?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Канал запрошен?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_is_admin": {
+      "main": [
+        [
+          {
+            "node": "Админ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Админ активный?": {
+      "main": [
+        [
+          {
+            "node": "check:user_is_active",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_is_active": {
+      "main": [
+        [
+          {
+            "node": "Канал запрошен?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:channel_id_provided": {
+      "main": [
+        [
+          {
+            "node": "Поиск среди каналов",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Канал запрошен?": {
+      "main": [
+        [
+          {
+            "node": "check:channel_id_provided",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Все флаги",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Поиск среди каналов": {
+      "main": [
+        [
+          {
+            "node": "check:channel_found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:channel_found": {
+      "main": [
+        [
+          {
+            "node": "Канал найден?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Канал найден?": {
+      "main": [
+        [
+          {
+            "node": "Канал активный?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Все флаги",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:channel_is_active": {
+      "main": [
+        [
+          {
+            "node": "Бот в канале?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Канал активный?": {
+      "main": [
+        [
+          {
+            "node": "check:channel_is_active",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Бот в канале?": {
+      "main": [
+        [
+          {
+            "node": "В канале?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:bot_is_member": {
+      "main": [
+        [
+          {
+            "node": "Бот - админ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Бот - админ?": {
+      "main": [
+        [
+          {
+            "node": "Кто пользователь в канале",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Все флаги",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Кто пользователь в канале": {
+      "main": [
+        [
+          {
+            "node": "check:user_is_channel_admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_is_channel_admin": {
+      "main": [
+        [
+          {
+            "node": "Пользователь админ канала?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_is_subscribed": {
+      "main": [
+        [
+          {
+            "node": "Все флаги",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Пользователь админ канала?": {
+      "main": [
+        [
+          {
+            "node": "check:user_is_subscribed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "check:user_is_subscribed1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:user_is_subscribed1": {
+      "main": [
+        [
+          {
+            "node": "Все флаги",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Вход": {
+      "main": [
+        [
+          {
+            "node": "Переменные",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "В канале?": {
+      "main": [
+        [
+          {
+            "node": "Название канала",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check:channel_name": {
+      "main": [
+        [
+          {
+            "node": "check:bot_is_member",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Название канала": {
+      "main": [
+        [
+          {
+            "node": "check:channel_name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-06-06T13:15:40.109Z",
+  "id": "pE3PVwjPwZBwgvwf",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "sub_проверка прав",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "user"
+            },
+            {
+              "name": "channel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        928
+      ],
+      "id": "5a2af60f-7cf8-4aa2-9f58-e91bb3313f9e",
+      "name": "Функция"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        768
+      ],
+      "id": "b3d94e3a-fd6a-429e-9327-a0d10e66ea47",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "943b5099-8ee7-4a62-9ced-f3007af7c0b5",
+              "name": "user",
+              "value": "249503190",
+              "type": "string"
+            },
+            {
+              "id": "93961d51-d9ef-4084-9707-4d170e84e3a4",
+              "name": "channel",
+              "value": "-1003411040779",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        768
+      ],
+      "id": "38910ec5-dc95-4086-8fec-06c9ea470a6a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "## Функция Проверка прав\nСобирает всю информацию о запрошенном пользователе и канале и возвращает в виде списка флагов.\n\n## Аргументы\n- `user` идентификатор пользователя по таблице  `AtGateAdmins` в схеме `atgate`\n- `channel` идентификатор канала по таблице `AtGateChannel` в схеме `atgate`\n- `bot` идентификатор бота\n\n## Возвращает\nПлоский JSON со значениями для каждого флага: `null`, `true`, `false` . Уровни для наглядности. Если для любого поля значение не определено `null` - то и все нижестоящие поля не определяются.\n\n* `check:user_id_provided` — пользователь запрошен.\n  * `check:user_is_lead` — пользователь является лидом.\n  * `check:user_is_admin` — пользователь является админом.\n    * `check:user_is_active` — пользователь разблокирован.\n\n\n* `check:channel_id_provided` — канал запрошен.\n  * `check:channel_found` — канал зарегистрирован.\n    * `check:channel_is_active` — канал разблокирован.\n      * `check:bot_is_member` — бот находится в канале.\n        * `check:user_is_channel_admin` — пользователь является админом канала.\n        * `check:user_is_subscribed` — пользователь подписан.\n        * `check:channel_name`  — название канала\n",
+        "height": 656,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "502be83d-19b1-468b-8e3b-90af13cb8b62",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3994a47c-0da6-46db-8197-e9196c697348",
+              "leftValue": "={{ $('Вход').item.json.user }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1200,
+        928
+      ],
+      "id": "24abb65d-72d8-4ace-a736-5043a6b21915",
+      "name": "Пользователь запрошен?"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $json.redis_key }}",
+        "value": "={{ $json.redis_value }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        992,
+        928
+      ],
+      "id": "20052444-04e6-4415-a54c-f316fdd3ddc3",
+      "name": "Сохранение переменных",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null,     // пользователь подписан\n  \"check:channel_name\": null            // название канала\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        928
+      ],
+      "id": "6e5c1030-92c8-44ae-b63c-1730613bb2bb",
+      "name": "Переменные"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ==========================================\n// ПРОСТОЙ СПИСОК: СЛЕВА КЛЮЧ РЕДИСА — СПРАВА ЗНАЧЕНИЕ\n// ==========================================\nconst permissionsList = {\n  \"check:user_id_provided\": null,       // пользователь запрошен\n  \"check:user_is_lead\": null,           // пользователь является лидом\n  \"check:user_is_admin\": null,          // пользователь является админом\n  \"check:user_is_active\": null,         // пользователь разблокирован\n  \n  \"check:channel_id_provided\": null,    // канал запрошен\n  \"check:channel_found\": null,          // канал зарегистрирован\n  \"check:channel_is_active\": null,      // канал разблокирован\n  \"check:bot_is_member\": null,          // бот находится в канале\n  \"check:user_is_channel_admin\": null,  // пользователь является админом канала\n  \"check:user_is_subscribed\": null      // пользователь подписан\n};\n\n// ==========================================\n// ПРОСТАЯ КОНВЕРТАЦИЯ ДЛЯ НОДЫ REDIS\n// ==========================================\nreturn Object.keys(permissionsList).map(key => {\n  return {\n    json: {\n      redis_key: key,\n      redis_value: permissionsList[key] === null ? \"null\" : String(permissionsList[key])\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        464
+      ],
+      "id": "975c25b1-5165-4bae-b63d-fa3c6731a8eb",
+      "name": "Переменные1"
+    },
+    {
+      "parameters": {
+        "content": "## Прочитать переменные",
+        "height": 272,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        368
+      ],
+      "typeVersion": 1,
+      "id": "06ac7b2a-dedc-4162-9675-ff38b5d08cb2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "={{ $json.redis_key }}",
+        "key": "={{ $json.redis_key }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        912,
+        464
+      ],
+      "id": "3916c553-b854-4a89-88e5-b11d4fdb85d9",
+      "name": "Показать переменные",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_id_provided",
+        "value": "true"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        832
+      ],
+      "id": "82172ecd-3419-4bb3-abf4-6c500ca31a92",
+      "name": "check:user_id_provided",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_is_lead",
+        "value": "={{ $json.user_found }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        832
+      ],
+      "id": "cf17d4b4-791c-4478-b32a-2d5dc8407028",
+      "name": "check:user_is_lead",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateUser\" \n    WHERE user_id = {{ $('Вход').item.json.user }}\n) AS user_found;\n;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1600,
+        832
+      ],
+      "id": "d41f84c1-24cc-4028-988d-9409f62bb508",
+      "name": "Лид?",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "AhQeZcnO9Mj1s8DW",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateAdmins\" \n    WHERE user_id = {{ $('Вход').item.json.user }}\n) AS is_admin;\n;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1952,
+        832
+      ],
+      "id": "aedd2728-6126-43d4-923f-7c2027d2a7b3",
+      "name": "Поиск среди админов",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "AhQeZcnO9Mj1s8DW",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61ac637c-0fec-4c3f-8589-783ee597daf3",
+              "leftValue": "={{ $json.is_admin }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2320,
+        928
+      ],
+      "id": "2bf69895-317f-4986-9a82-7601d39989a4",
+      "name": "Админ?"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_is_admin",
+        "value": "={{ $json.is_admin }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2128,
+        832
+      ],
+      "id": "262ec749-39cd-40c4-9792-686960ec8f20",
+      "name": "check:user_is_admin",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateAdmins\" \n    WHERE user_id = {{ $('Вход').item.json.user }} \n      AND is_blocked = false\n) AS is_active;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2560,
+        928
+      ],
+      "id": "f16dc823-e9e9-425b-8930-1c0aa13c9f44",
+      "name": "Админ активный?",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "AhQeZcnO9Mj1s8DW",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_is_active",
+        "value": "={{ $json.is_active }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        1040
+      ],
+      "id": "b7457e34-1dbf-4bdf-a547-47830421cb19",
+      "name": "check:user_is_active",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:channel_id_provided",
+        "value": "true"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        880,
+        1456
+      ],
+      "id": "de9da6d5-4a6e-41b6-bae8-c69974276be9",
+      "name": "check:channel_id_provided",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3994a47c-0da6-46db-8197-e9196c697348",
+              "leftValue": "={{ $('Вход').item.json.channel }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        656,
+        1552
+      ],
+      "id": "45f53a43-05b6-415a-b22b-c13c882ef363",
+      "name": "Канал запрошен?"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateChannel\" \n    WHERE channel_id = {{ $('Вход').item.json.channel }}\n) AS is_exist;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1072,
+        1456
+      ],
+      "id": "f424adad-72db-4777-868b-4f629e7b9f19",
+      "name": "Поиск среди каналов",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "AhQeZcnO9Mj1s8DW",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:channel_found",
+        "value": "={{ $json.is_exist }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        1456
+      ],
+      "id": "82fa60cb-17ce-4773-b314-9a60f8a2a412",
+      "name": "check:channel_found",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "61ac637c-0fec-4c3f-8589-783ee597daf3",
+              "leftValue": "={{ $json.is_exist }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1424,
+        1456
+      ],
+      "id": "4c44c4e6-8cf6-4843-ad83-419407bb2158",
+      "name": "Канал найден?"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:channel_is_active",
+        "value": "={{ $json.is_active }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        1376
+      ],
+      "id": "a4895bfa-3c10-490a-996d-79ac36f9f9e5",
+      "name": "check:channel_is_active",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"atgate\".\"AtGateChannel\" \n    WHERE channel_id = {{ $('Вход').item.json.channel }} \n      AND is_blocked = false\n) AS is_active;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1632,
+        1376
+      ],
+      "id": "41e72adf-ea70-4b5a-a7a7-14c41fa75a25",
+      "name": "Канал активный?",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "postgres": {
+          "id": "AhQeZcnO9Mj1s8DW",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "member",
+        "chatId": "={{ $('Вход').item.json.channel }}",
+        "userId": "={{ $('Вход').item.json.bot }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1984,
+        1376
+      ],
+      "id": "0ac6a155-a963-43bc-b038-98ff1bac8b47",
+      "name": "Бот в канале?",
+      "webhookId": "c65ff9df-508a-4f5c-854c-ad99d62e1802",
+      "credentials": {
+        "telegramApi": {
+          "id": "EtSwAd8BT347HRrU",
+          "name": "Привратник"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:bot_is_member",
+        "value": "={{ $json.error ? 'false' : 'true' }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2832,
+        1360
+      ],
+      "id": "7689d76b-5e9a-44cb-b629-d13ac8f4b2b4",
+      "name": "check:bot_is_member",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6a569ef3-b8be-4720-a346-f36e91912dcb",
+              "leftValue": "={{ $json.error ? 'false' : 'true' }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3008,
+        1360
+      ],
+      "id": "aa226af5-8cf1-43db-a117-5184cf6c24fe",
+      "name": "Бот - админ?"
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "member",
+        "chatId": "={{ $('Вход').item.json.channel }}",
+        "userId": "={{ $('Вход').item.json.user }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3216,
+        1264
+      ],
+      "id": "7f20037c-91d3-43e4-b35b-8ef40674212a",
+      "name": "Кто пользователь в канале",
+      "webhookId": "c65ff9df-508a-4f5c-854c-ad99d62e1802",
+      "credentials": {
+        "telegramApi": {
+          "id": "EtSwAd8BT347HRrU",
+          "name": "Привратник"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_is_channel_admin",
+        "value": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3408,
+        1264
+      ],
+      "id": "b3a2d61c-f860-488e-aeb0-559b39871a65",
+      "name": "check:user_is_channel_admin",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_is_subscribed",
+        "value": "true",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3856,
+        1184
+      ],
+      "id": "fc939b0f-4573-46ff-9317-8d957cc4c504",
+      "name": "check:user_is_subscribed",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6a569ef3-b8be-4720-a346-f36e91912dcb",
+              "leftValue": "={{ ['administrator', 'creator'].includes($json.result?.status) ? 'true' : 'false' }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3600,
+        1264
+      ],
+      "id": "0836c25d-913d-40fb-b789-94cc3a09e2bb",
+      "name": "Пользователь админ канала?"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:user_is_subscribed",
+        "value": "={{ $json.result?.status === 'member' ? 'true' : 'false' }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4032,
+        1280
+      ],
+      "id": "58be9ef5-12d5-40bf-b3f1-14372b56d22c",
+      "name": "check:user_is_subscribed1",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "keys",
+        "keyPattern": "check:*"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4624,
+        1552
+      ],
+      "id": "b8ea026d-3edc-4f89-b758-236d5e3e6aa7",
+      "name": "Все флаги",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3fcd6641-ce23-4762-83d7-c41f566aec14",
+              "name": "user",
+              "value": "={{ $json.user }}",
+              "type": "string"
+            },
+            {
+              "id": "e88eaa82-2528-4549-bc42-8cd263aa10e6",
+              "name": "channel",
+              "value": "={{ $json.channel }}",
+              "type": "string"
+            },
+            {
+              "id": "d6fec304-b661-4bd9-b1c5-503ffffb1117",
+              "name": "bot",
+              "value": "8631709948",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        928
+      ],
+      "id": "018980cc-51a6-49ff-8c1d-5121ec118321",
+      "name": "Вход"
+    },
+    {
+      "parameters": {
+        "content": "### Указать id бота",
+        "height": 192,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        528,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "73577678-92cb-477b-acca-0fba37ea88d9",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1c672ec7-cd1f-4264-958b-63a43fd8a19a",
+              "leftValue": "={{ $json.error ? 'false' : 'true' }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2208,
+        1280
+      ],
+      "id": "1e9a36ad-b414-4c8b-8f06-da50f894acbf",
+      "name": "В канале?"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "check:channel_name",
+        "value": "={{ $json.result.title }}",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2592,
+        1280
+      ],
+      "id": "fab169a1-60b8-48c3-8ab1-dd3e14ce671b",
+      "name": "check:channel_name",
+      "credentials": {
+        "redis": {
+          "id": "YjQcJGoymmTlvAkO",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatId": "={{ $('Вход').item.json.channel }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2416,
+        1280
+      ],
+      "id": "6710e04b-92d6-4ae8-b183-92d9d9b9c4c1",
+      "name": "Название канала",
+      "webhookId": "deb82648-a4bf-45e6-b931-df64ee873c59",
+      "credentials": {
+        "telegramApi": {
+          "id": "EtSwAd8BT347HRrU",
+          "name": "Привратник"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "N8N",
+  "repo_owner": "avdivo",
+  "repo_path": "",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Minsk",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-06-06T13:15:40.109Z",
+      "createdAt": "2026-06-06T13:15:40.109Z",
+      "role": "workflow:owner",
+      "workflowId": "pE3PVwjPwZBwgvwf",
+      "projectId": "Sls0bGRVRpHAWjW1"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-06-06T13:30:09.939Z",
+  "versionId": "79ea033e-6ecf-4b73-8867-dce80fb207a4"
+}
